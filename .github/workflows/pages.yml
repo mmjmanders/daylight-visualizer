@@ -34,12 +34,27 @@ jobs:
     needs:
       - pnpm_install
     steps:
-        - run: |
-            pnpm build
+      - uses: actions/checkout@v4
 
-        - uses: actions/upload-pages-artifact@v3
-          with:
-            path: dist/daylight-visualizer
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pnpm-store
+            node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: |
+          pnpm build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/daylight-visualizer
 
 
   deploy:
