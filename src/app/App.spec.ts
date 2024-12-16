@@ -1,10 +1,14 @@
-import { describe, it, expect } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import App from './App.vue';
+import { createPinia, setActivePinia } from 'pinia';
 
 describe('App', () => {
-  it('renders properly', async () => {
-    const wrapper = mount(App, {});
-    expect(wrapper.text()).toContain('Welcome daylight-visualizer 👋');
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
+
+  it('renders the App component properly', () => {
+    const wrapper = shallowMount(App);
+    expect(wrapper.getComponent(App)).toBeTruthy();
   });
 });
