@@ -32,7 +32,7 @@ const onSubmit = handleSubmit(async ({ latitude, longitude }) => {
         v-model="latitude"
         type="number"
         v-bind="latitudeAttrs"
-        class="p-1 rounded-md border border-slate-300 focus:outline-none focus:border-blue-300 focus:ring-1"
+        class="focus:outline-none focus:border-blue-300 focus:ring-1"
       />
     </label>
     <label class="block">
@@ -41,7 +41,7 @@ const onSubmit = handleSubmit(async ({ latitude, longitude }) => {
         v-model="longitude"
         type="number"
         v-bind="longitudeAttrs"
-        class="p-1 rounded-md border border-slate-300 focus:outline-none focus:border-blue-300 focus:ring-1"
+        class="focus:outline-none focus:border-blue-300 focus:ring-1"
       />
     </label>
     <button
