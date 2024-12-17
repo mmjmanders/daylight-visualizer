@@ -3,7 +3,7 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { number, object } from 'zod';
 
-const { defineField, handleSubmit, errors } = useForm({
+const { defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     object({
       latitude: number().min(-90).max(90),
@@ -25,15 +25,18 @@ const onSubmit = handleSubmit(async ({ latitude, longitude }) => {
 </script>
 
 <template>
-  <form class="flex items-end gap-2" @submit.prevent="onSubmit" novalidate>
+  <form
+    class="flex items-end gap-2"
+    novalidate
+    @submit.prevent="onSubmit"
+  >
     <label class="block">
       <span class="block">Latitude</span>
       <input
         v-model="latitude"
         type="number"
         v-bind="latitudeAttrs"
-        class="focus:outline-none focus:border-blue-300 focus:ring-1"
-      />
+      >
     </label>
     <label class="block">
       <span class="block">Longitude</span>
@@ -41,11 +44,10 @@ const onSubmit = handleSubmit(async ({ latitude, longitude }) => {
         v-model="longitude"
         type="number"
         v-bind="longitudeAttrs"
-        class="focus:outline-none focus:border-blue-300 focus:ring-1"
-      />
+      >
     </label>
     <button
-      class="p-1 align-bottom"
+      class="align-bottom"
       type="submit"
       :disabled="Object.keys(errors).length > 0"
     >

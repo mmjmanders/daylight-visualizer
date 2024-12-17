@@ -4,5 +4,15 @@
     @apply border;
     @apply border-slate-300;
     @apply rounded-md;
+
+    &:focus {
+      @apply outline-none;
+      @apply border-blue-400;
+      @apply ring-1;
+    }
+  }
+
+  button {
+    @apply p-1;
   }
 }
