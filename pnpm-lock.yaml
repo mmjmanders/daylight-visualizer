@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/oxygen':
+        specifier: ^5.1.0
+        version: 5.1.0
+      '@fontsource/palanquin':
+        specifier: ^5.1.0
+        version: 5.1.0
       '@vee-validate/zod':
         specifier: ^4.14.7
         version: 4.14.7(vue@3.5.13(typescript@5.6.3))
@@ -844,6 +850,12 @@ packages:
   '@eslint/plugin-kit@0.2.4':
     resolution: {integrity: sha512-zSkKow6H5Kdm0ZUQUB2kV5JIXqoG0+uH5YADhaEHswm664N9Db8dXSi0nMJpacpMf+MyyglF1vnZohpEg5yUtg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@fontsource/oxygen@5.1.0':
+    resolution: {integrity: sha512-ENWPIRyQCIxru4mMfTgzPzeybqTBSgmqr6gPUNXwBKevONefkgUCGAmCFtBHXRkQP8LZ9Vn5sLJb/JeKLH4FTQ==}
+
+  '@fontsource/palanquin@5.1.0':
+    resolution: {integrity: sha512-f0iyEK6m1W9Z+3o4KqwGgj93qJkDCEwlDPOrMvcjVeG6QuitvU2cLKHZf8H4BT9gwzD8LNFBIuAJy1Zf1+kM1Q==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -4340,6 +4352,10 @@ snapshots:
   '@eslint/plugin-kit@0.2.4':
     dependencies:
       levn: 0.4.1
+
+  '@fontsource/oxygen@5.1.0': {}
+
+  '@fontsource/palanquin@5.1.0': {}
 
   '@humanfs/core@0.19.1': {}
 

@@ -3,6 +3,8 @@ import Visual from './components/visual/Visual.vue';
 </script>
 
 <template>
-  <h1>Daylight visualizer</h1>
-  <Visual />
+  <div class="container">
+    <h1 class="text-center">Daylight visualizer</h1>
+    <Visual />
+  </div>
 </template>
