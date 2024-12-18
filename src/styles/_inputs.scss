@@ -8,7 +8,17 @@
     &:focus {
       @apply outline-none;
       @apply border-blue-400;
+      @apply ring-blue-400;
       @apply ring-1;
+    }
+
+    &.error {
+      @apply border-red-500;
+
+      &:focus {
+        @apply border-red-500;
+        @apply ring-red-500;
+      }
     }
   }
 

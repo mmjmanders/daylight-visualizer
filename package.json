@@ -13,6 +13,11 @@
   "dependencies": {
     "@fontsource/oxygen": "^5.1.0",
     "@fontsource/palanquin": "^5.1.0",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
     "@vee-validate/zod": "^4.14.7",
     "pinia": "^2.3.0",
     "vee-validate": "^4.14.7",
