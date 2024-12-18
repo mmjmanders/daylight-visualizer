@@ -23,6 +23,19 @@
   }
 
   button {
-    @apply p-1;
+    &[type=button], &[type=submit], &[type=date] {
+      @apply px-2;
+      @apply py-1;
+      @apply rounded-md;
+      @apply border;
+      @apply border-sky-300;
+      @apply bg-sky-300;
+      @apply text-slate-800;
+    }
+
+    &[type=button]:not(:disabled):hover, &[type=submit]:not(:disabled):hover {
+      @apply bg-sky-200;
+      @apply border-sky-200;
+    }
   }
 }
