@@ -1,10 +1,9 @@
 import './styles.scss';
 import { createApp } from 'vue';
+import HighchartsVue from 'highcharts-vue';
 import App from './app/App.vue';
-import { createPinia } from 'pinia';
 
-const pinia = createPinia();
 const app = createApp(App);
 
-app.use(pinia);
+app.use(HighchartsVue);
 app.mount('#root');
