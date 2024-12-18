@@ -6,6 +6,6 @@ import App from './app/App.vue';
 
 const app = createApp(App);
 
-app.use(HighchartsVue);
 app.use(VueQueryPlugin);
+app.use(HighchartsVue);
 app.mount('#root');
