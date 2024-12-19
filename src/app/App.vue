@@ -17,10 +17,12 @@ const data = ref<any>(null);
         v-model="data"
         class="flex-grow flex-shrink basis-0"
       />
-      <Visual
-        class="flex-grow flex-shrink basis-0"
-        :data="data"
-      />
+      <div class="flex-grow flex-shrink basis-0">
+        <Visual
+          v-if="data"
+          :data="data"
+        />
+      </div>
     </div>
   </div>
 </template>
