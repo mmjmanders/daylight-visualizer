@@ -1,5 +1,27 @@
 import { useQuery } from '@tanstack/vue-query';
 import { computed, Ref } from 'vue';
+import dayjs from 'dayjs'
+
+const transform = (data: any): Datum[] =>
+  data && data.results && data.status === 'OK' ? data.results.map((d) => ({
+    date: dayjs(d.date).valueOf(),
+    first: d.first_light,
+    last: d.last_light,
+    dawn: d.dawn,
+    dusk: d.dusk,
+    sunrise: d.sunrise,
+    sunset: d.sunset,
+  })) : [];
+
+export type Datum = {
+  date: number;
+  first: string;
+  last: string;
+  dawn: string;
+  dusk: string;
+  sunrise: string;
+  sunset: string;
+};
 
 export const useDaylightQuery = (
   latitude: Ref<number | null>,
@@ -23,5 +45,6 @@ export const useDaylightQuery = (
       );
       return res.json();
     },
+    select: transform,
   });
 };

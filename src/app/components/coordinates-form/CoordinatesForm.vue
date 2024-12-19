@@ -34,6 +34,15 @@ const [longitude, longitudeAttrs] = defineField('longitude');
 const [startDate, startDateAttrs] = defineField('startDate');
 const [endDate, endDateAttrs] = defineField('endDate');
 
+const today = dayjs();
+const startOfMonth = today.startOf('month');
+const defaultStartDate =
+  today.diff(startOfMonth, 'day') >= 10
+    ? startOfMonth
+    : today.subtract(10, 'day');
+setFieldValue('startDate', defaultStartDate.format('YYYY-MM-DD'));
+setFieldValue('endDate', today.format('YYYY-MM-DD'));
+
 const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
 const startDateTimestamp = ref<string | null>(null);
