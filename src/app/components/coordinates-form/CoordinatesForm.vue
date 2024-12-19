@@ -83,7 +83,11 @@ watch(data, (newValue) => {
 </script>
 
 <template>
-  <form novalidate class="flex flex-col gap-4" @submit.prevent="onSubmit">
+  <form
+    novalidate
+    class="flex flex-col gap-4"
+    @submit.prevent="onSubmit"
+  >
     <div class="flex items-end gap-4">
       <label class="block">
         <span class="block mb-1">Latitude</span>
@@ -92,7 +96,7 @@ watch(data, (newValue) => {
           :class="{ error: errors.latitude }"
           type="number"
           v-bind="latitudeAttrs"
-        />
+        >
       </label>
       <label class="block">
         <span class="block mb-1">Longitude</span>
@@ -101,7 +105,7 @@ watch(data, (newValue) => {
           :class="{ error: errors.longitude }"
           type="number"
           v-bind="longitudeAttrs"
-        />
+        >
       </label>
       <button
         type="button"
@@ -109,8 +113,15 @@ watch(data, (newValue) => {
         :disabled="gettingLocation"
         @click="getLocation()"
       >
-        <FontAwesomeIcon v-if="gettingLocation" :icon="faSpinner" spin />
-        <FontAwesomeIcon v-else :icon="faLocationCrosshairs" />
+        <FontAwesomeIcon
+          v-if="gettingLocation"
+          :icon="faSpinner"
+          spin
+        />
+        <FontAwesomeIcon
+          v-else
+          :icon="faLocationCrosshairs"
+        />
         <span class="pl-1">Get location</span>
       </button>
     </div>
@@ -122,7 +133,7 @@ watch(data, (newValue) => {
           :class="{ error: errors.startDate }"
           type="date"
           v-bind="startDateAttrs"
-        />
+        >
       </label>
       <label class="block">
         <span class="block mb-1">End date</span>
@@ -131,9 +142,13 @@ watch(data, (newValue) => {
           :class="{ error: errors.endDate }"
           type="date"
           v-bind="endDateAttrs"
-        />
+        >
       </label>
-      <button class="align-bottom" type="submit" :disabled="!meta.valid">
+      <button
+        class="align-bottom"
+        type="submit"
+        :disabled="!meta.valid"
+      >
         Submit
       </button>
     </div>
