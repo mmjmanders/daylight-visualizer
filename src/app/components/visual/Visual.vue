@@ -6,8 +6,11 @@ import { Options } from 'highcharts';
 const props = defineProps<{ data: Datum[] | null }>();
 
 const chartOptions = computed<Options>(() => {
-  const min = Math.min(...props.data.map((d) => d.first));
-  const max = Math.max(...props.data.map((d) => d.last));
+  const sanitizedData = props.data.filter(
+    (d) => d.dawn && d.sunrise && d.sunset && d.dusk
+  );
+  const min = Math.min(...sanitizedData.map((d) => d.dawn));
+  const max = Math.max(...sanitizedData.map((d) => d.dusk));
   return {
     accessibility: {
       enabled: false,
@@ -32,44 +35,30 @@ const chartOptions = computed<Options>(() => {
     series: [
       {
         type: 'areaspline',
-        data: props.data.map((d) => ({
-          x: d.date,
-          y: d.last,
-        })),
-      },
-      {
-        type: 'areaspline',
-        data: props.data.map((d) => ({
+        data: sanitizedData.map((d) => ({
           x: d.date,
           y: d.dusk,
         })),
       },
       {
         type: 'areaspline',
-        data: props.data.map((d) => ({
+        data: sanitizedData.map((d) => ({
           x: d.date,
           y: d.sunset,
         })),
       },
       {
         type: 'areaspline',
-        data: props.data.map((d) => ({
+        data: sanitizedData.map((d) => ({
           x: d.date,
           y: d.sunrise,
         })),
       },
       {
         type: 'areaspline',
-        data: props.data.map((d) => ({
+        data: sanitizedData.map((d) => ({
           x: d.date,
           y: d.dawn,
-        })),
-      },
-      {
-        type: 'areaspline',
-        data: props.data.map((d) => ({
-          x: d.date,
-          y: d.first,
         })),
       },
     ],

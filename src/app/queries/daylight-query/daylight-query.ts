@@ -8,16 +8,6 @@ const transform = (data: any): Datum[] =>
         const date = dayjs(d.date).valueOf();
         return {
           date,
-          first:
-            dayjs(
-              `${d.date} ${d.first_light}`,
-              'YYYY-MM-DD H:mm:ss A'
-            ).valueOf() - date,
-          last:
-            dayjs(
-              `${d.date} ${d.last_light}`,
-              'YYYY-MM-DD H:mm:ss A'
-            ).valueOf() - date,
           dawn:
             dayjs(`${d.date} ${d.dawn}`, 'YYYY-MM-DD H:mm:ss A').valueOf() -
             date,
@@ -36,8 +26,6 @@ const transform = (data: any): Datum[] =>
 
 export type Datum = {
   date: number;
-  first: number;
-  last: number;
   dawn: number;
   dusk: number;
   sunrise: number;
