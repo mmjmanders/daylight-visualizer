@@ -3,8 +3,9 @@ import CoordinatesForm from './components/coordinates-form/CoordinatesForm.vue';
 import Visual from './components/visual/Visual.vue';
 
 import { ref } from 'vue';
+import { Datum } from './queries';
 
-const data = ref<any>(null);
+const data = ref<Datum[] | null>(null);
 </script>
 
 <template>

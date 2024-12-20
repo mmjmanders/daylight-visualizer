@@ -1,47 +1,33 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { select } from 'd3-selection';
+import { computed } from 'vue';
 import { Datum } from '../../queries';
-import { scaleUtc } from 'd3-scale';
+import { Options } from 'highcharts';
 
-const props = defineProps<{ data: Datum[] | null }>();
+defineProps<{ data: Datum[] | null }>();
 
-const renderChart = (data: Datum[]) => {
-  const width = 600,
-    height = 600;
-  const innerRadius = width / 5;
-  const outerRadius = width / 2;
-  const x = scaleUtc()
-    .domain([new Date(data[0].date), new Date(data[data.length - 1].date)])
-    .range([0, 2 * Math.PI]);
-
-  const chart = select('#chart');
-  chart.selectAll('svg').remove();
-  chart
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    .append('g')
-    .selectAll()
-    .data(x.ticks())
-    .join('g')
-    .each((d) => {
-    });
-};
-
-onMounted(() => {
-  if (props.data?.length) {
-    renderChart(props.data);
-  }
-});
+const chartOptions = computed<Options>(() => ({
+  accessibility: {
+    enabled: false,
+  },
+  credits: {
+    href: 'https://sunrisesunset.io/',
+    text: 'Powered by SunriseSunset.io',
+  },
+  title: {
+    text: '',
+  },
+}));
 </script>
 
 <template>
+  <div class="flex justify-center">
+    <highcharts
+      :options="chartOptions"
+      class="w-[600px] h-[600px]"
+    />
+  </div>
   <div>
-    <div id="chart"></div>
-    <div>
-      <pre><code>{{ data }}</code></pre>
-    </div>
+    <pre><code>{{ data }}</code></pre>
   </div>
 </template>
 
