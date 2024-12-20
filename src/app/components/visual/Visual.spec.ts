@@ -5,8 +5,12 @@ import Visual from './Visual.vue';
 describe('Visual', () => {
   it('renders the Visual component properly', () => {
     const wrapper = mount(Visual, {
+      props: {
+        data: [],
+      },
       global: {
         plugins: [VueQueryPlugin],
+        stubs: ['highcharts'],
       },
     });
     expect(wrapper.findComponent(Visual).exists()).toBe(true);
