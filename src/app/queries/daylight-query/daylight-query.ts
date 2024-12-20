@@ -54,10 +54,10 @@ export const useDaylightQuery = (
   return useQuery({
     enabled: computed(
       () =>
-        !!latitude.value &&
-        !!longitude.value &&
-        !!startDate.value &&
-        !!endDate.value
+        latitude.value != null &&
+        longitude.value != null &&
+        startDate.value != null &&
+        endDate.value != null
     ),
     queryKey,
     queryFn: async () => {

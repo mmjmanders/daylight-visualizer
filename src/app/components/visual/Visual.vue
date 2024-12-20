@@ -12,12 +12,22 @@ const chartOptions = computed<Options>(() => {
     accessibility: {
       enabled: false,
     },
+    boost: {
+      enabled: true,
+    },
     chart: {
       polar: true,
     },
     credits: {
       href: 'https://sunrisesunset.io/',
       text: 'Powered by SunriseSunset.io',
+    },
+    plotOptions: {
+      series: {
+        marker: {
+          enabled: false,
+        },
+      },
     },
     series: [
       {
