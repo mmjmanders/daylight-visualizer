@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { Datum } from '../../queries';
 import { Options } from 'highcharts';
+import dayjs from 'dayjs';
 
 const props = defineProps<{ data: Datum[] | null }>();
 
@@ -20,6 +21,7 @@ const chartOptions = computed<Options>(() => {
     },
     chart: {
       polar: true,
+      styledMode: true,
     },
     credits: {
       href: 'https://sunrisesunset.io/',
@@ -34,6 +36,8 @@ const chartOptions = computed<Options>(() => {
     },
     series: [
       {
+        id: 'dusk',
+        name: 'Dusk',
         type: 'areaspline',
         data: sanitizedData.map((d) => ({
           x: d.date,
@@ -41,6 +45,8 @@ const chartOptions = computed<Options>(() => {
         })),
       },
       {
+        id: 'sunset',
+        name: 'Sunset',
         type: 'areaspline',
         data: sanitizedData.map((d) => ({
           x: d.date,
@@ -48,6 +54,8 @@ const chartOptions = computed<Options>(() => {
         })),
       },
       {
+        id: 'sunrise',
+        name: 'Sunrise',
         type: 'areaspline',
         data: sanitizedData.map((d) => ({
           x: d.date,
@@ -55,6 +63,8 @@ const chartOptions = computed<Options>(() => {
         })),
       },
       {
+        id: 'dawn',
+        name: 'Dawn',
         type: 'areaspline',
         data: sanitizedData.map((d) => ({
           x: d.date,
@@ -68,8 +78,27 @@ const chartOptions = computed<Options>(() => {
     title: {
       text: '',
     },
-    xAxis: { type: 'datetime' },
-    yAxis: { type: 'datetime', min, max },
+    tooltip: {
+      pointFormatter: function () {
+        return `
+<span class="highcharts-color-${this.colorIndex}">&#9679;</span>
+<span>&nbsp;${this.series.name}:&nbsp;</span>
+<span class="highcharts-strong">${dayjs(this.x + this.y).format(
+          'HH:mm:ss'
+        )}</span>
+<br/>`;
+      },
+      shared: true,
+    },
+    xAxis: {
+      type: 'datetime',
+    },
+    yAxis: {
+      type: 'datetime',
+      min,
+      max,
+      labels: { format: '{value:%H:%M}' },
+    },
   };
 });
 </script>

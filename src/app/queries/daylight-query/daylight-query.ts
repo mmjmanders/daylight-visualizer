@@ -2,24 +2,23 @@ import { useQuery } from '@tanstack/vue-query';
 import { computed, Ref } from 'vue';
 import dayjs from 'dayjs';
 
+const parseField: (day: any, field: string, date: number) => number = (
+  day,
+  field,
+  date
+) =>
+  dayjs(`${day.date} ${day[field]}`, 'YYYY-MM-DD H:mm:ss A').valueOf() - date;
+
 const transform = (data: any): Datum[] =>
   data && data.results && data.status === 'OK'
     ? data.results.map((d) => {
         const date = dayjs(d.date).valueOf();
         return {
           date,
-          dawn:
-            dayjs(`${d.date} ${d.dawn}`, 'YYYY-MM-DD H:mm:ss A').valueOf() -
-            date,
-          dusk:
-            dayjs(`${d.date} ${d.dusk}`, 'YYYY-MM-DD H:mm:ss A').valueOf() -
-            date,
-          sunrise:
-            dayjs(`${d.date} ${d.sunrise}`, 'YYYY-MM-DD H:mm:ss A').valueOf() -
-            date,
-          sunset:
-            dayjs(`${d.date} ${d.sunset}`, 'YYYY-MM-DD H:mm:ss A').valueOf() -
-            date,
+          dawn: parseField(d, 'dawn', date),
+          dusk: parseField(d, 'dusk', date),
+          sunrise: parseField(d, 'sunrise', date),
+          sunset: parseField(d, 'sunset', date),
         };
       })
     : [];
@@ -37,9 +36,8 @@ export const useDaylightQuery = (
   longitude: Ref<number | null>,
   startDate: Ref<string | null>,
   endDate: Ref<string | null>
-) => {
-  const queryKey = ['daylight', latitude, longitude, startDate, endDate];
-  return useQuery({
+) =>
+  useQuery({
     enabled: computed(
       () =>
         latitude.value != null &&
@@ -47,13 +45,15 @@ export const useDaylightQuery = (
         startDate.value != null &&
         endDate.value != null
     ),
-    queryKey,
+    queryKey: ['daylight', latitude, longitude, startDate, endDate],
     queryFn: async () => {
       const res = await fetch(
-        `https://api.sunrisesunset.io/json?lat=${latitude.value}&lng=${longitude.value}&date_start=${startDate.value}&date_end=${endDate.value}`
+        `https://api.sunrisesunset.io/json?lat=${latitude.value}&lng=${longitude.value}&date_start=${startDate.value}&date_end=${endDate.value}`,
+        {
+          method: 'GET',
+        }
       );
       return res.json();
     },
     select: transform,
   });
-};

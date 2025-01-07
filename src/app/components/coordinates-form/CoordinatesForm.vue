@@ -92,76 +92,78 @@ watch(data, (newValue) => {
 </script>
 
 <template>
-  <form
-    novalidate
-    class="flex flex-col gap-4"
-    @submit.prevent="onSubmit"
-  >
-    <div class="flex items-end gap-4">
-      <label class="block">
-        <span class="block mb-1">Latitude</span>
-        <input
-          v-model="latitude"
-          :class="{ error: errors.latitude }"
-          type="number"
-          v-bind="latitudeAttrs"
+  <div>
+    <form
+      novalidate
+      class="flex flex-col gap-4"
+      @submit.prevent="onSubmit"
+    >
+      <div class="flex items-end gap-4">
+        <label class="block">
+          <span class="block mb-1">Latitude</span>
+          <input
+            v-model="latitude"
+            :class="{ error: errors.latitude }"
+            type="number"
+            v-bind="latitudeAttrs"
+          >
+        </label>
+        <label class="block">
+          <span class="block mb-1">Longitude</span>
+          <input
+            v-model="longitude"
+            :class="{ error: errors.longitude }"
+            type="number"
+            v-bind="longitudeAttrs"
+          >
+        </label>
+        <button
+          type="button"
+          class="align-bottom"
+          :disabled="gettingLocation"
+          @click="getLocation()"
         >
-      </label>
-      <label class="block">
-        <span class="block mb-1">Longitude</span>
-        <input
-          v-model="longitude"
-          :class="{ error: errors.longitude }"
-          type="number"
-          v-bind="longitudeAttrs"
+          <FontAwesomeIcon
+            v-if="gettingLocation"
+            :icon="faSpinner"
+            spin
+          />
+          <FontAwesomeIcon
+            v-else
+            :icon="faLocationCrosshairs"
+          />
+          <span class="pl-1">Get location</span>
+        </button>
+      </div>
+      <div class="flex items-end gap-4">
+        <label class="block">
+          <span class="block mb-1">Start date</span>
+          <input
+            v-model="startDate"
+            :class="{ error: errors.startDate }"
+            type="date"
+            v-bind="startDateAttrs"
+          >
+        </label>
+        <label class="block">
+          <span class="block mb-1">End date</span>
+          <input
+            v-model="endDate"
+            :class="{ error: errors.endDate }"
+            type="date"
+            v-bind="endDateAttrs"
+          >
+        </label>
+        <button
+          class="align-bottom"
+          type="submit"
+          :disabled="!meta.valid"
         >
-      </label>
-      <button
-        type="button"
-        class="align-bottom"
-        :disabled="gettingLocation"
-        @click="getLocation()"
-      >
-        <FontAwesomeIcon
-          v-if="gettingLocation"
-          :icon="faSpinner"
-          spin
-        />
-        <FontAwesomeIcon
-          v-else
-          :icon="faLocationCrosshairs"
-        />
-        <span class="pl-1">Get location</span>
-      </button>
-    </div>
-    <div class="flex items-end gap-4">
-      <label class="block">
-        <span class="block mb-1">Start date</span>
-        <input
-          v-model="startDate"
-          :class="{ error: errors.startDate }"
-          type="date"
-          v-bind="startDateAttrs"
-        >
-      </label>
-      <label class="block">
-        <span class="block mb-1">End date</span>
-        <input
-          v-model="endDate"
-          :class="{ error: errors.endDate }"
-          type="date"
-          v-bind="endDateAttrs"
-        >
-      </label>
-      <button
-        class="align-bottom"
-        type="submit"
-        :disabled="!meta.valid"
-      >
-        Submit
-      </button>
-    </div>
-  </form>
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <style scoped></style>
