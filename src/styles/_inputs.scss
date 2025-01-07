@@ -31,6 +31,11 @@
       @apply border-sky-300;
       @apply bg-sky-300;
       @apply text-slate-800;
+
+      &:disabled {
+        @apply border-sky-100;
+        @apply bg-sky-100;
+      }
     }
 
     &[type=button]:not(:disabled):hover, &[type=submit]:not(:disabled):hover {
