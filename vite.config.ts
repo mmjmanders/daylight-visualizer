@@ -25,6 +25,15 @@ export default defineConfig({
     commonjsOptions: {
       transformMixedEsModules: true,
     },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          highcharts: ['highcharts'],
+          'tanstack-vue-query': ['@tanstack/vue-query'],
+          vue: ['vue'],
+        }
+      }
+    },
   },
   test: {
     watch: false,
