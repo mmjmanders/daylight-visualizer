@@ -2,23 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-// region highcharts
-:root {
-  --highcharts-color-0: #FFE484;
-  --highcharts-color-1: #FFCC33;
-  --highcharts-color-2: #FC9601;
-  --highcharts-color-3: #D14009;
-}
+@import "styles/css-variables";
+@import "styles/highcharts";
 
-.highcharts-root {
-  font-family: 'Oxygen', sans-serif;
-}
-
-// endregion highcharts
-
-@import "highcharts/css/highcharts.css";
-@import "@fontsource/palanquin/700.css";
-@import "@fontsource/oxygen/400.css";
+@import "@fontsource/palanquin/latin-700.css";
+@import "@fontsource/oxygen/latin-400.css";
 @import "styles/inputs";
 
 @layer base {

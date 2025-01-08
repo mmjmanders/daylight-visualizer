@@ -1,0 +1,8 @@
+@import "variables";
+
+:root {
+  --dv-chart-color-0: #{$base-sun-color};
+  --dv-chart-color-1: #{desaturate($base-sun-color, 10%)};
+  --dv-chart-color-2: #{desaturate($base-sun-color, 15%)};
+  --dv-chart-color-3: #{desaturate($base-sun-color, 20%)};
+}
