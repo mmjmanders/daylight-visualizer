@@ -29,13 +29,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
-    "@nx/eslint": "20.3.0",
-    "@nx/eslint-plugin": "20.3.0",
-    "@nx/js": "20.3.0",
-    "@nx/vite": "20.3.0",
-    "@nx/vue": "20.3.0",
-    "@nx/web": "20.3.0",
-    "@nx/workspace": "20.3.0",
+    "@nx/eslint": "20.3.1",
+    "@nx/eslint-plugin": "20.3.1",
+    "@nx/js": "20.3.1",
+    "@nx/vite": "20.3.1",
+    "@nx/vue": "20.3.1",
+    "@nx/web": "20.3.1",
+    "@nx/workspace": "20.3.1",
     "@swc-node/register": "~1.9.2",
     "@swc/core": "~1.5.29",
     "@swc/helpers": "~0.5.15",
@@ -50,7 +50,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.32.0",
     "jsdom": "~22.1.0",
-    "nx": "20.3.0",
+    "nx": "20.3.1",
     "postcss": "8.4.21",
     "prettier": "^2.8.8",
     "sass": "1.62.1",
@@ -65,5 +65,5 @@
   "nx": {
     "includedScripts": []
   },
-  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+  "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a"
 }
