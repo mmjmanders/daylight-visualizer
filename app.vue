@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import CoordinatesForm from './components/coordinates-form/CoordinatesForm.vue';
-import Visual from './components/visual/Visual.vue';
-
-import { ref } from 'vue';
-import { Datum } from './queries';
-
 const data = ref<Datum[] | null>(null);
 </script>
 
@@ -23,7 +17,7 @@ const data = ref<Datum[] | null>(null);
       v-if="data"
       class="row"
     >
-      <Visual
+      <ChartVisual
         :data="data"
         class="col-12 col-xl-8 offset-xl-2"
       />
