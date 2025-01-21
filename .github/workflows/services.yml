@@ -15,22 +15,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      - run: |
+          echo "store-dir=.pnpm-store" | tee -a ${GITHUB_WORKSPACE}/.npmrc
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-
       - uses: actions/cache@v4
         with:
           path: |
-            ~/.pnpm-store
-            node_modules
+            .pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-
       - uses: nrwl/nx-set-shas@v4
-
       - run: |
           pnpm exec nx affected -t lint
 
@@ -42,21 +38,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      - run: |
+          echo "store-dir=.pnpm-store" | tee -a ${GITHUB_WORKSPACE}/.npmrc
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-
       - uses: actions/cache@v4
         with:
           path: |
-            ~/.pnpm-store
-            node_modules
+            .pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-
       - uses: nrwl/nx-set-shas@v4
-
       - run: |
           pnpm exec nx affected -t test
