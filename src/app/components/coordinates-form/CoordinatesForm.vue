@@ -47,7 +47,7 @@ const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
 const startDateTimestamp = ref<string | null>(null);
 const endDateTimestamp = ref<string | null>(null);
-const { data } = useDaylightQuery(
+const { data, isLoading: isFetchingData } = useDaylightQuery(
   latitudeRef,
   longitudeRef,
   startDateTimestamp,
@@ -92,75 +92,103 @@ watch(data, (newValue) => {
 </script>
 
 <template>
-  <div>
+  <div v-bind="$attrs">
     <form
       novalidate
-      class="flex flex-col gap-4"
       @submit.prevent="onSubmit"
     >
-      <div class="flex items-end gap-4">
-        <label class="block">
-          <span class="block mb-1">Latitude</span>
+      <div class="row">
+        <div class="col-4">
+          <label
+            for="latitude"
+            class="form-label"
+          >Latitude</label>
           <input
+            id="latitude"
             v-model="latitude"
+            class="form-control"
             :class="{ error: errors.latitude }"
             type="number"
             v-bind="latitudeAttrs"
           >
-        </label>
-        <label class="block">
-          <span class="block mb-1">Longitude</span>
+        </div>
+        <div class="col-4">
+          <label
+            for="longitude"
+            class="form-label"
+          >Longitude</label>
           <input
+            id="longitude"
             v-model="longitude"
+            class="form-control"
             :class="{ error: errors.longitude }"
             type="number"
             v-bind="longitudeAttrs"
           >
-        </label>
-        <button
-          type="button"
-          class="align-bottom"
-          :disabled="gettingLocation"
-          @click="getLocation()"
-        >
-          <FontAwesomeIcon
-            v-if="gettingLocation"
-            :icon="faSpinner"
-            spin
-          />
-          <FontAwesomeIcon
-            v-else
-            :icon="faLocationCrosshairs"
-          />
-          <span class="pl-1">Get location</span>
-        </button>
+        </div>
+        <div class="col-auto d-flex flex-column justify-content-end">
+          <button
+            class="btn btn-primary"
+            type="button"
+            :disabled="gettingLocation || isFetchingData"
+            @click="getLocation()"
+          >
+            <FontAwesomeIcon
+              v-if="gettingLocation"
+              :icon="faSpinner"
+              spin
+            />
+            <FontAwesomeIcon
+              v-else
+              :icon="faLocationCrosshairs"
+            />
+            <span>&nbsp;Get location</span>
+          </button>
+        </div>
       </div>
-      <div class="flex items-end gap-4">
-        <label class="block">
-          <span class="block mb-1">Start date</span>
+
+      <div class="row mt-2">
+        <div class="col-4">
+          <label
+            for="startDate"
+            class="form-label"
+          >Start date</label>
           <input
+            id="startDate"
             v-model="startDate"
+            class="form-control"
             :class="{ error: errors.startDate }"
             type="date"
             v-bind="startDateAttrs"
           >
-        </label>
-        <label class="block">
-          <span class="block mb-1">End date</span>
+        </div>
+        <div class="col-4">
+          <label
+            for="endDate"
+            class="form-label"
+          >End date</label>
           <input
+            id="endDate"
             v-model="endDate"
+            class="form-control"
             :class="{ error: errors.endDate }"
             type="date"
             v-bind="endDateAttrs"
           >
-        </label>
-        <button
-          class="align-bottom"
-          type="submit"
-          :disabled="!meta.valid"
-        >
-          Submit
-        </button>
+        </div>
+        <div class="col-auto d-flex flex-column justify-content-end">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            :disabled="!meta.valid || isFetchingData"
+          >
+            Submit&nbsp;<FontAwesomeIcon
+              v-if="isFetchingData"
+              :icon="faSpinner"
+              spin
+            />
+          </button>
+        </div>
       </div>
     </form>
   </div>
