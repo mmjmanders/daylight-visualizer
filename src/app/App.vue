@@ -10,20 +10,23 @@ const data = ref<Datum[] | null>(null);
 
 <template>
   <div class="container">
-    <h1 class="text-center">
-      Daylight visualizer
-    </h1>
-    <div class="flex gap-4 my-4">
+    <header class="d-flex justify-content-center">
+      <h1>Daylight visualizer</h1>
+    </header>
+    <div class="row">
       <CoordinatesForm
         v-model="data"
-        class="flex-grow flex-shrink basis-0"
+        class="col-12 col-xl-8 offset-xl-2"
       />
-      <div class="flex-grow flex-shrink basis-0">
-        <Visual
-          v-if="data"
-          :data="data"
-        />
-      </div>
+    </div>
+    <div
+      v-if="data"
+      class="row"
+    >
+      <Visual
+        :data="data"
+        class="col-12 col-xl-8 offset-xl-2"
+      />
     </div>
   </div>
 </template>

@@ -104,8 +104,8 @@ const chartOptions = computed<Options>(() => {
 </script>
 
 <template>
-  <div class="flex justify-center">
-    <highcharts :options="chartOptions" class="w-[600px] h-[600px]" />
+  <div v-bind="$attrs">
+    <highcharts :options="chartOptions" />
   </div>
 </template>
 
