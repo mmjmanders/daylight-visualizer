@@ -28,6 +28,8 @@ jobs:
             .pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
       - run: |
+          pnpm install --prefer-offline --frozen-lockfile
+      - run: |
           pnpm build --base '/${{ github.event.repository.name }}/'
       - uses: actions/upload-pages-artifact@v3
         with:

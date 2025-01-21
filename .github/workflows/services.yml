@@ -28,6 +28,8 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
       - uses: nrwl/nx-set-shas@v4
       - run: |
+          pnpm install --prefer-offline --frozen-lockfile
+      - run: |
           pnpm exec nx affected -t lint
 
   test:
@@ -50,5 +52,7 @@ jobs:
             .pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
       - uses: nrwl/nx-set-shas@v4
+      - run: |
+          pnpm install --prefer-offline --frozen-lockfile
       - run: |
           pnpm exec nx affected -t test
