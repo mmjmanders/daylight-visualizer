@@ -9,6 +9,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "lint": "eslint .",
+    "test": "nuxt test",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {

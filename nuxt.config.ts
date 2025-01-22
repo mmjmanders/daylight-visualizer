@@ -3,6 +3,7 @@ import { defineNuxtConfig } from 'nuxt/config';
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
+    '@nuxt/test-utils/module',
   ],
   devtools: { enabled: true },
   app: {
@@ -28,7 +29,7 @@ export default defineNuxtConfig({
             rel: 'manifest',
             href: `${process.env.NUXT_APP_BASE_URL}/site.webmanifest`,
           }]
-        : [{}])],
+        : [])],
       meta: [{
         name: 'viewport',
         content: 'width=device-width, initial-scale=1.0',
