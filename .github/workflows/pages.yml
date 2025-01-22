@@ -29,10 +29,10 @@ jobs:
       - run: |
           pnpm install --prefer-offline --frozen-lockfile
       - run: |
-          pnpm build --base '/${{ github.event.repository.name }}/'
+          NUXT_APP_BASE_URL=/${{ github.event.repository.name }}/ pnpm build --preset github_pages
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/daylight-visualizer
+          path: ./.output/public
 
   deploy:
     runs-on: ubuntu-latest

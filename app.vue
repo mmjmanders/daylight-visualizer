@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import CoordinatesForm from './components/coordinates-form/CoordinatesForm.vue';
-import Visual from './components/visual/Visual.vue';
-
-import { ref } from 'vue';
-import { Datum } from './queries';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faSun } from '@fortawesome/free-solid-svg-icons';
 
 const data = ref<Datum[] | null>(null);
 </script>
 
 <template>
-  <div class="container">
+  <div class="container d-flex flex-column gap-3">
     <header class="d-flex justify-content-center">
-      <h1>Daylight visualizer</h1>
+      <h1><FontAwesomeIcon :icon="faSun" />&nbsp;Daylight visualizer</h1>
     </header>
     <div class="row">
       <CoordinatesForm
@@ -23,7 +20,7 @@ const data = ref<Datum[] | null>(null);
       v-if="data"
       class="row"
     >
-      <Visual
+      <ChartVisual
         :data="data"
         class="col-12 col-xl-8 offset-xl-2"
       />

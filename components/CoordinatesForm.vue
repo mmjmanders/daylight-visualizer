@@ -3,13 +3,8 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { number, object, string } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import {
-  faLocationCrosshairs,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
-import { ref, watch } from 'vue';
+import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
-import { Datum, useDaylightQuery } from '../../queries';
 
 const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -22,10 +17,10 @@ const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
       const start = dayjs(startDate);
       const end = dayjs(endDate);
       return (
-        (start.isBefore(end) || start.isSame(end)) &&
-        end.diff(start, 'year', true) <= 1
+        (start.isBefore(end) || start.isSame(end))
+        && end.diff(start, 'year', true) <= 1
       );
-    })
+    }),
   ),
 });
 
@@ -36,8 +31,8 @@ const [endDate, endDateAttrs] = defineField('endDate');
 
 const today = dayjs();
 const startOfMonth = today.startOf('month');
-const defaultStartDate =
-  today.diff(startOfMonth, 'day') >= 10
+const defaultStartDate
+  = today.diff(startOfMonth, 'day') >= 10
     ? startOfMonth
     : today.subtract(10, 'day');
 setFieldValue('startDate', defaultStartDate.format('YYYY-MM-DD'));
@@ -47,12 +42,14 @@ const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
 const startDateTimestamp = ref<string | null>(null);
 const endDateTimestamp = ref<string | null>(null);
-const { data, isLoading: isFetchingData } = useDaylightQuery(
-  latitudeRef,
-  longitudeRef,
-  startDateTimestamp,
-  endDateTimestamp
-);
+const { data, status } = await useAsyncData('daylight', () => $fetch(
+  `https://api.sunrisesunset.io/json?lat=${latitudeRef.value}&lng=${longitudeRef.value}&date_start=${startDateTimestamp.value}&date_end=${endDateTimestamp.value}`,
+), {
+  immediate: false,
+  server: false,
+  transform: transformData,
+  watch: [latitudeRef, longitudeRef, startDateTimestamp, endDateTimestamp],
+});
 
 const onSubmit = handleSubmit(({ latitude, longitude, startDate, endDate }) => {
   latitudeRef.value = latitude;
@@ -74,7 +71,7 @@ const getLocation = () => {
       (error) => {
         console.error(error);
         gettingLocation.value = false;
-      }
+      },
     );
   }
 };
@@ -94,11 +91,12 @@ watch(data, (newValue) => {
 <template>
   <div v-bind="$attrs">
     <form
+      class="container d-flex flex-column gap-3"
       novalidate
       @submit.prevent="onSubmit"
     >
-      <div class="row">
-        <div class="col-4">
+      <div class="row gap-3">
+        <div class="col-12 col-md-4">
           <label
             for="latitude"
             class="form-label"
@@ -112,7 +110,7 @@ watch(data, (newValue) => {
             v-bind="latitudeAttrs"
           >
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <label
             for="longitude"
             class="form-label"
@@ -130,7 +128,7 @@ watch(data, (newValue) => {
           <button
             class="btn btn-primary"
             type="button"
-            :disabled="gettingLocation || isFetchingData"
+            :disabled="gettingLocation || status === 'pending'"
             @click="getLocation()"
           >
             <FontAwesomeIcon
@@ -147,8 +145,8 @@ watch(data, (newValue) => {
         </div>
       </div>
 
-      <div class="row mt-2">
-        <div class="col-4">
+      <div class="row gap-3">
+        <div class="col-12 col-md-4">
           <label
             for="startDate"
             class="form-label"
@@ -162,7 +160,7 @@ watch(data, (newValue) => {
             v-bind="startDateAttrs"
           >
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <label
             for="endDate"
             class="form-label"
@@ -180,10 +178,10 @@ watch(data, (newValue) => {
           <button
             type="submit"
             class="btn btn-primary"
-            :disabled="!meta.valid || isFetchingData"
+            :disabled="!meta.valid || status === 'pending'"
           >
             Submit&nbsp;<FontAwesomeIcon
-              v-if="isFetchingData"
+              v-if="status === 'pending'"
               :icon="faSpinner"
               spin
             />
