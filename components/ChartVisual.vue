@@ -103,7 +103,7 @@ const chartOptions = computed<Options>(() => {
 
 <template>
   <div v-bind="$attrs">
-    <highcharts :options="chartOptions" />
+    <highcharts :options="chartOptions" class="highcharts-light"/>
   </div>
 </template>
 

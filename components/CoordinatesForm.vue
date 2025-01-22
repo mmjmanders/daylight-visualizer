@@ -91,11 +91,12 @@ watch(data, (newValue) => {
 <template>
   <div v-bind="$attrs">
     <form
+      class="container d-flex flex-column gap-3"
       novalidate
       @submit.prevent="onSubmit"
     >
-      <div class="row">
-        <div class="col-4">
+      <div class="row gap-3">
+        <div class="col-12 col-md-4">
           <label
             for="latitude"
             class="form-label"
@@ -109,7 +110,7 @@ watch(data, (newValue) => {
             v-bind="latitudeAttrs"
           >
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <label
             for="longitude"
             class="form-label"
@@ -144,8 +145,8 @@ watch(data, (newValue) => {
         </div>
       </div>
 
-      <div class="row mt-2">
-        <div class="col-4">
+      <div class="row gap-3">
+        <div class="col-12 col-md-4">
           <label
             for="startDate"
             class="form-label"
@@ -159,7 +160,7 @@ watch(data, (newValue) => {
             v-bind="startDateAttrs"
           >
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
           <label
             for="endDate"
             class="form-label"
