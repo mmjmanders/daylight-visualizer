@@ -31,12 +31,16 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.5",
+    "@nuxt/test-utils": "^3.15.4",
+    "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0 || ^9.0.0",
+    "happy-dom": "^16.7.2",
     "nuxt": "^3.15.2",
     "postcss": "^8.5.1",
     "sass": "^1.83.4",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.3"
   },
   "engines": {
     "node": "^22.11.0"
