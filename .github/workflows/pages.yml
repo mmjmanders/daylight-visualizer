@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '**/*.ts'
+      - '!**/*.spec.ts'
 
 jobs:
   pnpm_install:
