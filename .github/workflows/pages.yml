@@ -5,6 +5,8 @@ on:
       - main
     paths:
       - '**/*.ts'
+      - '**/*.scss'
+      - 'public/**'
       - '!**/*.spec.ts'
 
 jobs:
