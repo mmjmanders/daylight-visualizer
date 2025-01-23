@@ -14,9 +14,6 @@ const chartOptions = computed<Options>(() => {
     accessibility: {
       enabled: false,
     },
-    boost: {
-      enabled: true,
-    },
     chart: {
       polar: true,
       styledMode: true,
