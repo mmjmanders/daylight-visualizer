@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/test-utils/module',
   ],
+  ssr: false,
   devtools: { enabled: true },
   app: {
     head: {
@@ -42,8 +43,21 @@ export default defineNuxtConfig({
       title: 'Daylight Visualizer',
     },
   },
-  css: ['@/assets/styles.scss'],
+  css: ['assets/main.scss'],
   compatibilityDate: '2024-11-01',
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+          @import "assets/styles/_css-variables.scss";
+          @import "assets/styles/_highcharts.scss";
+          @import "assets/styles/_bootstrap.scss";
+          `,
+        },
+      },
+    },
+  },
   postcss: {
     plugins: {
       autoprefixer: {},

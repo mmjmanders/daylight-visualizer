@@ -4,4 +4,5 @@ export type Datum = {
   dusk: number;
   sunrise: number;
   sunset: number;
+  timezone: string;
 };
