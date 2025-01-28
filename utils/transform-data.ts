@@ -10,6 +10,7 @@ export const transformData = (data: any): Datum[] =>
           dusk: parseField(d, 'dusk', date),
           sunrise: parseField(d, 'sunrise', date),
           sunset: parseField(d, 'sunset', date),
+          timezone: d.timezone,
         };
       })
     : [];

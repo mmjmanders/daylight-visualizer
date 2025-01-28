@@ -14,6 +14,9 @@ const chartOptions = computed<Options>(() => {
     accessibility: {
       enabled: false,
     },
+    boost: {
+      enabled: true,
+    },
     chart: {
       polar: true,
       styledMode: true,
@@ -68,7 +71,7 @@ const chartOptions = computed<Options>(() => {
       },
     ],
     time: {
-      timezone: undefined,
+      timezone: sanitizedData.length ? sanitizedData[0].timezone : undefined,
     },
     title: {
       text: '',

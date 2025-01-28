@@ -11,6 +11,9 @@ describe('ChartVisual', () => {
       props: {
         data: [],
       },
+      global: {
+        stubs: ['highcharts'],
+      },
     });
   });
 
