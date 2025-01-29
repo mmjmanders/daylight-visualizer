@@ -29,7 +29,7 @@ export default defineNuxtConfig({
       }, ...(process.env.NUXT_APP_BASE_URL
         ? [{
             rel: 'manifest',
-            href: `${process.env.NUXT_APP_BASE_URL}/site.webmanifest`,
+            href: `${process.env.NUXT_APP_BASE_URL}site.webmanifest`,
           }]
         : [])],
       meta: [{
@@ -47,6 +47,11 @@ export default defineNuxtConfig({
   css: ['assets/main.scss'],
   compatibilityDate: '2024-11-01',
   vite: {
+    build: {
+      rollupOptions: {
+        external: ['@fortawesome/vue-fontawesome', 'highcharts', 'luxon', 'zod'],
+      },
+    },
     css: {
       preprocessorOptions: {
         scss: {
