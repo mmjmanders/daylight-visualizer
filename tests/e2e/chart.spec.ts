@@ -1,8 +1,6 @@
 import { url } from '@nuxt/test-utils/e2e';
 import { expect, test } from '@nuxt/test-utils/playwright';
 
-test.describe.configure({ mode: 'parallel' });
-
 test.describe('Chart', () => {
   test.beforeEach(async ({ goto }) => {
     await goto(url('/'), { waitUntil: 'hydration' });
@@ -54,5 +52,14 @@ test.describe('Chart', () => {
       document.querySelectorAll('.highcharts-series').length === 4,
     );
     expect(page.locator('div.highcharts-light')).toBeDefined();
+  });
+
+  test('should fill data with geolocation api', async ({ page }) => {
+    await page.locator('button[type=button]').click();
+    await page.waitForFunction(() =>
+      !(document.querySelector('button[type=submit]') as HTMLButtonElement).disabled,
+    );
+    expect(await page.locator('#latitude').inputValue()).toBe('41.889938');
+    expect(await page.locator('#longitude').inputValue()).toBe('12.492507');
   });
 });

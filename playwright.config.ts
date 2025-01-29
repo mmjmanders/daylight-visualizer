@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 import type { ConfigOptions } from '@nuxt/test-utils/playwright';
 
 export default defineConfig<ConfigOptions>({
+  fullyParallel: true,
   globalTimeout: process.env.CI ? 60 * 60 * 1000 : undefined,
   testDir: 'tests/e2e',
   projects: [
@@ -50,6 +51,8 @@ export default defineConfig<ConfigOptions>({
     },
   ],
   use: {
+    geolocation: { longitude: 12.492507, latitude: 41.889938 },
+    permissions: ['geolocation'],
     nuxt: {
       rootDir: fileURLToPath(new URL('.', import.meta.url)),
     },
