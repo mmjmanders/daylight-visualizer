@@ -47,11 +47,6 @@ export default defineNuxtConfig({
   css: ['assets/main.scss'],
   compatibilityDate: '2024-11-01',
   vite: {
-    build: {
-      rollupOptions: {
-        external: ['@fortawesome/vue-fontawesome', 'highcharts', 'luxon', 'zod'],
-      },
-    },
     css: {
       preprocessorOptions: {
         scss: {
