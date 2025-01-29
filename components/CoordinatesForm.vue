@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
 import { number, object, string } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import dayjs from 'dayjs';
+import { DateTime } from 'luxon';
 
 const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -14,11 +12,11 @@ const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
       startDate: string().date(),
       endDate: string().date(),
     }).refine(({ startDate, endDate }) => {
-      const start = dayjs(startDate);
-      const end = dayjs(endDate);
+      const start = DateTime.fromISO(startDate);
+      const end = DateTime.fromISO(endDate);
       return (
-        (start.isBefore(end) || start.isSame(end))
-        && end.diff(start, 'year', true) <= 1
+        (start <= end)
+        && end.diff(start, 'years').years <= 1
       );
     }),
   ),
@@ -29,14 +27,14 @@ const [longitude, longitudeAttrs] = defineField('longitude');
 const [startDate, startDateAttrs] = defineField('startDate');
 const [endDate, endDateAttrs] = defineField('endDate');
 
-const today = dayjs();
+const today = DateTime.now();
 const startOfMonth = today.startOf('month');
 const defaultStartDate
-  = today.diff(startOfMonth, 'day') >= 10
+  = today.diff(startOfMonth, 'days').days >= 10
     ? startOfMonth
-    : today.subtract(10, 'day');
-setFieldValue('startDate', defaultStartDate.format('YYYY-MM-DD'));
-setFieldValue('endDate', today.format('YYYY-MM-DD'));
+    : today.minus({ days: 10 });
+setFieldValue('startDate', defaultStartDate.toISODate());
+setFieldValue('endDate', today.toISODate());
 
 const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
@@ -54,8 +52,8 @@ const { data, status } = await useAsyncData('daylight', () => $fetch(
 const onSubmit = handleSubmit(({ latitude, longitude, startDate, endDate }) => {
   latitudeRef.value = latitude;
   longitudeRef.value = longitude;
-  startDateTimestamp.value = dayjs(startDate).format('YYYY-MM-DD');
-  endDateTimestamp.value = dayjs(endDate).format('YYYY-MM-DD');
+  startDateTimestamp.value = startDate;
+  endDateTimestamp.value = endDate;
 });
 
 const gettingLocation = ref(false);

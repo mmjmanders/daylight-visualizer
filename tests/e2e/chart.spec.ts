@@ -1,7 +1,7 @@
 import { url } from '@nuxt/test-utils/e2e';
 import { expect, test } from '@nuxt/test-utils/playwright';
 
-test.describe('Render chart', () => {
+test.describe('Chart', () => {
   test.beforeEach(async ({ goto }) => {
     await goto(url('/'), { waitUntil: 'hydration' });
   });

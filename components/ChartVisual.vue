@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Options } from 'highcharts';
-import dayjs from 'dayjs';
+import { DateTime } from 'luxon';
 
 const props = defineProps<{ data: Datum[] }>();
 
@@ -71,7 +71,7 @@ const chartOptions = computed<Options>(() => {
       },
     ],
     time: {
-      timezone: sanitizedData.length ? sanitizedData[0].timezone : undefined,
+      timezone: undefined,
     },
     title: {
       text: '',
@@ -81,7 +81,7 @@ const chartOptions = computed<Options>(() => {
         return `
 <span class="highcharts-color-${this.colorIndex}">&#9679;</span>
 <span>&nbsp;${this.series.name}:&nbsp;</span>
-<span class="highcharts-strong">${dayjs(this.x + (this.y ?? 0)).format(
+<span class="highcharts-strong">${DateTime.fromMillis(this.x + (this.y ?? 0)).toFormat(
   'HH:mm:ss',
 )}</span>
 <br/>`;
