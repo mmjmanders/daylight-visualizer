@@ -45,21 +45,8 @@ export default defineNuxtConfig({
       title: 'Daylight Visualizer',
     },
   },
-  css: ['assets/main.scss'],
+  css: ['~/assets/main.scss'],
   compatibilityDate: '2024-11-01',
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `
-          @import "assets/styles/_css-variables.scss";
-          @import "assets/styles/_highcharts.scss";
-          @import "assets/styles/_bootstrap.scss";
-          `,
-        },
-      },
-    },
-  },
   postcss: {
     plugins: {
       autoprefixer: {},
