@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/test-utils/module',
+    '@nuxt/fonts',
     '@vee-validate/nuxt',
   ],
   ssr: false,
