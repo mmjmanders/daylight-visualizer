@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/test-utils/module',
+    '@nuxt/fonts',
     '@vee-validate/nuxt',
   ],
   ssr: false,
@@ -29,7 +30,7 @@ export default defineNuxtConfig({
       }, ...(process.env.NUXT_APP_BASE_URL
         ? [{
             rel: 'manifest',
-            href: `${process.env.NUXT_APP_BASE_URL}/site.webmanifest`,
+            href: `${process.env.NUXT_APP_BASE_URL}site.webmanifest`,
           }]
         : [])],
       meta: [{
@@ -44,21 +45,8 @@ export default defineNuxtConfig({
       title: 'Daylight Visualizer',
     },
   },
-  css: ['assets/main.scss'],
+  css: ['~/assets/main.scss'],
   compatibilityDate: '2024-11-01',
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `
-          @import "assets/styles/_css-variables.scss";
-          @import "assets/styles/_highcharts.scss";
-          @import "assets/styles/_bootstrap.scss";
-          `,
-        },
-      },
-    },
-  },
   postcss: {
     plugins: {
       autoprefixer: {},

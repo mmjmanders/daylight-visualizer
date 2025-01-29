@@ -4,6 +4,7 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/pages.yml'
       - '**/*.scss'
       - '**/*.ts'
       - '**/*.vue'
@@ -35,7 +36,7 @@ jobs:
       - run: |
           pnpm install --prefer-offline --frozen-lockfile
       - run: |
-          NUXT_APP_BASE_URL=/${{ github.event.repository.name }}/ pnpm build --preset github_pages
+          NUXT_APP_BASE_URL=/${{ github.event.repository.name }}/ pnpm build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./.output/public

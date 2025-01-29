@@ -4,7 +4,7 @@ import type { ConfigOptions } from '@nuxt/test-utils/playwright';
 
 export default defineConfig<ConfigOptions>({
   fullyParallel: true,
-  globalTimeout: process.env.CI ? 60 * 60 * 1000 : undefined,
+  workers: process.env.CI ? 1 : undefined,
   testDir: 'tests/e2e',
   projects: [
     {

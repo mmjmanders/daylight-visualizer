@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build --preset github_pages",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -15,8 +15,6 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@fontsource/oxygen": "^5.1.1",
-    "@fontsource/palanquin": "^5.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
@@ -34,6 +32,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.5",
+    "@nuxt/fonts": "0.10.3",
     "@nuxt/test-utils": "^3.15.4",
     "@playwright/test": "^1.50.0",
     "@types/luxon": "^3.4.2",
