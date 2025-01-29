@@ -24,7 +24,7 @@ test.describe('Chart', () => {
     endDate: '2025-01-27',
     submitEnabled: false,
   }].forEach(({ latitude, longitude, startDate, endDate, submitEnabled }) => {
-    test(`should have submit button ${submitEnabled ? 'en' : 'dis'}abled for input values latitude: ${latitude}, longitude: ${longitude}, startDate: ${startDate}, endDate: ${endDate} `, async ({ page }) => {
+    test(`should have submit button ${submitEnabled ? 'en' : 'dis'}abled for input values latitude: ${latitude}, longitude: ${longitude}, startDate: ${startDate}, endDate: ${endDate}`, async ({ page }) => {
       await page.locator('#latitude').fill(latitude);
       await page.locator('#longitude').fill(longitude);
       await page.locator('#startDate').fill(startDate);
@@ -35,6 +35,44 @@ test.describe('Chart', () => {
           (document.querySelector('button[type=submit]') as HTMLButtonElement).disabled === expectedState, !submitEnabled,
       );
       expect(await submitButton.isEnabled()).toBe(submitEnabled);
+    });
+  });
+
+  [{
+    latitude: '91',
+    longitude: '13.7384',
+    startDate: '2025-01-01',
+    endDate: '2025-01-27',
+    element: 'latitude',
+  }, {
+    latitude: '51.0132',
+    longitude: '256',
+    startDate: '2025-01-01',
+    endDate: '2025-01-27',
+    element: 'longitude',
+  }, {
+    latitude: '51.0132',
+    longitude: '5.2345',
+    startDate: '2025-01-28',
+    endDate: '2025-01-27',
+    element: 'endDate',
+  }, {
+    latitude: '51.0132',
+    longitude: '33.423235',
+    startDate: '2025-01-01',
+    endDate: '2026-01-27',
+    element: 'endDate',
+  }].forEach(({ latitude, longitude, startDate, endDate, element }) => {
+    test(`should have error class on element ${element} for input values latitude: ${latitude}, longitude: ${longitude}, startDate: ${startDate}, endDate: ${endDate}`, async ({ page }) => {
+      await page.locator('#latitude').fill(latitude);
+      await page.locator('#longitude').fill(longitude);
+      await page.locator('#startDate').fill(startDate);
+      await page.locator('#endDate').fill(endDate);
+      await page.waitForFunction(
+        (id: string) =>
+          (document.querySelector(`#${id}`) as HTMLInputElement).classList.contains('is-invalid'), element,
+      );
+      expect(await page.locator(`#${element}`).getAttribute('class')).toContain('is-invalid');
     });
   });
 

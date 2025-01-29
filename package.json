@@ -21,14 +21,14 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@vee-validate/nuxt": "^4.15.0",
-    "@vee-validate/zod": "^4.15.0",
+    "@vee-validate/yup": "^4.15.0",
     "bootstrap": "^5.3.3",
     "highcharts": "^12.1.2",
     "highcharts-vue": "^2.0.1",
     "luxon": "^3.5.0",
     "vue": "latest",
     "vue-router": "latest",
-    "zod": "^3.24.1"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.5",
