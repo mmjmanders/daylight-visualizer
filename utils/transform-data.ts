@@ -1,16 +1,17 @@
-import dayjs from 'dayjs';
+import { DateTime } from 'luxon';
 
-export const transformData = (data: any): Datum[] =>
-  data && data.results && data.status === 'OK'
+export default function (data: any): Datum[] {
+  return (data && data.results && data.status === 'OK')
     ? data.results.map((d: any) => {
-        const date = dayjs(d.date).valueOf();
+        const date = DateTime.fromISO(d.date).toMillis();
         return {
           date,
-          dawn: parseField(d, 'dawn', date),
-          dusk: parseField(d, 'dusk', date),
-          sunrise: parseField(d, 'sunrise', date),
-          sunset: parseField(d, 'sunset', date),
+          dawn: parseDateField(d, 'dawn', date),
+          dusk: parseDateField(d, 'dusk', date),
+          sunrise: parseDateField(d, 'sunrise', date),
+          sunset: parseDateField(d, 'sunset', date),
           timezone: d.timezone,
         };
       })
     : [];
+}

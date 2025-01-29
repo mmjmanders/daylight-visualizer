@@ -1,8 +1,5 @@
-import dayjs from 'dayjs';
+import { DateTime } from 'luxon';
 
-export const parseField: (day: any, field: string, date: number) => number = (
-  day,
-  field,
-  date,
-) =>
-  dayjs(`${day.date} ${day[field]}`, 'YYYY-MM-DD H:mm:ss A').valueOf() - date;
+export default function (day: any, field: string, date: number): number {
+  return DateTime.fromFormat(`${day.date} ${day[field]}`, 'yyyy-MM-dd h:mm:ss a').setZone(day.timezone).toMillis() - date;
+}
