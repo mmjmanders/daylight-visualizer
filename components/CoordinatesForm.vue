@@ -103,7 +103,7 @@ watch(data, (newValue) => {
             id="latitude"
             v-model="latitude"
             class="form-control"
-            :class="{ error: errors.latitude }"
+            :class="{ 'is-invalid': errors.latitude }"
             type="number"
             v-bind="latitudeAttrs"
           >
@@ -117,7 +117,7 @@ watch(data, (newValue) => {
             id="longitude"
             v-model="longitude"
             class="form-control"
-            :class="{ error: errors.longitude }"
+            :class="{ 'is-invalid': errors.longitude }"
             type="number"
             v-bind="longitudeAttrs"
           >
@@ -153,7 +153,7 @@ watch(data, (newValue) => {
             id="startDate"
             v-model="startDate"
             class="form-control"
-            :class="{ error: errors.startDate }"
+            :class="{ 'is-invalid': errors.startDate }"
             type="date"
             v-bind="startDateAttrs"
           >
@@ -167,7 +167,7 @@ watch(data, (newValue) => {
             id="endDate"
             v-model="endDate"
             class="form-control"
-            :class="{ error: errors.endDate }"
+            :class="{ 'is-invalid': errors.endDate }"
             type="date"
             v-bind="endDateAttrs"
           >
