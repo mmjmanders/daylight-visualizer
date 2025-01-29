@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { number, object, string } from 'zod';
+import { number, object, string } from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
@@ -7,17 +7,20 @@ import { DateTime } from 'luxon';
 const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     object({
-      latitude: number().min(-90).max(90),
-      longitude: number().min(-180).max(180),
-      startDate: string().date(),
-      endDate: string().date(),
-    }).refine(({ startDate, endDate }) => {
-      const start = DateTime.fromISO(startDate);
-      const end = DateTime.fromISO(endDate);
-      return (
-        (start <= end)
-        && end.diff(start, 'years').years <= 1
-      );
+      latitude: number().required().min(-90).max(90),
+      longitude: number().required().min(-180).max(180),
+      startDate: string().required(),
+      endDate: string().required()
+        .test('is-after-start', 'End date must be same or after start date', (val, context) => {
+          const start = DateTime.fromISO(context.parent.startDate);
+          const end = DateTime.fromISO(val);
+          return end >= start;
+        })
+        .test('is-max-one-year-range', 'Date range must not exceed 1 year', (val, context) => {
+          const start = DateTime.fromISO(context.parent.startDate);
+          const end = DateTime.fromISO(val);
+          return end.diff(start, 'years').years <= 1;
+        }),
     }),
   ),
 });
