@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { number, object, string } from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
+import { Tooltip } from 'bootstrap';
 
 const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -19,7 +20,7 @@ const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
         .test('is-max-one-year-range', 'Date range must not exceed 1 year', (val, context) => {
           const start = DateTime.fromISO(context.parent.startDate);
           const end = DateTime.fromISO(val);
-          return end.diff(start, 'years').years <= 1;
+          return end.diff(start, 'years').years < 1;
         }),
     }),
   ),
@@ -87,6 +88,13 @@ watch(data, (newValue) => {
     emit('update:modelValue', newValue);
   }
 });
+
+onMounted(() => {
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')?.forEach(
+    (element: Element) => {
+      new Tooltip(element);
+    });
+});
 </script>
 
 <template>
@@ -102,28 +110,56 @@ watch(data, (newValue) => {
             for="latitude"
             class="form-label"
           >Latitude</label>
-          <input
-            id="latitude"
-            v-model="latitude"
-            class="form-control"
-            :class="{ 'is-invalid': errors.latitude }"
-            type="number"
-            v-bind="latitudeAttrs"
-          >
+          <div :class="{ 'input-group': errors.latitude }">
+            <input
+              id="latitude"
+              v-model="latitude"
+              class="form-control"
+              :class="{ 'is-invalid': errors.latitude }"
+              type="number"
+              v-bind="latitudeAttrs"
+            >
+            <span
+              v-show="errors.latitude"
+              class="input-group-text"
+              data-bs-toggle="tooltip"
+              data-bs-custom-class="error-tooltip"
+              data-bs-title="Latitude must be between -90 and 90"
+            >
+              <FontAwesomeIcon
+                class="text-danger"
+                :icon="faExclamationCircle"
+              />
+            </span>
+          </div>
         </div>
         <div class="col-12 col-md-4">
           <label
             for="longitude"
             class="form-label"
           >Longitude</label>
-          <input
-            id="longitude"
-            v-model="longitude"
-            class="form-control"
-            :class="{ 'is-invalid': errors.longitude }"
-            type="number"
-            v-bind="longitudeAttrs"
-          >
+          <div :class="{ 'input-group': errors.longitude }">
+            <input
+              id="longitude"
+              v-model="longitude"
+              class="form-control"
+              :class="{ 'is-invalid': errors.longitude }"
+              type="number"
+              v-bind="longitudeAttrs"
+            >
+            <span
+              v-show="errors.longitude"
+              class="input-group-text"
+              data-bs-toggle="tooltip"
+              data-bs-custom-class="error-tooltip"
+              data-bs-title="Longitude must be between -180 and 180"
+            >
+              <FontAwesomeIcon
+                class="text-danger"
+                :icon="faExclamationCircle"
+              />
+            </span>
+          </div>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
@@ -166,14 +202,28 @@ watch(data, (newValue) => {
             for="endDate"
             class="form-label"
           >End date</label>
-          <input
-            id="endDate"
-            v-model="endDate"
-            class="form-control"
-            :class="{ 'is-invalid': errors.endDate }"
-            type="date"
-            v-bind="endDateAttrs"
-          >
+          <div :class="{ 'input-group': errors.endDate }">
+            <input
+              id="endDate"
+              v-model="endDate"
+              class="form-control"
+              :class="{ 'is-invalid': errors.endDate }"
+              type="date"
+              v-bind="endDateAttrs"
+            >
+            <span
+              v-show="errors.endDate"
+              class="input-group-text"
+              data-bs-toggle="tooltip"
+              data-bs-custom-class="error-tooltip"
+              data-bs-title="End date must be same or after start date and not exceed 1 year"
+            >
+              <FontAwesomeIcon
+                class="text-danger"
+                :icon="faExclamationCircle"
+              />
+            </span>
+          </div>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
