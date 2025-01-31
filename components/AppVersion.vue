@@ -4,7 +4,7 @@ const config = useRuntimeConfig();
 
 <template>
   <span
-    v-if="config?.public?.buildSha"
+    v-if="config.public.buildSha"
     class="font-monospace"
   >ver {{ config.public.buildSha }}</span>
 </template>
