@@ -60,7 +60,7 @@ export default defineNuxtConfig({
         commaDangle: 'always-multiline',
       },
     },
-  },
+  }, 
   runtimeConfig: {
     public: {
       buildSha: undefined,
