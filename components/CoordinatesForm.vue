@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { number, object, string } from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faExclamationCircle, faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
-import { Tooltip } from 'bootstrap';
+import { autoUpdate, offset, useFloating } from '@floating-ui/vue';
 
 const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
@@ -78,6 +78,30 @@ const getLocation = () => {
   }
 };
 
+const latitudeInput = ref<HTMLElement | null>(null);
+const latitudeTooltip = ref<HTMLElement | null>(null);
+const { floatingStyles: latitudeTooltipStyles } = useFloating(latitudeInput, latitudeTooltip, {
+  placement: 'top',
+  whileElementsMounted: autoUpdate,
+  middleware: [offset({ mainAxis: 10 })],
+});
+
+const longitudeInput = ref<HTMLElement | null>(null);
+const longitudeTooltip = ref<HTMLElement | null>(null);
+const { floatingStyles: longitudeTooltipStyles } = useFloating(longitudeInput, longitudeTooltip, {
+  placement: 'top',
+  whileElementsMounted: autoUpdate,
+  middleware: [offset({ mainAxis: 10 })],
+});
+
+const endDateInput = ref<HTMLElement | null>(null);
+const endDateTooltip = ref<HTMLElement | null>(null);
+const { floatingStyles: endDateTooltipStyles } = useFloating(endDateInput, endDateTooltip, {
+  placement: 'top',
+  whileElementsMounted: autoUpdate,
+  middleware: [offset({ mainAxis: 10 })],
+});
+
 defineProps<{ modelValue: Datum[] | null }>();
 const emit = defineEmits<{
   'update:modelValue': [value: Datum[]];
@@ -87,13 +111,6 @@ watch(data, (newValue) => {
   if (newValue) {
     emit('update:modelValue', newValue);
   }
-});
-
-onMounted(() => {
-  document.querySelectorAll('[data-bs-toggle="tooltip"]')?.forEach(
-    (element: Element) => {
-      new Tooltip(element);
-    });
 });
 </script>
 
@@ -110,56 +127,46 @@ onMounted(() => {
             for="latitude"
             class="form-label"
           >Latitude</label>
-          <div :class="{ 'input-group': errors.latitude }">
-            <input
-              id="latitude"
-              v-model="latitude"
-              class="form-control"
-              :class="{ 'is-invalid': errors.latitude }"
-              type="number"
-              v-bind="latitudeAttrs"
-            >
-            <span
-              v-show="errors.latitude"
-              class="input-group-text"
-              data-bs-toggle="tooltip"
-              data-bs-custom-class="error-tooltip"
-              data-bs-title="Latitude must be between -90 and 90"
-            >
-              <FontAwesomeIcon
-                class="text-danger"
-                :icon="faExclamationCircle"
-              />
-            </span>
-          </div>
+          <input
+            id="latitude"
+            v-bind="latitudeAttrs"
+            ref="latitudeInput"
+            v-model="latitude"
+            class="form-control"
+            :class="{ 'is-invalid': errors.latitude }"
+            type="number"
+          >
+          <span
+            v-if="errors.latitude"
+            ref="latitudeTooltip"
+            class="error-tooltip"
+            :style="latitudeTooltipStyles"
+          >
+            Latitude must be between -90 and 90
+          </span>
         </div>
         <div class="col-12 col-md-4">
           <label
             for="longitude"
             class="form-label"
           >Longitude</label>
-          <div :class="{ 'input-group': errors.longitude }">
-            <input
-              id="longitude"
-              v-model="longitude"
-              class="form-control"
-              :class="{ 'is-invalid': errors.longitude }"
-              type="number"
-              v-bind="longitudeAttrs"
-            >
-            <span
-              v-show="errors.longitude"
-              class="input-group-text"
-              data-bs-toggle="tooltip"
-              data-bs-custom-class="error-tooltip"
-              data-bs-title="Longitude must be between -180 and 180"
-            >
-              <FontAwesomeIcon
-                class="text-danger"
-                :icon="faExclamationCircle"
-              />
-            </span>
-          </div>
+          <input
+            id="longitude"
+            ref="longitudeInput"
+            v-model="longitude"
+            class="form-control"
+            :class="{ 'is-invalid': errors.longitude }"
+            type="number"
+            v-bind="longitudeAttrs"
+          >
+          <span
+            v-if="errors.longitude"
+            ref="longitudeTooltip"
+            class="error-tooltip"
+            :style="longitudeTooltipStyles"
+          >
+            Longitude must be between -180 and 180
+          </span>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
@@ -202,28 +209,23 @@ onMounted(() => {
             for="endDate"
             class="form-label"
           >End date</label>
-          <div :class="{ 'input-group': errors.endDate }">
-            <input
-              id="endDate"
-              v-model="endDate"
-              class="form-control"
-              :class="{ 'is-invalid': errors.endDate }"
-              type="date"
-              v-bind="endDateAttrs"
-            >
-            <span
-              v-show="errors.endDate"
-              class="input-group-text"
-              data-bs-toggle="tooltip"
-              data-bs-custom-class="error-tooltip"
-              data-bs-title="End date must be same or after start date and not exceed 1 year"
-            >
-              <FontAwesomeIcon
-                class="text-danger"
-                :icon="faExclamationCircle"
-              />
-            </span>
-          </div>
+          <input
+            id="endDate"
+            v-bind="endDateAttrs"
+            ref="endDateInput"
+            v-model="endDate"
+            class="form-control"
+            :class="{ 'is-invalid': errors.endDate }"
+            type="date"
+          >
+          <span
+            v-if="errors.endDate"
+            ref="endDateTooltip"
+            class="error-tooltip"
+            :style="endDateTooltipStyles"
+          >
+            End date must be same or after start date and not exceed 1 year
+          </span>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button

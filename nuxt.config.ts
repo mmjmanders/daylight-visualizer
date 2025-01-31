@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@vee-validate/nuxt',
   ],
-  ssr: false,
   devtools: { enabled: true },
   app: {
     head: {
