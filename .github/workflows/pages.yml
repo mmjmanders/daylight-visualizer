@@ -37,8 +37,9 @@ jobs:
           pnpm install --prefer-offline --frozen-lockfile
       - run: |
           echo "NUXT_PUBLIC_BUILD_SHA=$(git rev-parse --short HEAD)" | tee -a ${GITHUB_ENV}
+          echo "NUXT_APP_BASE_URL=/${{ github.event.repository.name }}/" | tee -a ${GITHUB_ENV}
       - run: |
-          NUXT_APP_BASE_URL=/${{ github.event.repository.name }}/ pnpm build
+          pnpm build:gh-pages
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./.output/public

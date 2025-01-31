@@ -1,9 +1,12 @@
 <script setup lang="ts">
-const { buildSha: version } = useRuntimeConfig().public;
+const config = useRuntimeConfig();
 </script>
 
 <template>
-  <span class="font-monospace">v{{ version }}</span>
+  <span
+    v-if="config?.public?.buildSha"
+    class="font-monospace"
+  >ver {{ config.public.buildSha }}</span>
 </template>
 
 <style scoped lang="scss">
