@@ -45,6 +45,11 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/main.scss'],
+  runtimeConfig: {
+    public: {
+      buildSha: undefined,
+    },
+  },
   compatibilityDate: '2024-11-01',
   postcss: {
     plugins: {
@@ -59,11 +64,6 @@ export default defineNuxtConfig({
         semi: true,
         commaDangle: 'always-multiline',
       },
-    },
-  }, 
-  runtimeConfig: {
-    public: {
-      buildSha: undefined,
     },
   },
 });
