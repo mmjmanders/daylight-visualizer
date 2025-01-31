@@ -45,6 +45,11 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/main.scss'],
+  runtimeConfig: {
+    public: {
+      buildSha: 'dev',
+    },
+  },
   compatibilityDate: '2024-11-01',
   postcss: {
     plugins: {

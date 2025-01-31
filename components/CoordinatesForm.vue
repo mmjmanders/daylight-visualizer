@@ -244,5 +244,3 @@ watch(data, (newValue) => {
     </form>
   </div>
 </template>
-
-<style scoped></style>

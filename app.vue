@@ -8,7 +8,10 @@ const data = ref<Datum[] | null>(null);
 <template>
   <div class="container d-flex flex-column gap-3">
     <header class="d-flex justify-content-center">
-      <h1><FontAwesomeIcon :icon="faSun" />&nbsp;Daylight visualizer</h1>
+      <h1>
+        <FontAwesomeIcon :icon="faSun" />&nbsp;Daylight visualizer
+        <AppVersion />
+      </h1>
     </header>
     <div class="row">
       <CoordinatesForm
@@ -27,3 +30,9 @@ const data = ref<Datum[] | null>(null);
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+h1 {
+  position: relative;
+}
+</style>
