@@ -51,11 +51,6 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  runtimeConfig: {
-    public: {
-      buildSha: undefined,
-    },
-  },
   eslint: {
     config: {
       stylistic: {
@@ -64,6 +59,11 @@ export default defineNuxtConfig({
         semi: true,
         commaDangle: 'always-multiline',
       },
+    },
+  },
+  runtimeConfig: {
+    public: {
+      buildSha: undefined,
     },
   },
 });
