@@ -48,6 +48,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       buildSha: undefined,
+      version: '1.0',
     },
   },
   compatibilityDate: '2024-11-01',

@@ -4,9 +4,9 @@ const config = useRuntimeConfig();
 
 <template>
   <span
-    v-if="config.public.buildSha"
+    v-if="config.public.version && config.public.buildSha"
     class="font-monospace"
-  >ver {{ config.public.buildSha }}</span>
+  >v{{ config.public.version }}-{{ config.public.buildSha }}</span>
 </template>
 
 <style scoped lang="scss">
