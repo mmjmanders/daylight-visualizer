@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/fonts',
     '@vee-validate/nuxt',
+    '@nuxtjs/i18n',
   ],
   devtools: { enabled: true },
   app: {
@@ -66,5 +67,13 @@ export default defineNuxtConfig({
         commaDangle: 'always-multiline',
       },
     },
+  },
+  i18n: {
+    defaultLocale: 'en',
+    lazy: true,
+    locales: [
+      { code: 'en', file: 'en.ts' },
+      { code: 'nl', file: 'nl.ts' },
+    ],
   },
 });

@@ -39,7 +39,7 @@ jobs:
           echo "NUXT_PUBLIC_BUILD_SHA=$(git rev-parse --short HEAD)" | tee -a ${GITHUB_ENV}
           echo "NUXT_APP_BASE_URL=/${{ github.event.repository.name }}/" | tee -a ${GITHUB_ENV}
       - run: |
-          pnpm build:gh-pages
+          pnpm build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./.output/public

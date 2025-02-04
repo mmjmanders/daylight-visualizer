@@ -2,6 +2,7 @@
 import type { Options } from 'highcharts';
 import { DateTime } from 'luxon';
 
+const { t } = useI18n();
 const props = defineProps<{ data: Datum[] }>();
 
 const chartOptions = computed<Options>(() => {
@@ -35,7 +36,7 @@ const chartOptions = computed<Options>(() => {
     series: [
       {
         id: 'dusk',
-        name: 'Dusk',
+        name: t('chart.labels.dusk'),
         type: 'areaspline',
         data: sanitizedData.map(d => ({
           x: d.date,
@@ -44,7 +45,7 @@ const chartOptions = computed<Options>(() => {
       },
       {
         id: 'sunset',
-        name: 'Sunset',
+        name: t('chart.labels.sunset'),
         type: 'areaspline',
         data: sanitizedData.map(d => ({
           x: d.date,
@@ -53,7 +54,7 @@ const chartOptions = computed<Options>(() => {
       },
       {
         id: 'sunrise',
-        name: 'Sunrise',
+        name: t('chart.labels.sunrise'),
         type: 'areaspline',
         data: sanitizedData.map(d => ({
           x: d.date,
@@ -62,7 +63,7 @@ const chartOptions = computed<Options>(() => {
       },
       {
         id: 'dawn',
-        name: 'Dawn',
+        name: t('chart.labels.dawn'),
         type: 'areaspline',
         data: sanitizedData.map(d => ({
           x: d.date,

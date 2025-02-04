@@ -2,6 +2,8 @@ import { url } from '@nuxt/test-utils/e2e';
 import { expect, test } from '@nuxt/test-utils/playwright';
 
 test.describe('Chart', () => {
+  test.use({ locale: 'en' });
+
   test.beforeEach(async ({ goto }) => {
     await goto(url('/'), { waitUntil: 'hydration' });
   });
@@ -90,6 +92,10 @@ test.describe('Chart', () => {
       document.querySelectorAll('.highcharts-series').length === 4,
     );
     expect(page.locator('div.highcharts-light')).toBeDefined();
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Dusk');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-1 > text')).toBe('Sunset');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-2 > text')).toBe('Sunrise');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-3 > text')).toBe('Dawn');
   });
 
   test('should fill data with geolocation api', async ({ page }) => {
@@ -99,5 +105,51 @@ test.describe('Chart', () => {
     );
     expect(await page.locator('#latitude').inputValue()).toBe('41.889938');
     expect(await page.locator('#longitude').inputValue()).toBe('12.492507');
+  });
+});
+
+test.describe('Chart -> Locale set to nl', () => {
+  test.use({ locale: 'nl' });
+
+  test.beforeEach(async ({ goto }) => {
+    await goto(url('/'), { waitUntil: 'hydration' });
+  });
+
+  test('should display legend in Dutch', async ({ page }) => {
+    await page.locator('button[type=button]').click();
+    await page.waitForFunction(() =>
+      !(document.querySelector('button[type=submit]') as HTMLButtonElement).disabled,
+    );
+    await page.locator('button[type=submit]').click();
+    await page.waitForFunction(() =>
+      document.querySelectorAll('.highcharts-series').length === 4,
+    );
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Schemering');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-1 > text')).toBe('Zonsondergang');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-2 > text')).toBe('Zonsopkomst');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-3 > text')).toBe('Dageraad');
+  });
+});
+
+test.describe('Chart -> Locale set to non-supported language', () => {
+  test.use({ locale: 'fr' });
+
+  test.beforeEach(async ({ goto }) => {
+    await goto(url('/'), { waitUntil: 'hydration' });
+  });
+
+  test('should display legend in English', async ({ page }) => {
+    await page.locator('button[type=button]').click();
+    await page.waitForFunction(() =>
+      !(document.querySelector('button[type=submit]') as HTMLButtonElement).disabled,
+    );
+    await page.locator('button[type=submit]').click();
+    await page.waitForFunction(() =>
+      document.querySelectorAll('.highcharts-series').length === 4,
+    );
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Dusk');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-1 > text')).toBe('Sunset');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-2 > text')).toBe('Sunrise');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-3 > text')).toBe('Dawn');
   });
 });

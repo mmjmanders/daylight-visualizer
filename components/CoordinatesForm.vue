@@ -126,7 +126,7 @@ watch(data, (newValue) => {
           <label
             for="latitude"
             class="form-label"
-          >Latitude</label>
+          >{{ $t('form.labels.latitude') }}</label>
           <input
             id="latitude"
             v-bind="latitudeAttrs"
@@ -142,14 +142,14 @@ watch(data, (newValue) => {
             class="error-tooltip"
             :style="latitudeTooltipStyles"
           >
-            Latitude must be between -90 and 90
+            {{ $t('form.warnings.latitude') }}
           </span>
         </div>
         <div class="col-12 col-md-4">
           <label
             for="longitude"
             class="form-label"
-          >Longitude</label>
+          >{{ $t('form.labels.longitude') }}</label>
           <input
             id="longitude"
             ref="longitudeInput"
@@ -165,7 +165,7 @@ watch(data, (newValue) => {
             class="error-tooltip"
             :style="longitudeTooltipStyles"
           >
-            Longitude must be between -180 and 180
+            {{ $t('form.warnings.longitude') }}
           </span>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
@@ -184,7 +184,7 @@ watch(data, (newValue) => {
               v-else
               :icon="faLocationCrosshairs"
             />
-            <span>&nbsp;Get location</span>
+            <span>&nbsp;{{ $t('form.labels.getLocation') }}</span>
           </button>
         </div>
       </div>
@@ -194,7 +194,7 @@ watch(data, (newValue) => {
           <label
             for="startDate"
             class="form-label"
-          >Start date</label>
+          >{{ $t('form.labels.startDate') }}</label>
           <input
             id="startDate"
             v-model="startDate"
@@ -208,7 +208,7 @@ watch(data, (newValue) => {
           <label
             for="endDate"
             class="form-label"
-          >End date</label>
+          >{{ $t('form.labels.endDate') }}</label>
           <input
             id="endDate"
             v-bind="endDateAttrs"
@@ -224,7 +224,7 @@ watch(data, (newValue) => {
             class="error-tooltip"
             :style="endDateTooltipStyles"
           >
-            End date must be same or after start date and not exceed 1 year
+            {{ $t('form.warnings.endDate') }}
           </span>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
@@ -233,7 +233,7 @@ watch(data, (newValue) => {
             class="btn btn-primary"
             :disabled="!meta.valid || status === 'pending'"
           >
-            Submit&nbsp;<FontAwesomeIcon
+            {{ $t('form.labels.submit') }}&nbsp;<FontAwesomeIcon
               v-if="status === 'pending'"
               :icon="faSpinner"
               spin
