@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@vee-validate/nuxt',
     '@nuxtjs/i18n',
+    '@vesp/nuxt-fontawesome',
   ],
   devtools: { enabled: true },
   app: {
