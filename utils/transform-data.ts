@@ -6,8 +6,6 @@ export default function (data: any): Datum[] {
         const date = DateTime.fromISO(d.date).toMillis();
         return {
           date,
-          dawn: parseDateField(d, 'dawn', date),
-          dusk: parseDateField(d, 'dusk', date),
           sunrise: parseDateField(d, 'sunrise', date),
           sunset: parseDateField(d, 'sunset', date),
           timezone: d.timezone,

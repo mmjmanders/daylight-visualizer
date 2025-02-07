@@ -89,13 +89,10 @@ test.describe('Chart', () => {
     );
     await submitButton.click();
     await page.waitForFunction(() =>
-      document.querySelectorAll('.highcharts-series').length === 4,
+      document.querySelectorAll('.highcharts-series').length === 1,
     );
     expect(page.locator('div.highcharts-light')).toBeDefined();
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Dusk');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-1 > text')).toBe('Sunset');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-2 > text')).toBe('Sunrise');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-3 > text')).toBe('Dawn');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Daylight');
   });
 
   test('should fill data with geolocation api', async ({ page }) => {
@@ -122,12 +119,9 @@ test.describe('Chart -> Locale set to nl', () => {
     );
     await page.locator('button[type=submit]').click();
     await page.waitForFunction(() =>
-      document.querySelectorAll('.highcharts-series').length === 4,
+      document.querySelectorAll('.highcharts-series').length === 1,
     );
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Schemering');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-1 > text')).toBe('Zonsondergang');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-2 > text')).toBe('Zonsopkomst');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-3 > text')).toBe('Dageraad');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Daglicht');
   });
 });
 
@@ -145,11 +139,8 @@ test.describe('Chart -> Locale set to non-supported language', () => {
     );
     await page.locator('button[type=submit]').click();
     await page.waitForFunction(() =>
-      document.querySelectorAll('.highcharts-series').length === 4,
+      document.querySelectorAll('.highcharts-series').length === 1,
     );
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Dusk');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-1 > text')).toBe('Sunset');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-2 > text')).toBe('Sunrise');
-    expect(await page.textContent('.highcharts-legend-item.highcharts-series-3 > text')).toBe('Dawn');
+    expect(await page.textContent('.highcharts-legend-item.highcharts-series-0 > text')).toBe('Daylight');
   });
 });
