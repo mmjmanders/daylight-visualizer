@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faSun } from '@fortawesome/free-solid-svg-icons';
 
 const data = ref<Datum[] | null>(null);
@@ -9,7 +8,7 @@ const data = ref<Datum[] | null>(null);
   <div class="container d-flex flex-column gap-3">
     <header class="d-flex justify-content-center">
       <h1>
-        <FontAwesomeIcon :icon="faSun" />&nbsp;Daylight visualizer
+        <FontAwesome :icon="faSun" />&nbsp;Daylight visualizer
         <AppVersion />
       </h1>
     </header>

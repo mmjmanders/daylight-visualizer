@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { number, object, string } from 'yup';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { autoUpdate, offset, useFloating } from '@floating-ui/vue';
@@ -175,12 +174,12 @@ watch(data, (newValue) => {
             :disabled="gettingLocation || status === 'pending'"
             @click="getLocation()"
           >
-            <FontAwesomeIcon
+            <FontAwesome
               v-if="gettingLocation"
               :icon="faSpinner"
               spin
             />
-            <FontAwesomeIcon
+            <FontAwesome
               v-else
               :icon="faLocationCrosshairs"
             />
@@ -233,7 +232,7 @@ watch(data, (newValue) => {
             class="btn btn-primary"
             :disabled="!meta.valid || status === 'pending'"
           >
-            {{ $t('form.labels.submit') }}&nbsp;<FontAwesomeIcon
+            {{ $t('form.labels.submit') }}&nbsp;<FontAwesome
               v-if="status === 'pending'"
               :icon="faSpinner"
               spin
