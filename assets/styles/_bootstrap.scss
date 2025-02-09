@@ -12,8 +12,18 @@
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/forms";
+@import "bootstrap/scss/tables";
 @import "bootstrap/scss/buttons";
 @import "bootstrap/scss/helpers";
 @import "bootstrap/scss/tooltip";
 
 @import "bootstrap/scss/utilities/api";
+
+.table {
+  margin-bottom: 0;
+  font-size: .8em;
+
+  & > tbody td {
+    text-align: right;
+  }
+}
