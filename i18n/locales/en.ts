@@ -16,8 +16,7 @@ export default {
   },
   chart: {
     labels: {
-      dusk: 'Dusk',
-      dawn: 'Dawn',
+      daylight: 'Daylight',
       sunrise: 'Sunrise',
       sunset: 'Sunset',
     },

@@ -16,8 +16,7 @@ export default {
   },
   chart: {
     labels: {
-      dusk: 'Schemering',
-      dawn: 'Dageraad',
+      daylight: 'Daglicht',
       sunrise: 'Zonsopkomst',
       sunset: 'Zonsondergang',
     },
