@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type Options, Time } from 'highcharts';
+import type { Options } from 'highcharts';
+import { DateTime } from 'luxon';
 
 const { t } = useI18n();
 const props = defineProps<{ data: Datum[] }>();
@@ -40,6 +41,7 @@ const chartOptions = computed<Options>(() => ({
         high: d.sunset,
         custom: {
           day_length: d.day_length,
+          timezone: d.timezone,
         },
       })),
     },
@@ -53,10 +55,9 @@ const chartOptions = computed<Options>(() => ({
   tooltip: {
     useHTML: true,
     formatter: function () {
-      const time = new Time();
-      const date = time.dateFormat('%A, %b %e, %Y', this.x);
-      const sunrise = time.dateFormat('%k:%M:%S', this.x + (this.low || 0));
-      const sunset = time.dateFormat('%k:%M:%S', this.x + (this.high || 0));
+      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone }).toFormat('EEEE, MMM d, yyyy');
+      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone }).toFormat('H:mm:ss');
+      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone }).toFormat('H:mm:ss');
       return `<table class="table table-borderless table-sm">
                 <thead class="border-bottom">
                   <tr>
