@@ -18,12 +18,3 @@
 @import "bootstrap/scss/tooltip";
 
 @import "bootstrap/scss/utilities/api";
-
-.table {
-  margin-bottom: 0;
-  font-size: .8em;
-
-  & > tbody td {
-    text-align: right;
-  }
-}

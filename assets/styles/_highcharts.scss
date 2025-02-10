@@ -2,8 +2,23 @@
   --highcharts-color-0: var(--dv-chart-color-0);
 }
 
-.highcharts-root {
-  font-family: 'Oxygen', sans-serif;
+.highcharts-axis-labels {
+  fill: var(--bs-body-color);
+}
+
+.highcharts-root, .highcharts-tooltip {
+  font-family: var(--dv-font-family);
+}
+
+.highcharts-tooltip {
+  .table {
+    margin-bottom: 0;
+    font-size: .75rem;
+
+    & > tbody td {
+      text-align: right;
+    }
+  }
 }
 
 @import "highcharts/css/highcharts.css";
