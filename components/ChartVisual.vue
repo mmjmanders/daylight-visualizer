@@ -2,7 +2,7 @@
 import type { Options } from 'highcharts';
 import { DateTime } from 'luxon';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const props = defineProps<{ data: Datum[] }>();
 
 const chartOptions = computed<Options>(() => ({
@@ -55,9 +55,12 @@ const chartOptions = computed<Options>(() => ({
   tooltip: {
     useHTML: true,
     formatter: function () {
-      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone }).toFormat('EEEE, MMM d, yyyy');
-      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone }).toFormat('H:mm:ss');
-      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone }).toFormat('H:mm:ss');
+      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone }).setLocale(locale.value).toLocaleString({
+        ...DateTime.DATE_HUGE,
+        month: 'short',
+      });
+      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone }).setLocale(locale.value).toLocaleString(DateTime.TIME_WITH_SECONDS);
+      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone }).setLocale(locale.value).toLocaleString(DateTime.TIME_WITH_SECONDS);
       return `<table class="table table-borderless table-sm">
                 <thead class="border-bottom">
                   <tr>
@@ -95,10 +98,25 @@ const chartOptions = computed<Options>(() => ({
 </script>
 
 <template>
-  <div v-bind="$attrs">
+  <div
+    v-bind="$attrs"
+    class="chart-container"
+  >
     <highcharts
       :options="chartOptions"
       class="highcharts-light"
+      :lang="locale"
     />
   </div>
 </template>
+
+<style scoped lang="scss">
+.chart-container {
+  aspect-ratio: 1 / 1;
+
+  .highcharts-light {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>

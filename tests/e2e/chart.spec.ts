@@ -17,13 +17,37 @@ test.describe('Chart', () => {
     latitude: '51.0132',
     longitude: '13.7384',
     startDate: '2025-01-01',
-    endDate: '2025-01-27',
+    endDate: '2025-02-27',
     submitEnabled: true,
+  }, {
+    latitude: '51.0132',
+    longitude: '13.7384',
+    startDate: '2025-01-01',
+    endDate: '2025-01-27',
+    submitEnabled: false,
+  }, {
+    latitude: '51.0132',
+    longitude: '13.7384',
+    startDate: '2025-01-01',
+    endDate: '2024-12-31',
+    submitEnabled: false,
   }, {
     latitude: '51.0132',
     longitude: '13.7384',
     startDate: '2024-01-01',
     endDate: '2025-01-27',
+    submitEnabled: false,
+  }, {
+    latitude: '90.0132',
+    longitude: '13.7384',
+    startDate: '2025-01-01',
+    endDate: '2025-02-27',
+    submitEnabled: false,
+  }, {
+    latitude: '51.0132',
+    longitude: '183.7384',
+    startDate: '2025-01-01',
+    endDate: '2025-02-27',
     submitEnabled: false,
   }].forEach(({ latitude, longitude, startDate, endDate, submitEnabled }) => {
     test(`should have submit button ${submitEnabled ? 'en' : 'dis'}abled for input values latitude: ${latitude}, longitude: ${longitude}, startDate: ${startDate}, endDate: ${endDate}`, async ({ page }) => {
@@ -60,6 +84,12 @@ test.describe('Chart', () => {
     element: 'endDate',
   }, {
     latitude: '51.0132',
+    longitude: '5.2345',
+    startDate: '2025-01-28',
+    endDate: '2025-02-28',
+    element: 'endDate',
+  }, {
+    latitude: '51.0132',
     longitude: '33.423235',
     startDate: '2025-01-01',
     endDate: '2026-01-27',
@@ -82,7 +112,7 @@ test.describe('Chart', () => {
     await page.locator('#latitude').fill('51.0132');
     await page.locator('#longitude').fill('13.7384');
     await page.locator('#startDate').fill('2025-01-01');
-    await page.locator('#endDate').fill('2025-01-27');
+    await page.locator('#endDate').fill('2025-02-27');
     const submitButton = page.locator('button[type=submit]');
     await page.waitForFunction(() =>
       !(document.querySelector('button[type=submit]') as HTMLButtonElement).disabled,
