@@ -12,7 +12,7 @@ export default {
       latitude: 'Breedtegraad moet tussen -90 en 90 liggen',
       longitude: 'Lengtegraad moet tussen -180 en 180 liggen',
       endDate: {
-        'is-after-start': 'Einddatum moet hetzelfde als of na startdatum zijn',
+        'is-after-start': 'Einddatum moet na startdatum liggen',
         'is-at-least-6-weeks': 'Einddatum moet minstens 6 weken later zijn dan startdatum',
         'is-max-one-year-range': 'Periode mag niet langer zijn dan 1 jaar',
       },

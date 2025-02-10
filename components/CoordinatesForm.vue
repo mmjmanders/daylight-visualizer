@@ -36,11 +36,8 @@ const [startDate, startDateAttrs] = defineField('startDate');
 const [endDate, endDateAttrs] = defineField('endDate');
 
 const today = DateTime.now();
-const startOfMonth = today.startOf('month');
 const defaultStartDate
-  = today.diff(startOfMonth, 'days').days >= 10
-    ? startOfMonth
-    : today.minus({ days: 10 });
+  = today.minus({ weeks: 6 });
 setFieldValue('startDate', defaultStartDate.toISODate());
 setFieldValue('endDate', today.toISODate());
 

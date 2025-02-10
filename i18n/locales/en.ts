@@ -12,7 +12,7 @@ export default {
       latitude: 'Latitude must be between -90 and 90',
       longitude: 'Longitude must be between -180 and 180',
       endDate: {
-        'is-after-start': 'End date must be same as or after start date',
+        'is-after-start': 'End date must be after start date',
         'is-at-least-6-weeks': 'End date must be at least 6 weeks later than start date',
         'is-max-one-year-range': 'Date range must not exceed 1 year',
       },
