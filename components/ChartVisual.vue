@@ -55,7 +55,10 @@ const chartOptions = computed<Options>(() => ({
   tooltip: {
     useHTML: true,
     formatter: function () {
-      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone }).setLocale(locale.value).toLocaleString({ ...DateTime.DATE_HUGE, month: 'short' });
+      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone }).setLocale(locale.value).toLocaleString({
+        ...DateTime.DATE_HUGE,
+        month: 'short',
+      });
       const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone }).setLocale(locale.value).toLocaleString(DateTime.TIME_WITH_SECONDS);
       const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone }).setLocale(locale.value).toLocaleString(DateTime.TIME_WITH_SECONDS);
       return `<table class="table table-borderless table-sm">
@@ -95,7 +98,10 @@ const chartOptions = computed<Options>(() => ({
 </script>
 
 <template>
-  <div v-bind="$attrs">
+  <div
+    v-bind="$attrs"
+    class="chart-container"
+  >
     <highcharts
       :options="chartOptions"
       class="highcharts-light"
@@ -103,3 +109,9 @@ const chartOptions = computed<Options>(() => ({
     />
   </div>
 </template>
+
+<style scoped lang="scss">
+.chart-container {
+  aspect-ratio: 1 / 1;
+}
+</style>
