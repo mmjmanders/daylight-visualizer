@@ -11,12 +11,17 @@ const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
       longitude: number().required().min(-180).max(180),
       startDate: string().required(),
       endDate: string().required()
-        .test('is-after-start', 'End date must be same or after start date', (val, context) => {
+        .test('is-after-start', 'is-after-start', (val, context) => {
           const start = DateTime.fromISO(context.parent.startDate);
           const end = DateTime.fromISO(val);
           return end >= start;
         })
-        .test('is-max-one-year-range', 'Date range must not exceed 1 year', (val, context) => {
+        .test('is-at-least-6-weeks', 'is-at-least-6-weeks', (val, context) => {
+          const start = DateTime.fromISO(context.parent.startDate);
+          const end = DateTime.fromISO(val);
+          return end.diff(start, 'weeks').weeks >= 6;
+        })
+        .test('is-max-one-year-range', 'is-max-one-year-range', (val, context) => {
           const start = DateTime.fromISO(context.parent.startDate);
           const end = DateTime.fromISO(val);
           return end.diff(start, 'years').years < 1;
@@ -223,7 +228,7 @@ watch(data, (newValue) => {
             class="error-tooltip"
             :style="endDateTooltipStyles"
           >
-            {{ $t('form.warnings.endDate') }}
+            {{ $t(`form.warnings.endDate.${errors.endDate}`) }}
           </span>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">

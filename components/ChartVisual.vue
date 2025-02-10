@@ -113,5 +113,10 @@ const chartOptions = computed<Options>(() => ({
 <style scoped lang="scss">
 .chart-container {
   aspect-ratio: 1 / 1;
+
+  .highcharts-light {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
