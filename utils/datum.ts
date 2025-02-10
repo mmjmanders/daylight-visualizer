@@ -3,4 +3,5 @@ export type Datum = {
   sunrise: number;
   sunset: number;
   timezone: string;
+  day_length: string;
 };

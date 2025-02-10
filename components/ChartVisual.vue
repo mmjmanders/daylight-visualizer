@@ -39,6 +39,10 @@ const chartOptions = computed<Options>(() => ({
         x: d.date,
         low: d.sunrise,
         high: d.sunset,
+        custom: {
+          day_length: d.day_length,
+          timezone: d.timezone,
+        },
       })),
     },
   ],
@@ -49,15 +53,35 @@ const chartOptions = computed<Options>(() => ({
     text: '',
   },
   tooltip: {
-    pointFormatter: function () {
-      return `
-<span class="highcharts-strong">${t('chart.labels.sunrise')}: ${DateTime.fromMillis(
-    this.low!,
-  ).toFormat('HH:mm')}</span><br/>
-<span class="highcharts-strong">${t('chart.labels.sunset')}: ${DateTime.fromMillis(
-    this.high!,
-  ).toFormat('HH:mm')}</span>
-`;
+    useHTML: true,
+    formatter: function () {
+      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone }).toFormat('EEEE, MMM d, yyyy');
+      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone }).toFormat('H:mm:ss');
+      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone }).toFormat('H:mm:ss');
+      return `<table class="table table-borderless table-sm">
+                <thead class="border-bottom">
+                  <tr>
+                    <th scope="col" colspan="2">${date}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">${t('chart.labels.sunrise')}</th>
+                    <td>${sunrise}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">${t('chart.labels.sunset')}</th>
+                    <td>${sunset}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"/>
+                  </tr>
+                  <tr>
+                    <th scope="row">${t('chart.labels.daylight')}</th>
+                    <td>${this.custom.day_length}</td>
+                  </tr>
+                </tbody>
+              </table>`;
     },
   },
   xAxis: {
@@ -65,7 +89,7 @@ const chartOptions = computed<Options>(() => ({
   },
   yAxis: {
     type: 'datetime',
-    labels: { format: '{value:%H:%M}' },
+    labels: { format: '{value:%k:%M}' },
   },
 }));
 </script>
