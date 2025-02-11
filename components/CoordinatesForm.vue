@@ -46,7 +46,16 @@ const longitudeRef = ref<number | null>(null);
 const startDateTimestamp = ref<string | null>(null);
 const endDateTimestamp = ref<string | null>(null);
 const { data, status } = await useAsyncData('daylight', () => $fetch(
-  `https://api.sunrisesunset.io/json?lat=${latitudeRef.value}&lng=${longitudeRef.value}&date_start=${startDateTimestamp.value}&date_end=${endDateTimestamp.value}`,
+  'https://api.sunrisesunset.io/json',
+  {
+    method: 'GET',
+    params: {
+      lat: latitudeRef.value,
+      lng: longitudeRef.value,
+      date_start: startDateTimestamp.value,
+      date_end: endDateTimestamp.value,
+    },
+  },
 ), {
   immediate: false,
   server: false,
