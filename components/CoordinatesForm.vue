@@ -7,10 +7,14 @@ import { autoUpdate, offset, useFloating } from '@floating-ui/vue';
 const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     object({
-      latitude: number().required().min(-90).max(90),
-      longitude: number().required().min(-180).max(180),
-      startDate: string().required(),
-      endDate: string().required()
+      latitude: number()
+        .transform((value, _, ctx) => (!ctx.isType(value) ? null : value))
+        .required('is-required').min(-90, 'range').max(90, 'range'),
+      longitude: number()
+        .transform((value, _, ctx) => (!ctx.isType(value) ? null : value))
+        .required('is-required').min(-180, 'range').max(180, 'range'),
+      startDate: string().required('is-required'),
+      endDate: string().required('is-required')
         .test('is-after-start', 'is-after-start', (val, context) => {
           const start = DateTime.fromISO(context.parent.startDate);
           const end = DateTime.fromISO(val);
@@ -104,6 +108,14 @@ const { floatingStyles: longitudeTooltipStyles } = useFloating(longitudeInput, l
   middleware: [offset({ mainAxis: 10 })],
 });
 
+const startDateInput = ref<HTMLElement | null>(null);
+const startDateTooltip = ref<HTMLElement | null>(null);
+const { floatingStyles: startDateTooltipStyles } = useFloating(startDateInput, startDateTooltip, {
+  placement: 'top',
+  whileElementsMounted: autoUpdate,
+  middleware: [offset({ mainAxis: 10 })],
+});
+
 const endDateInput = ref<HTMLElement | null>(null);
 const endDateTooltip = ref<HTMLElement | null>(null);
 const { floatingStyles: endDateTooltipStyles } = useFloating(endDateInput, endDateTooltip, {
@@ -152,7 +164,7 @@ watch(data, (newValue) => {
             class="error-tooltip"
             :style="latitudeTooltipStyles"
           >
-            {{ $t('form.warnings.latitude') }}
+            {{ $t(`form.warnings.latitude.${errors.latitude}`) }}
           </span>
         </div>
         <div class="col-12 col-md-4">
@@ -175,7 +187,7 @@ watch(data, (newValue) => {
             class="error-tooltip"
             :style="longitudeTooltipStyles"
           >
-            {{ $t('form.warnings.longitude') }}
+            {{ $t(`form.warnings.longitude.${errors.longitude}`) }}
           </span>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
@@ -207,12 +219,21 @@ watch(data, (newValue) => {
           >{{ $t('form.labels.startDate') }}</label>
           <input
             id="startDate"
+            ref="startDateInput"
             v-model="startDate"
             class="form-control"
             :class="{ 'is-invalid': errors.startDate }"
             type="date"
             v-bind="startDateAttrs"
           >
+          <span
+            v-if="errors.startDate"
+            ref="startDateTooltip"
+            class="error-tooltip"
+            :style="startDateTooltipStyles"
+          >
+            {{ $t(`form.warnings.startDate.${errors.startDate}`) }}
+          </span>
         </div>
         <div class="col-12 col-md-4">
           <label
