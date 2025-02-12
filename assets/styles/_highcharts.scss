@@ -6,6 +6,10 @@
   fill: var(--bs-body-color);
 }
 
+.highcharts-xaxis-grid .highcharts-grid-line {
+  stroke-width: 1;
+}
+
 .highcharts-root, .highcharts-tooltip {
   font-family: var(--dv-font-family);
 }

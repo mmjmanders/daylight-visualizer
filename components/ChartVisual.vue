@@ -88,6 +88,7 @@ const chartOptions = computed<Options>(() => ({
     },
   },
   xAxis: {
+    tickLength: 5,
     type: 'datetime',
   },
   yAxis: {

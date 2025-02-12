@@ -264,11 +264,11 @@ watch(data, (newValue) => {
             class="btn btn-primary"
             :disabled="!meta.valid || status === 'pending'"
           >
-            {{ $t('form.labels.submit') }}&nbsp;<FontAwesome
-              v-if="status === 'pending'"
+            {{ $t('form.labels.submit') }}<span v-if="status === 'pending'">&nbsp;<FontAwesome
               :icon="faSpinner"
               spin
             />
+            </span>
           </button>
         </div>
       </div>
