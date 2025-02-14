@@ -192,7 +192,7 @@ watch(data, (newValue) => {
           <button
             class="btn btn-primary"
             type="button"
-            :disabled="!address || geocodingStatus === 'pending'"
+            :disabled="!address || geocodingStatus === 'pending' || status === 'pending'"
             @click="getCoordinatesForAddress()"
           >
             {{ $t('form.labels.findLocation') }}<span v-if="geocodingStatus === 'pending'">&nbsp;<FontAwesome
