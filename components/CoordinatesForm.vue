@@ -4,9 +4,11 @@ import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-ico
 import { DateTime } from 'luxon';
 import { autoUpdate, offset, useFloating } from '@floating-ui/vue';
 
+const { public: config } = useRuntimeConfig();
 const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     object({
+      address: string().optional(),
       latitude: number()
         .transform((value, _, ctx) => (!ctx.isType(value) ? null : value))
         .required('is-required').min(-90, 'range').max(90, 'range'),
@@ -34,6 +36,7 @@ const { meta, defineField, handleSubmit, errors, setFieldValue } = useForm({
   ),
 });
 
+const [address, addressAttrs] = defineField('address');
 const [latitude, latitudeAttrs] = defineField('latitude');
 const [longitude, longitudeAttrs] = defineField('longitude');
 const [startDate, startDateAttrs] = defineField('startDate');
@@ -45,12 +48,30 @@ const defaultStartDate
 setFieldValue('startDate', defaultStartDate.toISODate());
 setFieldValue('endDate', today.toISODate());
 
+const addressRef = ref<string | null>(null);
 const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
 const startDateTimestamp = ref<string | null>(null);
 const endDateTimestamp = ref<string | null>(null);
+const { data: geocodingData, status: geocodingStatus } = await useAsyncData('geocoding', () => $fetch(
+  config.geoapifyApiBaseUrl,
+  {
+    method: 'GET',
+    params: {
+      text: addressRef.value,
+      apiKey: config.geoapifyApiKey,
+      format: 'json',
+      limit: 1,
+    },
+  },
+), {
+  immediate: false,
+  server: false,
+  transform: transformGeocodingData,
+  watch: [addressRef],
+});
 const { data, status } = await useAsyncData('daylight', () => $fetch(
-  'https://api.sunrisesunset.io/json',
+  config.sunsetApiBaseUrl,
   {
     method: 'GET',
     params: {
@@ -65,6 +86,17 @@ const { data, status } = await useAsyncData('daylight', () => $fetch(
   server: false,
   transform: transformData,
   watch: [latitudeRef, longitudeRef, startDateTimestamp, endDateTimestamp],
+});
+
+const getCoordinatesForAddress = () => {
+  addressRef.value = address.value as string;
+};
+
+watch(geocodingData, (newValue: any) => {
+  if (newValue) {
+    setFieldValue('latitude', newValue.lat);
+    setFieldValue('longitude', newValue.lon);
+  }
 });
 
 const onSubmit = handleSubmit(({ latitude, longitude, startDate, endDate }) => {
@@ -143,7 +175,35 @@ watch(data, (newValue) => {
       novalidate
       @submit.prevent="onSubmit"
     >
-      <div class="row gap-3">
+      <div class="row row-gap-3">
+        <div class="col-12 col-md-8">
+          <label
+            for="address"
+            class="form-label"
+          >{{ $t('form.labels.address') }}</label>
+          <input
+            id="address"
+            v-bind="addressAttrs"
+            v-model="address"
+            class="form-control"
+          >
+        </div>
+        <div class="col-auto d-flex flex-column justify-content-end">
+          <button
+            class="btn btn-primary"
+            type="button"
+            :disabled="!address || geocodingStatus === 'pending'"
+            @click="getCoordinatesForAddress()"
+          >
+            {{ $t('form.labels.findLocation') }}<span v-if="geocodingStatus === 'pending'">&nbsp;<FontAwesome
+              :icon="faSpinner"
+              spin
+            />
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="row row-gap-3">
         <div class="col-12 col-md-4">
           <label
             for="latitude"
@@ -211,7 +271,7 @@ watch(data, (newValue) => {
         </div>
       </div>
 
-      <div class="row gap-3">
+      <div class="row row-gap-3">
         <div class="col-12 col-md-4">
           <label
             for="startDate"
