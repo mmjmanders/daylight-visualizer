@@ -1,6 +1,8 @@
 export default {
   form: {
     labels: {
+      address: 'Adres',
+      findLocation: 'Zoek locatie',
       latitude: 'Breedtegraad',
       longitude: 'Lengtegraad',
       startDate: 'Startdatum',

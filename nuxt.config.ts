@@ -49,8 +49,11 @@ export default defineNuxtConfig({
   css: ['~/assets/main.scss'],
   runtimeConfig: {
     public: {
+      geoapifyApiBaseUrl: 'https://api.geoapify.com/v1/geocode/search',
+      geoapifyApiKey: undefined,
+      sunsetApiBaseUrl: 'https://api.sunrisesunset.io/json',
       buildSha: undefined,
-      version: '1.3',
+      version: '1.4',
     },
   },
   compatibilityDate: '2024-11-01',

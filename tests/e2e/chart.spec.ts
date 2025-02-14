@@ -126,7 +126,7 @@ test.describe('Chart', () => {
   });
 
   test('should fill data with geolocation api', async ({ page }) => {
-    await page.locator('button[type=button]').click();
+    await page.locator('button[type=button]').nth(1).click();
     await page.waitForFunction(() =>
       !(document.querySelector('button[type=submit]') as HTMLButtonElement).disabled,
     );
@@ -143,7 +143,7 @@ test.describe('Chart -> Locale set to nl', () => {
   });
 
   test('should display legend in Dutch', async ({ page }) => {
-    await page.locator('button[type=button]').click();
+    await page.locator('button[type=button]').nth(1).click();
     await page.waitForFunction(() =>
       !(document.querySelector('button[type=submit]') as HTMLButtonElement).disabled,
     );
@@ -163,7 +163,7 @@ test.describe('Chart -> Locale set to non-supported language', () => {
   });
 
   test('should display legend in English', async ({ page }) => {
-    await page.locator('button[type=button]').click();
+    await page.locator('button[type=button]').nth(1).click();
     await page.waitForFunction(() =>
       !(document.querySelector('button[type=submit]') as HTMLButtonElement).disabled,
     );
