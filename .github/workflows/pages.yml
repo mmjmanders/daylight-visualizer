@@ -1,0 +1,53 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/pages.yml'
+      - 'src/**'
+      - 'public/**'
+      - '!**/*.spec.ts'
+
+jobs:
+  pnpm_install:
+    uses: ./.github/workflows/.pnpm_install.yml
+    with:
+      with_cache: true
+
+  build:
+    runs-on: ubuntu-latest
+    needs: pnpm_install
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "store-dir=.pnpm-store" | tee -a ${GITHUB_WORKSPACE}/.npmrc
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: |
+          pnpm install --prefer-offline --frozen-lockfile
+      - run: |
+          pnpm build-only --base /${{ github.event.repository.name }}/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
