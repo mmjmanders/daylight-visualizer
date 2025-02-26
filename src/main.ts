@@ -4,7 +4,7 @@ import '@fontsource/oxygen/latin-400.css'
 import '@fontsource/oxygen/latin-700.css'
 import '@fontsource/fira-mono/400.css'
 
-import './assets/main.css'
+import './assets/main.scss'
 
 import HighchartsVue from 'highcharts-vue'
 import { VueQueryPlugin } from '@tanstack/vue-query'
