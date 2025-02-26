@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -40,6 +41,9 @@
     "vite-plugin-vue-devtools": "^7.7.2",
     "vitest": "^3.0.5",
     "vue-tsc": "^2.2.2"
+  },
+  "engines": {
+    "node": "^22.11.0"
   },
   "packageManager": "pnpm@10.5.0+sha512.11106a5916c7406fe4b8cb8e3067974b8728f47308a4f5ac5e850304afa6f57e2847d7950dfe78877d8d36bfb401d381c4215db3a4c3547ffa63c14333a6fa51"
 }
