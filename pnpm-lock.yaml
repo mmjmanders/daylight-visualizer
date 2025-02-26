@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/fira-mono':
+        specifier: ^5.1.1
+        version: 5.1.1
+      '@fontsource/oxygen':
+        specifier: ^5.1.1
+        version: 5.1.1
+      '@fontsource/palanquin':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.7.2
         version: 6.7.2
@@ -474,6 +483,15 @@ packages:
   '@eslint/plugin-kit@0.2.7':
     resolution: {integrity: sha512-JubJ5B2pJ4k4yGxaNLdbjrnk9d/iDz6/q8wOilpIowd6PJPgaxCuHBnBszq7Ce2TyMrywm5r4PnKm6V3iiZF+g==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@fontsource/fira-mono@5.1.1':
+    resolution: {integrity: sha512-JDZUQuQQFTvPJgwOftXg44LOa7XYNqwTHHquEpi8rY6SK8m7Q5rWxmMX7nUOvRF2g+jc02mqmK2Y+WmviF9+VQ==}
+
+  '@fontsource/oxygen@5.1.1':
+    resolution: {integrity: sha512-tCt8hb+AvV3HRXXqyknrkOX6pqfMjlWAJaTr7sp26rxV+GKTcf2PbutsXFD5jnonvv11dfIfVO+AVHeL7IQ2+g==}
+
+  '@fontsource/palanquin@5.1.1':
+    resolution: {integrity: sha512-oabLTmco4PHqZJvjxmTF29BUpaE2dWQtS8lEvvfhT1JgDg7iV9sVzjERU8VRVLo24MngnmAiNoaH/oTDD5P44Q==}
 
   '@fortawesome/fontawesome-common-types@6.7.2':
     resolution: {integrity: sha512-Zs+YeHUC5fkt7Mg1l6XTniei3k4bwG/yo3iFUtZWd/pMx9g3fdvkSK9E0FOC+++phXOka78uJcYb8JaFkW52Xg==}
@@ -2774,6 +2792,12 @@ snapshots:
     dependencies:
       '@eslint/core': 0.12.0
       levn: 0.4.1
+
+  '@fontsource/fira-mono@5.1.1': {}
+
+  '@fontsource/oxygen@5.1.1': {}
+
+  '@fontsource/palanquin@5.1.1': {}
 
   '@fortawesome/fontawesome-common-types@6.7.2': {}
 

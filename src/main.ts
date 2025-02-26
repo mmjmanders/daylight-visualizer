@@ -1,3 +1,9 @@
+import '@fontsource/palanquin/latin-600.css'
+import '@fontsource/palanquin/latin-700.css'
+import '@fontsource/oxygen/latin-400.css'
+import '@fontsource/oxygen/latin-700.css'
+import '@fontsource/fira-mono/400.css'
+
 import './assets/main.css'
 
 import HighchartsVue from 'highcharts-vue'
