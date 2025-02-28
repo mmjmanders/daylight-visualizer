@@ -41,5 +41,12 @@ export default defineConfigWithVueTs(
     files: ['e2e/**/*.{test,spec}.{js,ts,jsx,tsx}'],
   },
 
+  {
+    name: 'warn-on-any',
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
+  },
+
   skipFormatting,
 )

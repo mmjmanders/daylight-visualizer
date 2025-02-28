@@ -18,7 +18,7 @@ export const useGeolocationQuery = (text: Ref<string | null>) =>
       }
       return response.json()
     },
-    select: (data) => {
+    select: (data: any) => {
       if (
         data?.results?.length !== 0 &&
         data.results[0].lat != null &&

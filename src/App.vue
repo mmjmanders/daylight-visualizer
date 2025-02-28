@@ -1,49 +1,30 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faSun } from '@fortawesome/free-solid-svg-icons'
+import MainContent from '@/components/MainContent.vue'
+
+const { VITE_BUILD_SHA: buildSha, VITE_VERSION: version } = import.meta.env
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+  <header class="d-flex justify-content-center mb-4">
+    <h1 class="position-relative">
+      <FontAwesomeIcon :icon="faSun" />
+      Daylight Visualizer
+      <span class="position-absolute font-monospace">v{{ version }} - {{ buildSha }}</span>
+    </h1>
   </header>
-
   <main>
-    <TheWelcome />
-    <VueQueryDevtools />
+    <MainContent />
   </main>
+  <VueQueryDevtools />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+span {
+  font-size: 0.75rem;
+  right: 0;
+  bottom: -0.75rem;
 }
 </style>

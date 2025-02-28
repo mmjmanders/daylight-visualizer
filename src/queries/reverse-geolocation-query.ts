@@ -15,7 +15,7 @@ export const useReverseGeolocationQuery = (
     queryKey: ['reverseGeolocation', lang, lat, lon],
     queryFn: async () => {
       const response = await fetch(
-        `${baseUrl}?lang=${lang.value}lat=${lat.value}&lon=${lon.value}&format=json&apiKey=${apiKey}`,
+        `${baseUrl}?lang=${lang.value}&lat=${lat.value}&lon=${lon.value}&format=json&apiKey=${apiKey}`,
         {
           method: 'GET',
         },
@@ -25,7 +25,7 @@ export const useReverseGeolocationQuery = (
       }
       return response.json()
     },
-    select: (data) => {
+    select: (data: any) => {
       if (data?.results?.length !== 0 && data.results[0].formatted != null) {
         return { address: data.results[0].formatted }
       }

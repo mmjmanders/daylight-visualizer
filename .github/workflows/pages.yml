@@ -20,8 +20,7 @@ jobs:
     needs: pnpm_install
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          echo "store-dir=.pnpm-store" | tee -a ${GITHUB_WORKSPACE}/.npmrc
+      - run: echo "store-dir=.pnpm-store" | tee -a $GITHUB_WORKSPACE/.npmrc
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -31,10 +30,11 @@ jobs:
           path: |
             .pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: pnpm install --prefer-offline --frozen-lockfile
       - run: |
-          pnpm install --prefer-offline --frozen-lockfile
-      - run: |
-          pnpm build-only --base /${{ github.event.repository.name }}/
+          echo "VITE_BUILD_SHA=$(git rev-parse --short HEAD)" | tee -a $GITHUB_WORKSPACE/.env.local
+          echo "VITE_GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}" | tee -a $GITHUB_WORKSPACE/.env.local
+      - run: pnpm build-only --base /${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
