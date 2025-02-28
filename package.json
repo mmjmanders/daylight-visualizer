@@ -17,6 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.1.6",
     "@fontsource/fira-mono": "^5.1.1",
     "@fontsource/oxygen": "^5.1.1",
     "@fontsource/palanquin": "^5.1.1",
@@ -26,7 +27,7 @@
     "@tanstack/vue-query": "^5.66.9",
     "@tanstack/vue-query-devtools": "^5.66.9",
     "@vee-validate/yup": "^4.15.0",
-    "bulma": "^1.0.3",
+    "bootstrap": "^5.3.3",
     "highcharts": "^12.1.2",
     "highcharts-vue": "^2.0.1",
     "luxon": "^3.5.0",

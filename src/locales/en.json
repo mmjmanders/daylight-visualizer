@@ -1,3 +1,25 @@
 {
-  "hello": "Hello, World!"
+  "form": {
+    "labels": {
+      "address": "Address",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "getLocation": "Get location",
+      "submit": "Submit"
+    },
+    "errors": {
+      "address": {
+        "is-required": "Address is required"
+      },
+      "startDate": {
+        "is-required": "Start date is required",
+        "start-before-end": "Start date must be before (or equal to) end date"
+      },
+      "endDate": {
+        "is-required": "End date is required",
+        "min-range": "Minimum range must be one month",
+        "max-range": "Maximum range is one year"
+      }
+    }
+  }
 }

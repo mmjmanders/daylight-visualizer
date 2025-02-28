@@ -1,3 +1,25 @@
 {
-  "hello": "Hallo, Wereld!"
+  "form": {
+    "labels": {
+      "address": "Adres",
+      "startDate": "Startdatum",
+      "endDate": "Einddatum",
+      "getLocation": "Locatie bepalen",
+      "submit": "Verzenden"
+    },
+    "errors": {
+      "address": {
+        "is-required": "Adres is verplicht"
+      },
+      "startDate": {
+        "is-required": "Startdatum is verplicht",
+        "start-before-end": "Startdatum moet liggen voor (of gelijk zijn aan) einddatum"
+      },
+      "endDate": {
+        "is-required": "Einddatum is verplicht",
+        "min-range": "Minimale periode is 1 maand",
+        "max-range": "Maximale periode is 1 jaar"
+      }
+    }
+  }
 }

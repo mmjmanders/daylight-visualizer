@@ -26,7 +26,7 @@ export const useSunsetQuery = (
       }
       return response.json()
     },
-    select: (data) => {
+    select: (data: any) => {
       if (data?.status === 'OK' && data.results?.length !== 0) {
         return data.results.map(
           (d: {
