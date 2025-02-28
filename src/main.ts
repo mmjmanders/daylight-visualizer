@@ -1,10 +1,15 @@
 import '@fontsource/palanquin/latin-700.css'
 import '@fontsource/oxygen/latin-400.css'
+import '@fontsource/oxygen/latin-700.css'
 import '@fontsource/fira-mono/400.css'
+import 'highcharts/css/highcharts.css'
 
 import './assets/main.scss'
 
 import HighchartsVue from 'highcharts-vue'
+import 'highcharts/highcharts-more'
+import 'highcharts/modules/boost-canvas'
+import 'highcharts/modules/boost'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import * as en from './locales/en.json'
 import * as nl from './locales/nl.json'

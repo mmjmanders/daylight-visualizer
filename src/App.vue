@@ -15,7 +15,7 @@ const { VITE_BUILD_SHA: buildSha, VITE_APP_VERSION: version } = import.meta.env
       <span class="position-absolute font-monospace">v{{ version }} - {{ buildSha }}</span>
     </h1>
   </header>
-  <main>
+  <main class="d-flex flex-column gap-2">
     <MainContent />
   </main>
   <VueQueryDevtools />

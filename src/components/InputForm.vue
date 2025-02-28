@@ -6,12 +6,18 @@ import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { DateTime } from 'luxon'
 import { useI18n } from 'vue-i18n'
-import { useGeolocationQuery, useReverseGeolocationQuery, useSunsetQuery } from '@/queries'
+import {
+  type Datum,
+  useGeolocationQuery,
+  useReverseGeolocationQuery,
+  useSunsetQuery,
+} from '@/queries'
 import { offset, useFloating } from '@floating-ui/vue'
 import { toTypedSchema } from '@vee-validate/yup'
 
-const { locale, fallbackLocale, availableLocales } = useI18n()
+const { locale } = useI18n()
 
+const chartData = defineModel<Datum[]>('chartData')
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
     object({
@@ -75,9 +81,7 @@ endDateModel.value = defaultEndDate.toISODate()
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null)
 const reverseGeocodingLongitudeRef = ref<number | null>(null)
-const lang = ref(
-  availableLocales.includes(locale.value) ? locale.value : (fallbackLocale.value as string),
-)
+const lang = ref(locale.value)
 const { data: reverseGeocodingData, isFetching: isLoadingReverseGeocodingData } =
   useReverseGeolocationQuery(lang, reverseGeocodingLatitudeRef, reverseGeocodingLongitudeRef)
 
@@ -112,7 +116,7 @@ const latitudeRef = ref<number | null>(null)
 const longitudeRef = ref<number | null>(null)
 const startDateRef = ref<string | undefined>(undefined)
 const endDateRef = ref<string | undefined>(undefined)
-const { isFetching: isLoadingSunsetData } = useSunsetQuery(
+const { data: sunsetData, isFetching: isLoadingSunsetData } = useSunsetQuery(
   latitudeRef,
   longitudeRef,
   startDateRef,
@@ -123,6 +127,12 @@ watch(geocodingData, (data) => {
   if (data != null) {
     latitudeRef.value = data.lat
     longitudeRef.value = data.lon
+  }
+})
+
+watch(sunsetData, (data) => {
+  if (data?.length !== 0) {
+    chartData.value = data
   }
 })
 
@@ -145,7 +155,7 @@ const isLoadingData = computed(
   <div>
     <form @submit.prevent="onSubmit()" class="d-flex flex-column gap-2">
       <div class="row row-gap-2">
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-md-8">
           <label for="address" class="form-label">{{ $t('form.labels.address') }}</label>
           <input
             v-bind="addressModelAttrs"
@@ -182,7 +192,7 @@ const isLoadingData = computed(
         </div>
       </div>
       <div class="row row-gap-2">
-        <div class="col-12 col-lg-3">
+        <div class="col-12 col-md-4">
           <label for="startDate" class="form-label">{{ $t('form.labels.startDate') }}</label>
           <input
             v-bind="startDateModelAttrs"
@@ -201,8 +211,8 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.startDate.${errors.startDate}`) }}</span
           >
         </div>
-        <div class="col-12 col-lg-3">
-          <label for="endDate" class="form-label">End date</label>
+        <div class="col-12 col-md-4">
+          <label for="endDate" class="form-label">{{ $t('form.labels.endDate') }}</label>
           <input
             v-bind="endDateModelAttrs"
             v-model="endDateModel"

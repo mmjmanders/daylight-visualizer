@@ -5,6 +5,14 @@ import { DateTime } from 'luxon'
 
 const { VITE_SUNSET_API_BASE_URL: baseUrl } = import.meta.env
 
+export type Datum = {
+  date: number
+  sunrise: number
+  sunset: number
+  day_length: string
+  timezone: string
+}
+
 export const useSunsetQuery = (
   lat: Ref<number | null>,
   lon: Ref<number | null>,
@@ -27,7 +35,7 @@ export const useSunsetQuery = (
       }
       return response.json()
     },
-    select: (data: any) => {
+    select: (data: any): Datum[] | undefined => {
       if (data?.status === 'OK' && data.results?.length !== 0) {
         return data.results.map(
           (d: {
@@ -39,9 +47,13 @@ export const useSunsetQuery = (
           }) => {
             const date = DateTime.fromISO(d.date, { zone: d.timezone }).toMillis()
             const sunrise =
-              DateTime.fromFormat(d.sunrise, 'HH:mm:ss', { zone: d.timezone }).toMillis() - date
+              DateTime.fromFormat(`${d.date} ${d.sunrise}`, 'yyyy-MM-dd HH:mm:ss', {
+                zone: d.timezone,
+              }).toMillis() - date
             const sunset =
-              DateTime.fromFormat(d.sunset, 'HH:mm:ss', { zone: d.timezone }).toMillis() - date
+              DateTime.fromFormat(`${d.date} ${d.sunset}`, 'yyyy-MM-dd HH:mm:ss', {
+                zone: d.timezone,
+              }).toMillis() - date
             return {
               date,
               sunrise,
@@ -52,6 +64,6 @@ export const useSunsetQuery = (
           },
         )
       }
-      return null
+      return undefined
     },
   })
