@@ -8,6 +8,7 @@ const { VITE_GEOAPIFY_GEOLOCATION_API_BASE_URL: baseUrl, VITE_GEOAPIFY_API_KEY: 
 export const useGeolocationQuery = (text: Ref<string | null>) =>
   useQuery({
     enabled: computed(() => text.value != null),
+    refetchOnWindowFocus: false,
     queryKey: ['geolocation', text],
     queryFn: async () => {
       const response = await fetch(`${baseUrl}?text=${text.value}&format=json&apiKey=${apiKey}`, {

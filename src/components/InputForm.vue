@@ -130,7 +130,7 @@ const onSubmit = handleSubmit(() => {
             :class="{ 'is-invalid': errors.address }"
           />
           <span
-            v-if="errors.address && !isLoadingData"
+            v-if="errors.address"
             ref="addressTooltipRef"
             class="popover bg-danger px-2 py-1 rounded-2 text-white"
             :style="addressTooltipStyles"
