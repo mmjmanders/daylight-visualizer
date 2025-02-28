@@ -177,7 +177,8 @@ const isLoadingData = computed(
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-outline-primary"
+            :class="{ disabled: isLoadingData }"
             :disabled="isLoadingData"
             @click="useLocationApi()"
           >
@@ -231,7 +232,12 @@ const isLoadingData = computed(
           >
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
-          <button type="submit" class="btn btn-primary" :disabled="!meta.valid || isLoadingData">
+          <button
+            type="submit"
+            class="btn btn-outline-primary"
+            :class="{ disabled: !meta.valid || isLoadingData }"
+            :disabled="!meta.valid || isLoadingData"
+          >
             {{ $t('form.labels.submit') }}
             <template v-if="isLoadingGeocodingData || isLoadingSunsetData">
               <span>&nbsp;</span>

@@ -1,23 +1,27 @@
 .highcharts-light {
   --highcharts-color-0: var(--bs-warning);
 
+  .highcharts-credits {
+    fill: var(--bs-gray-900);
+  }
+
   .highcharts-background {
     fill: transparent;
   }
 
   .highcharts-axis-labels, .highcharts-legend-item > text {
-    fill: var(--bs-gray-100);
+    fill: var(--bs-gray-900);
   }
 
   .highcharts-xaxis-grid, .highcharts-grid-line {
     stroke-width: 1;
-    stroke: var(--bs-gray-100);
+    stroke: var(--bs-gray-900);
   }
 
   .highcharts-xaxis {
 
     .highcharts-axis-line, .highcharts-tick {
-      stroke: var(--bs-gray-100);
+      stroke: var(--bs-gray-900);
     }
   }
 
@@ -32,6 +36,7 @@
   .highcharts-tooltip {
 
     .table {
+      --bs-border-width: 1px;
       --bs-border-color: var(--bs-gray-900);
       margin-bottom: 0;
       font-size: .75rem;
