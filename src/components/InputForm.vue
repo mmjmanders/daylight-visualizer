@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { useForm } from 'vee-validate'
-import { computed, ref, watch } from 'vue'
-import { object, string } from 'yup'
-import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { DateTime } from 'luxon'
-import { useI18n } from 'vue-i18n'
+import { useForm } from 'vee-validate';
+import { computed, ref, watch } from 'vue';
+import { object, string } from 'yup';
+import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { DateTime } from 'luxon';
+import { useI18n } from 'vue-i18n';
 import {
   type Datum,
   useGeolocationQuery,
   useReverseGeolocationQuery,
   useSunsetQuery,
-} from '@/queries'
-import { offset, useFloating } from '@floating-ui/vue'
-import { toTypedSchema } from '@vee-validate/yup'
+} from '@/queries';
+import { offset, useFloating } from '@floating-ui/vue';
+import { toTypedSchema } from '@vee-validate/yup';
 
-const { locale } = useI18n()
+const { locale } = useI18n();
 
-const chartData = defineModel<Datum[]>('chartData')
+const chartData = defineModel<Datum[]>('chartData');
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
     object({
@@ -27,34 +27,34 @@ const { meta, defineField, handleSubmit, errors } = useForm({
       startDate: string()
         .required('is-required')
         .test('start-before-end', 'start-before-end', (value, context) => {
-          const startDate = DateTime.fromISO(value)
-          const endDate = DateTime.fromISO(context.parent.endDate)
-          return startDate <= endDate
+          const startDate = DateTime.fromISO(value);
+          const endDate = DateTime.fromISO(context.parent.endDate);
+          return startDate <= endDate;
         }),
       endDate: string()
         .required('is-required')
         .test('min-range', 'min-range', (value, context) => {
-          const startDate = DateTime.fromISO(context.parent.startDate)
-          const endDate = DateTime.fromISO(value)
-          return endDate.diff(startDate, 'months').months >= 1
+          const startDate = DateTime.fromISO(context.parent.startDate);
+          const endDate = DateTime.fromISO(value);
+          return endDate.diff(startDate, 'months').months >= 1;
         })
         .test('max-range', 'max-range', (value, context) => {
-          const startDate = DateTime.fromISO(context.parent.startDate)
-          const endDate = DateTime.fromISO(value)
-          return endDate.diff(startDate, 'years').years < 1
+          const startDate = DateTime.fromISO(context.parent.startDate);
+          const endDate = DateTime.fromISO(value);
+          return endDate.diff(startDate, 'years').years < 1;
         }),
     }),
   ),
-})
+});
 
-const addressInputRef = ref<HTMLInputElement | null>(null)
-const addressTooltipRef = ref<HTMLDivElement | null>(null)
+const addressInputRef = ref<HTMLInputElement | null>(null);
+const addressTooltipRef = ref<HTMLDivElement | null>(null);
 const { floatingStyles: addressTooltipStyles } = useFloating(addressInputRef, addressTooltipRef, {
   placement: 'top',
   middleware: [offset(10)],
-})
-const startDateInputRef = ref<HTMLInputElement | null>(null)
-const startDateTooltipRef = ref<HTMLDivElement | null>(null)
+});
+const startDateInputRef = ref<HTMLInputElement | null>(null);
+const startDateTooltipRef = ref<HTMLDivElement | null>(null);
 const { floatingStyles: startDateTooltipStyles } = useFloating(
   startDateInputRef,
   startDateTooltipRef,
@@ -62,85 +62,85 @@ const { floatingStyles: startDateTooltipStyles } = useFloating(
     placement: 'top',
     middleware: [offset(10)],
   },
-)
-const endDateInputRef = ref<HTMLInputElement | null>(null)
-const endDateTooltipRef = ref<HTMLDivElement | null>(null)
+);
+const endDateInputRef = ref<HTMLInputElement | null>(null);
+const endDateTooltipRef = ref<HTMLDivElement | null>(null);
 const { floatingStyles: endDateTooltipStyles } = useFloating(endDateInputRef, endDateTooltipRef, {
   placement: 'top',
   middleware: [offset(10)],
-})
+});
 
-const defaultEndDate = DateTime.now()
-const defaultStartDate = defaultEndDate.minus({ months: 1 })
+const defaultEndDate = DateTime.now();
+const defaultStartDate = defaultEndDate.minus({ months: 1 });
 
-const [addressModel, addressModelAttrs] = defineField('address')
-const [startDateModel, startDateModelAttrs] = defineField('startDate')
-const [endDateModel, endDateModelAttrs] = defineField('endDate')
-startDateModel.value = defaultStartDate.toISODate()
-endDateModel.value = defaultEndDate.toISODate()
+const [addressModel, addressModelAttrs] = defineField('address');
+const [startDateModel, startDateModelAttrs] = defineField('startDate');
+const [endDateModel, endDateModelAttrs] = defineField('endDate');
+startDateModel.value = defaultStartDate.toISODate();
+endDateModel.value = defaultEndDate.toISODate();
 
-const reverseGeocodingLatitudeRef = ref<number | null>(null)
-const reverseGeocodingLongitudeRef = ref<number | null>(null)
-const lang = ref(locale.value)
+const reverseGeocodingLatitudeRef = ref<number | null>(null);
+const reverseGeocodingLongitudeRef = ref<number | null>(null);
+const lang = ref(locale.value);
 const { data: reverseGeocodingData, isFetching: isLoadingReverseGeocodingData } =
-  useReverseGeolocationQuery(lang, reverseGeocodingLatitudeRef, reverseGeocodingLongitudeRef)
+  useReverseGeolocationQuery(lang, reverseGeocodingLatitudeRef, reverseGeocodingLongitudeRef);
 
 watch(reverseGeocodingData, (data) => {
   if (data != null) {
-    addressModel.value = data.address
+    addressModel.value = data.address;
   }
-})
+});
 
-const isUsingLocationApi = ref(false)
+const isUsingLocationApi = ref(false);
 const useLocationApi = () => {
   if (navigator.geolocation) {
-    isUsingLocationApi.value = true
+    isUsingLocationApi.value = true;
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        isUsingLocationApi.value = false
-        reverseGeocodingLatitudeRef.value = position.coords.latitude
-        reverseGeocodingLongitudeRef.value = position.coords.longitude
+        isUsingLocationApi.value = false;
+        reverseGeocodingLatitudeRef.value = position.coords.latitude;
+        reverseGeocodingLongitudeRef.value = position.coords.longitude;
       },
       (error) => {
-        console.error('Error using Location API:', error.message)
-        isUsingLocationApi.value = false
+        console.error('Error using Location API:', error.message);
+        isUsingLocationApi.value = false;
       },
-    )
+    );
   }
-}
+};
 
-const addressRef = ref<string | undefined>(undefined)
-const { data: geocodingData, isFetching: isLoadingGeocodingData } = useGeolocationQuery(addressRef)
+const addressRef = ref<string | undefined>(undefined);
+const { data: geocodingData, isFetching: isLoadingGeocodingData } = useGeolocationQuery(addressRef);
 
-const latitudeRef = ref<number | null>(null)
-const longitudeRef = ref<number | null>(null)
-const startDateRef = ref<string | undefined>(undefined)
-const endDateRef = ref<string | undefined>(undefined)
+const latitudeRef = ref<number | null>(null);
+const longitudeRef = ref<number | null>(null);
+const startDateRef = ref<string | undefined>(undefined);
+const endDateRef = ref<string | undefined>(undefined);
 const { data: sunsetData, isFetching: isLoadingSunsetData } = useSunsetQuery(
   latitudeRef,
   longitudeRef,
   startDateRef,
   endDateRef,
-)
+);
 
 watch(geocodingData, (data) => {
   if (data != null) {
-    latitudeRef.value = data.lat
-    longitudeRef.value = data.lon
+    latitudeRef.value = data.lat;
+    longitudeRef.value = data.lon;
   }
-})
+});
 
 watch(sunsetData, (data) => {
   if (data?.length !== 0) {
-    chartData.value = data
+    chartData.value = data;
   }
-})
+});
 
 const onSubmit = handleSubmit(() => {
-  addressRef.value = addressModel.value
-  startDateRef.value = startDateModel.value
-  endDateRef.value = endDateModel.value
-})
+  addressRef.value = addressModel.value;
+  startDateRef.value = startDateModel.value;
+  endDateRef.value = endDateModel.value;
+});
 
 const isLoadingData = computed(
   () =>
@@ -148,7 +148,7 @@ const isLoadingData = computed(
     isLoadingReverseGeocodingData.value ||
     isLoadingGeocodingData.value ||
     isLoadingSunsetData.value,
-)
+);
 </script>
 
 <template>
