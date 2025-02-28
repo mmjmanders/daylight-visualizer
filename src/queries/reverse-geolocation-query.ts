@@ -12,6 +12,7 @@ export const useReverseGeolocationQuery = (
 ) =>
   useQuery({
     enabled: computed(() => lang.value != null && lat.value != null && lon.value != null),
+    refetchOnWindowFocus: false,
     queryKey: ['reverseGeolocation', lang, lat, lon],
     queryFn: async () => {
       const response = await fetch(

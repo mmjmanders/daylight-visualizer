@@ -16,6 +16,7 @@ export const useSunsetQuery = (
       () =>
         lat.value != null && lon.value != null && startDate.value != null && endDate.value != null,
     ),
+    refetchOnWindowFocus: false,
     queryKey: ['sunset', lat, lon, startDate, endDate],
     queryFn: async () => {
       const response = await fetch(
