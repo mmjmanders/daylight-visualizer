@@ -6,7 +6,7 @@ import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { DateTime } from 'luxon'
 import { useI18n } from 'vue-i18n'
-import { useReverseGeolocationQuery } from '@/queries'
+import { useGeolocationQuery, useReverseGeolocationQuery, useSunsetQuery } from '@/queries'
 import { offset, useFloating } from '@floating-ui/vue'
 import { toTypedSchema } from '@vee-validate/yup'
 
@@ -105,13 +105,40 @@ const useLocationApi = () => {
   }
 }
 
-const isLoadingData = computed(
-  () => isLoadingReverseGeocodingData.value || isUsingLocationApi.value,
+const addressRef = ref<string | undefined>(undefined)
+const { data: geocodingData, isFetching: isLoadingGeocodingData } = useGeolocationQuery(addressRef)
+
+const latitudeRef = ref<number | null>(null)
+const longitudeRef = ref<number | null>(null)
+const startDateRef = ref<string | undefined>(undefined)
+const endDateRef = ref<string | undefined>(undefined)
+const { isFetching: isLoadingSunsetData } = useSunsetQuery(
+  latitudeRef,
+  longitudeRef,
+  startDateRef,
+  endDateRef,
 )
 
-const onSubmit = handleSubmit(() => {
-  console.log('SUBMIT')
+watch(geocodingData, (data) => {
+  if (data != null) {
+    latitudeRef.value = data.lat
+    longitudeRef.value = data.lon
+  }
 })
+
+const onSubmit = handleSubmit(() => {
+  addressRef.value = addressModel.value
+  startDateRef.value = startDateModel.value
+  endDateRef.value = endDateModel.value
+})
+
+const isLoadingData = computed(
+  () =>
+    isUsingLocationApi.value ||
+    isLoadingReverseGeocodingData.value ||
+    isLoadingGeocodingData.value ||
+    isLoadingSunsetData.value,
+)
 </script>
 
 <template>
@@ -144,7 +171,11 @@ const onSubmit = handleSubmit(() => {
             :disabled="isLoadingData"
             @click="useLocationApi()"
           >
-            <FontAwesomeIcon v-if="isLoadingData" :icon="faSpinner" spin />
+            <FontAwesomeIcon
+              v-if="isUsingLocationApi || isLoadingReverseGeocodingData"
+              :icon="faSpinner"
+              spin
+            />
             <FontAwesomeIcon v-else :icon="faLocationCrosshairs" />
             <span>&nbsp;{{ $t('form.labels.getLocation') }}</span>
           </button>
@@ -190,8 +221,12 @@ const onSubmit = handleSubmit(() => {
           >
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
-          <button type="submit" class="btn btn-primary" :disabled="!meta.valid">
+          <button type="submit" class="btn btn-primary" :disabled="!meta.valid || isLoadingData">
             {{ $t('form.labels.submit') }}
+            <template v-if="isLoadingGeocodingData || isLoadingSunsetData">
+              <span>&nbsp;</span>
+              <FontAwesomeIcon :icon="faSpinner" spin />
+            </template>
           </button>
         </div>
       </div>
