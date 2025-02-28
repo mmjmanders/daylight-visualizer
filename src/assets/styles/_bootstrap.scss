@@ -10,6 +10,7 @@ $enable-validation-icons: false;
 //$blue: #2274a5;
 //$red: #9b1d20;
 //$green: #1c7c54;
+@import "bootswatch/dist/quartz/variables";
 
 // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
 @import "bootstrap/scss/variables";
@@ -35,6 +36,7 @@ $enable-validation-icons: false;
 @import "bootstrap/scss/utilities/api";
 
 // 8. Add additional custom code here
+@import "bootswatch/dist/quartz/bootswatch";
 input.is-invalid + .popover {
   font-size: .75rem;
 }

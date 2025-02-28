@@ -34,7 +34,7 @@ jobs:
       - run: |
           echo "VITE_BUILD_SHA=$(git rev-parse --short HEAD)" | tee -a $GITHUB_WORKSPACE/.env.local
           echo "VITE_GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}" | tee -a $GITHUB_WORKSPACE/.env.local
-      - run: pnpm build-only --base /${{ github.event.repository.name }}/
+      - run: pnpm build --base /${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
