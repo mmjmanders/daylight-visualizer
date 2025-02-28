@@ -14,8 +14,9 @@ import App from './App.vue'
 
 const messages = { en, nl }
 const fallbackLocale = 'en'
-const browserLanguage = navigator.language.split('-')[0]
-const locale = Object.keys(messages).includes(browserLanguage) ? browserLanguage : fallbackLocale
+const language =
+  new URLSearchParams(location.search).get('lang') ?? navigator.language.split('-')[0]
+const locale = Object.keys(messages).includes(language) ? language : fallbackLocale
 
 createApp(App)
   .use(HighchartsVue)

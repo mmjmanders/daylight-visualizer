@@ -8,8 +8,8 @@ const { VITE_SUNSET_API_BASE_URL: baseUrl } = import.meta.env
 export const useSunsetQuery = (
   lat: Ref<number | null>,
   lon: Ref<number | null>,
-  startDate: Ref<string | null>,
-  endDate: Ref<string | null>,
+  startDate: Ref<string | undefined>,
+  endDate: Ref<string | undefined>,
 ) =>
   useQuery({
     enabled: computed(

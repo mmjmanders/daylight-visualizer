@@ -5,7 +5,7 @@ import { computed } from 'vue'
 const { VITE_GEOAPIFY_GEOLOCATION_API_BASE_URL: baseUrl, VITE_GEOAPIFY_API_KEY: apiKey } =
   import.meta.env
 
-export const useGeolocationQuery = (text: Ref<string | null>) =>
+export const useGeolocationQuery = (text: Ref<string | undefined>) =>
   useQuery({
     enabled: computed(() => text.value != null),
     refetchOnWindowFocus: false,
