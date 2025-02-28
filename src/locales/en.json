@@ -21,5 +21,12 @@
         "max-range": "Maximum range is one year"
       }
     }
+  },
+  "chart": {
+    "labels": {
+      "daylight": "Daylight",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset"
+    }
   }
 }

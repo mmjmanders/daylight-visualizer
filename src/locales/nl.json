@@ -21,5 +21,12 @@
         "max-range": "Maximale periode is 1 jaar"
       }
     }
+  },
+  "chart": {
+    "labels": {
+      "daylight": "Daglicht",
+      "sunrise": "Zonsopkomst",
+      "sunset": "Zonsondergang"
+    }
   }
 }
