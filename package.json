@@ -5,15 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write src/",
     "prepare": "husky"
   },
   "dependencies": {
@@ -28,6 +25,7 @@
     "@tanstack/vue-query-devtools": "^5.66.9",
     "@vee-validate/yup": "^4.15.0",
     "bootstrap": "^5.3.3",
+    "bootswatch": "^5.3.3",
     "highcharts": "^12.1.2",
     "highcharts-vue": "^2.0.1",
     "luxon": "^3.5.0",

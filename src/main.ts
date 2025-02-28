@@ -1,4 +1,4 @@
-import '@fontsource/palanquin/latin-500.css'
+import '@fontsource/palanquin/latin-700.css'
 import '@fontsource/oxygen/latin-400.css'
 import '@fontsource/fira-mono/400.css'
 

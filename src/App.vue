@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faSun } from '@fortawesome/free-solid-svg-icons'
 import MainContent from '@/components/MainContent.vue'
 
-const { VITE_BUILD_SHA: buildSha, VITE_VERSION: version } = import.meta.env
+const { VITE_BUILD_SHA: buildSha, VITE_APP_VERSION: version } = import.meta.env
 </script>
 
 <template>
