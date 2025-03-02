@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Datum } from '@/queries'
-import type { Options } from 'highcharts'
-import { useI18n } from 'vue-i18n'
-import { computed } from 'vue'
-import { DateTime } from 'luxon'
+import type { Datum } from '@/queries';
+import type { Options } from 'highcharts';
+import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
+import { DateTime } from 'luxon';
 
-const { t, locale } = useI18n()
-const props = defineProps<{ data: Datum[] }>()
+const { t, locale } = useI18n();
+const props = defineProps<{ data: Datum[] }>();
 
 const chartOptions = computed<Options>(() => ({
   accessibility: {
@@ -62,13 +62,13 @@ const chartOptions = computed<Options>(() => ({
         .toLocaleString({
           ...DateTime.DATE_HUGE,
           month: 'short',
-        })
+        });
       const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone })
         .setLocale(locale.value)
-        .toLocaleString(DateTime.TIME_WITH_SECONDS)
+        .toLocaleString(DateTime.TIME_WITH_SECONDS);
       const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone })
         .setLocale(locale.value)
-        .toLocaleString(DateTime.TIME_WITH_SECONDS)
+        .toLocaleString(DateTime.TIME_WITH_SECONDS);
       return `<table class="table table-borderless table-sm">
                 <thead class="border-bottom">
                   <tr>
@@ -89,7 +89,7 @@ const chartOptions = computed<Options>(() => ({
                     <td>${this.custom.day_length}</td>
                   </tr>
                 </tbody>
-              </table>`
+              </table>`;
     },
   },
   xAxis: {
@@ -100,7 +100,7 @@ const chartOptions = computed<Options>(() => ({
     type: 'datetime',
     labels: { format: '{value:%k:%M}' },
   },
-}))
+}));
 </script>
 
 <template>
