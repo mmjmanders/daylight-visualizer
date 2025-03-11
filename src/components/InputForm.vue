@@ -177,7 +177,7 @@ const isLoadingData = computed(
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
             type="button"
-            class="btn btn-outline-primary"
+            class="btn btn-primary"
             :class="{ disabled: isLoadingData }"
             :disabled="isLoadingData"
             @click="useLocationApi()"
@@ -234,7 +234,7 @@ const isLoadingData = computed(
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
             type="submit"
-            class="btn btn-outline-primary"
+            class="btn btn-primary"
             :class="{ disabled: !meta.valid || isLoadingData }"
             :disabled="!meta.valid || isLoadingData"
           >
