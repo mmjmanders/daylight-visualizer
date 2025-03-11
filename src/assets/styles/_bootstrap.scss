@@ -6,7 +6,7 @@ $font-family-sans-serif: "Oxygen", sans-serif;
 $font-family-monospace: "Fira Mono", monospace;
 $headings-font-family: "Palanquin", sans-serif;
 $enable-validation-icons: false;
-@import "bootswatch/dist/morph/variables";
+@import "bootswatch/dist/lumen/variables";
 
 // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
 @import "bootstrap/scss/variables";
@@ -33,7 +33,7 @@ $enable-validation-icons: false;
 @import "bootstrap/scss/utilities/api";
 
 // 8. Add additional custom code here
-@import "bootswatch/dist/morph/bootswatch";
+@import "bootswatch/dist/lumen/bootswatch";
 input.is-invalid + .popover {
   font-size: .75rem;
 }
