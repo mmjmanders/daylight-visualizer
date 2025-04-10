@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Datum } from '@/queries';
-import type { Options } from 'highcharts';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import { DateTime } from 'luxon';
@@ -8,7 +7,8 @@ import { DateTime } from 'luxon';
 const { t, locale } = useI18n();
 const props = defineProps<{ data: Datum[] }>();
 
-const chartOptions = computed<Options>(() => ({
+const chartOptions = computed<unknown>(() => null);
+/*const chartOptions = computed<Options>(() => ({
   accessibility: {
     enabled: false,
   },
@@ -100,13 +100,11 @@ const chartOptions = computed<Options>(() => ({
     type: 'datetime',
     labels: { format: '{value:%k:%M}' },
   },
-}));
+}));*/
 </script>
 
 <template>
-  <div class="chart-container">
-    <highcharts :options="chartOptions" class="highcharts-light" :lang="locale" />
-  </div>
+  <div class="chart-container"></div>
 </template>
 
 <style scoped>
