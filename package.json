@@ -24,6 +24,7 @@
     "@tanstack/vue-query": "^5.85.2",
     "@tanstack/vue-query-devtools": "^5.85.2",
     "@vee-validate/yup": "^4.15.1",
+    "astronomy-bundle": "^7.7.7",
     "bootstrap": "^5.3.7",
     "bootswatch": "^5.3.7",
     "highcharts": "^12.3.0",
