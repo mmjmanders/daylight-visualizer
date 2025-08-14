@@ -6,14 +6,12 @@ import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
-import {
-  type Datum,
-  useGeolocationQuery,
-  useReverseGeolocationQuery,
-  useSunsetQuery,
-} from '@/queries';
+import { type Datum, useGeolocationQuery, useReverseGeolocationQuery } from '@/queries';
 import { offset, useFloating } from '@floating-ui/vue';
 import { toTypedSchema } from '@vee-validate/yup';
+import { createTimeOfInterest } from 'astronomy-bundle/time';
+import { createSun } from 'astronomy-bundle/sun';
+import type Location from 'astronomy-bundle/earth/Location';
 
 const { locale } = useI18n();
 
@@ -116,23 +114,64 @@ const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
 const startDateRef = ref<string | undefined>(undefined);
 const endDateRef = ref<string | undefined>(undefined);
-const { data: sunsetData, isFetching: isLoadingSunsetData } = useSunsetQuery(
-  latitudeRef,
-  longitudeRef,
-  startDateRef,
-  endDateRef,
-);
+
+watch([latitudeRef, longitudeRef, startDateRef, endDateRef], async (newValues) => {
+  if (newValues?.every((v) => v != null)) {
+    const data: Datum[] = await Promise.all(
+      Array(DateTime.fromISO(newValues[3]!).diff(DateTime.fromISO(newValues[2]!), 'days').days + 1)
+        .fill(0)
+        .map(async (_, i) => {
+          const date = DateTime.fromISO(newValues[2]!, { zone: 'local' }).plus({ days: i });
+          const timeOfInterest = createTimeOfInterest.fromDate(date.toJSDate());
+          const sun = createSun(timeOfInterest);
+          const sunrise = await sun.getRise({
+            lat: newValues[0]!,
+            lon: newValues[1]!,
+          } as unknown as Location);
+          const sunset = await sun.getSet({
+            lat: newValues[0]!,
+            lon: newValues[1]!,
+          } as unknown as Location);
+          const sunriseDateTime = DateTime.fromObject(
+            {
+              year: date.year,
+              month: date.month,
+              day: date.day,
+              hour: sunrise.time.hour,
+              minute: sunrise.time.min,
+              second: sunrise.time.sec,
+            },
+            { zone: 'UTC' },
+          ).setZone('local');
+          const sunsetDateTime = DateTime.fromObject(
+            {
+              year: date.year,
+              month: date.month,
+              day: date.day,
+              hour: sunset.time.hour,
+              minute: sunset.time.min,
+              second: sunset.time.sec,
+            },
+            { zone: 'UTC' },
+          ).setZone('local');
+
+          return {
+            date: date.toMillis(),
+            sunrise: sunriseDateTime.toMillis() - date.toMillis(),
+            sunset: sunsetDateTime.toMillis() - date.toMillis(),
+          };
+        }),
+    );
+    if (data?.length) {
+      chartData.value = data;
+    }
+  }
+});
 
 watch(geocodingData, (data) => {
   if (data != null) {
     latitudeRef.value = data.lat;
     longitudeRef.value = data.lon;
-  }
-});
-
-watch(sunsetData, (data) => {
-  if (data?.length !== 0) {
-    chartData.value = data;
   }
 });
 
@@ -144,10 +183,7 @@ const onSubmit = handleSubmit(() => {
 
 const isLoadingData = computed(
   () =>
-    isUsingLocationApi.value ||
-    isLoadingReverseGeocodingData.value ||
-    isLoadingGeocodingData.value ||
-    isLoadingSunsetData.value,
+    isUsingLocationApi.value || isLoadingReverseGeocodingData.value || isLoadingGeocodingData.value,
 );
 </script>
 
@@ -239,7 +275,7 @@ const isLoadingData = computed(
             :disabled="!meta.valid || isLoadingData"
           >
             {{ $t('form.labels.submit') }}
-            <template v-if="isLoadingGeocodingData || isLoadingSunsetData">
+            <template v-if="isLoadingGeocodingData">
               <span>&nbsp;</span>
               <FontAwesomeIcon :icon="faSpinner" spin />
             </template>
