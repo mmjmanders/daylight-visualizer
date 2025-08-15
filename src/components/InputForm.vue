@@ -112,57 +112,39 @@ const { data: geocodingData, isFetching: isLoadingGeocodingData } = useGeolocati
 
 const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
+const timezoneRef = ref<string | undefined>(undefined);
 const startDateRef = ref<string | undefined>(undefined);
 const endDateRef = ref<string | undefined>(undefined);
 
-watch([latitudeRef, longitudeRef, startDateRef, endDateRef], async (newValues) => {
+watch([latitudeRef, longitudeRef, startDateRef, endDateRef, timezoneRef], async (newValues) => {
   if (newValues?.every((v) => v != null)) {
     const data: Datum[] = await Promise.all(
       Array(DateTime.fromISO(newValues[3]!).diff(DateTime.fromISO(newValues[2]!), 'days').days + 1)
         .fill(0)
         .map(async (_, i) => {
-          const date = DateTime.fromISO(newValues[2]!, { zone: 'local' }).plus({ days: i });
-          const timeOfInterest = createTimeOfInterest.fromDate(date.toJSDate());
+          const localMidnight = DateTime.fromISO(newValues[2]!, { zone: newValues[4]! })
+            .plus({ days: i })
+            .startOf('day');
+
+          const utcDate = localMidnight.toUTC();
+          const timeOfInterest = createTimeOfInterest.fromDate(utcDate.toJSDate());
+
           const sun = createSun(timeOfInterest);
-          const sunrise = await sun.getRise({
-            lat: newValues[0]!,
-            lon: newValues[1]!,
-          } as unknown as Location);
-          const sunset = await sun.getSet({
-            lat: newValues[0]!,
-            lon: newValues[1]!,
-          } as unknown as Location);
-          const sunriseDateTime = DateTime.fromObject(
-            {
-              year: date.year,
-              month: date.month,
-              day: date.day,
-              hour: sunrise.time.hour,
-              minute: sunrise.time.min,
-              second: sunrise.time.sec,
-            },
-            { zone: 'UTC' },
-          ).setZone('local');
-          const sunsetDateTime = DateTime.fromObject(
-            {
-              year: date.year,
-              month: date.month,
-              day: date.day,
-              hour: sunset.time.hour,
-              minute: sunset.time.min,
-              second: sunset.time.sec,
-            },
-            { zone: 'UTC' },
-          ).setZone('local');
+          const sunrise = await sun.getRise({ lat: newValues[0]!, lon: newValues[1]! } as Location);
+          const sunset = await sun.getSet({ lat: newValues[0]!, lon: newValues[1]! } as Location);
+
+          const sunriseDateTime = DateTime.fromJSDate(sunrise.getDate()).setZone(newValues[4]!);
+          const sunsetDateTime = DateTime.fromJSDate(sunset.getDate()).setZone(newValues[4]!);
 
           return {
-            date: date.toMillis(),
-            sunrise: sunriseDateTime.toMillis() - date.toMillis(),
-            sunset: sunsetDateTime.toMillis() - date.toMillis(),
+            date: localMidnight.toMillis(),
+            sunrise: sunriseDateTime.diff(localMidnight).toMillis(),
+            sunset: sunsetDateTime.diff(localMidnight).toMillis(),
+            timezone: newValues[4]!,
           };
         }),
     );
-    if (data?.length) {
+    if (data?.length !== 0) {
       chartData.value = data;
     }
   }
@@ -172,6 +154,7 @@ watch(geocodingData, (data) => {
   if (data != null) {
     latitudeRef.value = data.lat;
     longitudeRef.value = data.lon;
+    timezoneRef.value = data.timezone;
   }
 });
 

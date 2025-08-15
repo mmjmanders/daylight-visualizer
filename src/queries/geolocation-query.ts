@@ -25,7 +25,11 @@ export const useGeolocationQuery = (text: Ref<string | undefined>) =>
         data.results[0].lat != null &&
         data.results[0].lon != null
       ) {
-        return { lat: data.results[0].lat, lon: data.results[0].lon };
+        return {
+          lat: data.results[0].lat,
+          lon: data.results[0].lon,
+          timezone: data.results[0].timezone.name,
+        };
       }
       return null;
     },
