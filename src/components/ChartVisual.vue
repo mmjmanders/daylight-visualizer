@@ -41,6 +41,9 @@ const chartOptions = computed<Options>(() => ({
           x: d.date,
           low: d.sunrise,
           high: d.sunset,
+          custom: {
+            timezone: d.timezone,
+          },
         })),
     },
   ],
@@ -53,16 +56,16 @@ const chartOptions = computed<Options>(() => ({
   tooltip: {
     useHTML: true,
     formatter: function () {
-      const date = DateTime.fromMillis(this.x, { zone: 'local' })
+      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone })
         .setLocale(locale.value)
         .toLocaleString({
           ...DateTime.DATE_HUGE,
           month: 'short',
         });
-      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: 'local' })
+      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone })
         .setLocale(locale.value)
         .toLocaleString(DateTime.TIME_WITH_SECONDS);
-      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: 'local' })
+      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone })
         .setLocale(locale.value)
         .toLocaleString(DateTime.TIME_WITH_SECONDS);
       return `<table class="table table-borderless table-sm">
