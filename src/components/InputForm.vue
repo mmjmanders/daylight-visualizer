@@ -118,31 +118,36 @@ const endDateRef = ref<string | undefined>(undefined);
 
 watch([latitudeRef, longitudeRef, startDateRef, endDateRef, timezoneRef], async (newValues) => {
   if (newValues?.every((v) => v != null)) {
+    const [lat, lon, startISO, endISO, timezone] = newValues as [
+      number,
+      number,
+      string,
+      string,
+      string,
+    ];
+    const startDate = DateTime.fromISO(startISO, { zone: timezone }).startOf('day');
+    const endDate = DateTime.fromISO(endISO, { zone: timezone }).startOf('day');
+    const numDays = endDate.diff(startDate, 'days').days + 1;
     const data: Datum[] = await Promise.all(
-      Array(DateTime.fromISO(newValues[3]!).diff(DateTime.fromISO(newValues[2]!), 'days').days + 1)
-        .fill(0)
-        .map(async (_, i) => {
-          const localMidnight = DateTime.fromISO(newValues[2]!, { zone: newValues[4]! })
-            .plus({ days: i })
-            .startOf('day');
+      Array.from({ length: numDays }, async (_, i) => {
+        const localMidnight = startDate.plus({ days: i });
+        const utcDate = localMidnight.toUTC();
+        const timeOfInterest = createTimeOfInterest.fromDate(utcDate.toJSDate());
+        const sun = createSun(timeOfInterest);
 
-          const utcDate = localMidnight.toUTC();
-          const timeOfInterest = createTimeOfInterest.fromDate(utcDate.toJSDate());
+        const sunrise = await sun.getRise({ lat, lon } as Location);
+        const sunset = await sun.getSet({ lat, lon } as Location);
 
-          const sun = createSun(timeOfInterest);
-          const sunrise = await sun.getRise({ lat: newValues[0]!, lon: newValues[1]! } as Location);
-          const sunset = await sun.getSet({ lat: newValues[0]!, lon: newValues[1]! } as Location);
+        const sunriseDateTime = DateTime.fromJSDate(sunrise.getDate()).setZone(timezone);
+        const sunsetDateTime = DateTime.fromJSDate(sunset.getDate()).setZone(timezone);
 
-          const sunriseDateTime = DateTime.fromJSDate(sunrise.getDate()).setZone(newValues[4]!);
-          const sunsetDateTime = DateTime.fromJSDate(sunset.getDate()).setZone(newValues[4]!);
-
-          return {
-            date: localMidnight.toMillis(),
-            sunrise: sunriseDateTime.diff(localMidnight).toMillis(),
-            sunset: sunsetDateTime.diff(localMidnight).toMillis(),
-            timezone: newValues[4]!,
-          };
-        }),
+        return {
+          date: localMidnight.toMillis(),
+          sunrise: sunriseDateTime.diff(localMidnight).toMillis(),
+          sunset: sunsetDateTime.diff(localMidnight).toMillis(),
+          timezone: newValues[4]!,
+        };
+      }),
     );
     if (data?.length !== 0) {
       chartData.value = data;
