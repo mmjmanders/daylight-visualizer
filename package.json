@@ -27,6 +27,7 @@
     "astronomy-bundle": "^7.7.7",
     "bootstrap": "^5.3.7",
     "bootswatch": "^5.3.7",
+    "echarts": "^6.0.0",
     "highcharts": "^12.3.0",
     "highcharts-vue": "^2.0.1",
     "luxon": "^3.7.1",
