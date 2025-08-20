@@ -1,106 +1,64 @@
 <script setup lang="ts">
 import type { Datum } from '@/queries';
-import type { Options } from 'highcharts';
-import { useI18n } from 'vue-i18n';
+// import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
-import { DateTime } from 'luxon';
+// import { DateTime } from 'luxon';
+import type { EChartsCoreOption } from 'echarts/core';
+import { use } from 'echarts/core';
+import { LineChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  LegendComponent,
+  PolarComponent,
+  TooltipComponent,
+} from 'echarts/components';
+import { SVGRenderer } from 'echarts/renderers';
 
-const { t, locale } = useI18n();
+use([TitleComponent, LegendComponent, PolarComponent, TooltipComponent, LineChart, SVGRenderer]);
+import VChart from 'vue-echarts';
+
+// const { t, locale } = useI18n();
 const props = defineProps<{ data: Datum[] }>();
 
-const chartOptions = computed<Options>(() => ({
-  accessibility: {
-    enabled: false,
+const chartOptions = computed<EChartsCoreOption>(() => ({
+  title: {
+    text: props.data[0].date,
   },
-  boost: {
-    enabled: true,
+  legend: {
+    data: ['line'],
   },
-  chart: {
-    polar: true,
-    styledMode: true,
+  polar: {
+    center: ['50%', '54%'],
   },
-  credits: {
-    href: 'https://sunrisesunset.io/',
-    text: 'Powered by SunriseSunset.io',
-  },
-  plotOptions: {
-    series: {
-      marker: {
-        enabled: false,
-      },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
     },
+  },
+  angleAxis: {
+    type: 'value',
+    startAngle: 0,
+  },
+  radiusAxis: {
+    min: 0,
   },
   series: [
     {
-      name: t('chart.labels.daylight'),
-      type: 'areasplinerange',
-      linecap: 'round',
-      data: props.data
-        .filter((d) => d.sunrise != null && d.sunset != null)
-        .map((d) => ({
-          x: d.date,
-          low: d.sunrise,
-          high: d.sunset,
-          custom: {
-            timezone: d.timezone,
-          },
-        })),
+      coordinateSystem: 'polar',
+      name: 'line',
+      type: 'line',
+      showSymbol: false,
+      data: [],
     },
   ],
-  time: {
-    timezone: undefined,
-  },
-  title: {
-    text: '',
-  },
-  tooltip: {
-    useHTML: true,
-    formatter: function () {
-      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone })
-        .setLocale(locale.value)
-        .toLocaleString({
-          ...DateTime.DATE_HUGE,
-          month: 'short',
-        });
-      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone })
-        .setLocale(locale.value)
-        .toLocaleString(DateTime.TIME_WITH_SECONDS);
-      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone })
-        .setLocale(locale.value)
-        .toLocaleString(DateTime.TIME_WITH_SECONDS);
-      return `<table class="table table-borderless table-sm">
-                <thead class="border-bottom">
-                  <tr>
-                    <th scope="col" colspan="2">${date}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">${t('chart.labels.sunrise')}</th>
-                    <td>${sunrise}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">${t('chart.labels.sunset')}</th>
-                    <td>${sunset}</td>
-                  </tr>                  
-                </tbody>
-              </table>`;
-    },
-  },
-  xAxis: {
-    tickLength: 5,
-    type: 'datetime',
-  },
-  yAxis: {
-    type: 'datetime',
-    labels: { format: '{value:%k:%M}' },
-  },
+  animationDuration: 2000,
 }));
 </script>
 
 <template>
   <div class="chart-container">
-    <highcharts :options="chartOptions" class="highcharts-light" :lang="locale" />
+    <v-chart :option="chartOptions"></v-chart>
   </div>
 </template>
 
@@ -109,7 +67,7 @@ const chartOptions = computed<Options>(() => ({
   aspect-ratio: 1 / 1;
 }
 
-.highcharts-light {
+#chart {
   width: 100%;
   height: 100%;
 }
