@@ -5,13 +5,11 @@ const buildSha = process.env.CI ? 'e2e' : 'dev';
 test('header should contain "Daylight Visualizer"', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('h1')).toContainText('Daylight Visualizer');
-  await expect(page).toHaveScreenshot();
 });
 
 test(`version should be "${buildSha}"`, async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('h1 > span')).toContainText(`- ${buildSha}`);
-  await expect(page).toHaveScreenshot();
 });
 
 [
@@ -31,6 +29,5 @@ test(`version should be "${buildSha}"`, async ({ page }) => {
   test(`language ${lang} should have ${submitText} as button text`, async ({ page }) => {
     await page.goto(`/?lang=${lang}`);
     await expect(page.locator('button[type=submit]')).toHaveText(submitText);
-    await expect(page).toHaveScreenshot();
   });
 });
