@@ -9,9 +9,6 @@ import { useI18n } from 'vue-i18n';
 import { type Datum, useGeolocationQuery, useReverseGeolocationQuery } from '@/queries';
 import { offset, useFloating } from '@floating-ui/vue';
 import { toTypedSchema } from '@vee-validate/yup';
-import { createTimeOfInterest } from 'astronomy-bundle/time';
-import { createSun } from 'astronomy-bundle/sun';
-import type Location from 'astronomy-bundle/earth/Location';
 
 const { locale } = useI18n();
 

@@ -1,8 +1,8 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,10 +16,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          fontawesome: ['@fortawesome/fontawesome-svg-core', '@fortawesome/free-solid-svg-icons'],
           highcharts: ['highcharts'],
+          luxon: ['luxon'],
           'tanstack-vue-query': ['@tanstack/vue-query'],
         },
       },
     },
   },
-})
+});
