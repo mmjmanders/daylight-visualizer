@@ -16,10 +16,15 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          fontawesome: ['@fortawesome/fontawesome-svg-core', '@fortawesome/free-solid-svg-icons'],
-          highcharts: ['highcharts'],
+          fontawesome: [
+            '@fortawesome/fontawesome-svg-core',
+            '@fortawesome/free-solid-svg-icons',
+            '@fortawesome/vue-fontawesome',
+          ],
+          highcharts: ['highcharts', 'highcharts-vue'],
           luxon: ['luxon'],
           'tanstack-vue-query': ['@tanstack/vue-query'],
+          yup: ['@vee-validate/yup', 'yup'],
         },
       },
     },
