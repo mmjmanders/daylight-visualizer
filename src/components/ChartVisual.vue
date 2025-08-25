@@ -23,6 +23,13 @@ const chartOptions = computed<Options>(() => ({
     href: 'https://sunrisesunset.io/',
     text: 'Powered by SunriseSunset.io',
   },
+  legend: {
+    events: {
+      itemClick: function () {
+        return false;
+      },
+    },
+  },
   plotOptions: {
     series: {
       marker: {
@@ -33,7 +40,7 @@ const chartOptions = computed<Options>(() => ({
   series: [
     {
       name: t('chart.labels.daylight'),
-      type: 'areasplinerange',
+      type: props.chartData.chartType === 'polar' ? 'areasplinerange' : 'arearange',
       linecap: 'round',
       data: props.chartData.data
         .filter((d) => d.sunrise != null && d.sunset != null)
@@ -51,7 +58,7 @@ const chartOptions = computed<Options>(() => ({
     timezone: undefined,
   },
   title: {
-    text: '',
+    text: undefined,
   },
   tooltip: {
     useHTML: true,
@@ -94,6 +101,9 @@ const chartOptions = computed<Options>(() => ({
   yAxis: {
     type: 'datetime',
     labels: { format: '{value:%k:%M}' },
+    title: {
+      text: undefined,
+    },
   },
 }));
 </script>

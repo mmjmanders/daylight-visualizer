@@ -5,6 +5,12 @@
     fill: var(--bs-gray-900);
   }
 
+  .highcharts-legend-item {
+    text {
+      cursor: inherit;
+    }
+  }
+
   .highcharts-background {
     fill: transparent;
   }
