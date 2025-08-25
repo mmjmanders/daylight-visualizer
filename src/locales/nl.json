@@ -5,6 +5,9 @@
       "startDate": "Startdatum",
       "endDate": "Einddatum",
       "getLocation": "Locatie bepalen",
+      "chartType": "Type grafiek",
+      "polar": "Polair",
+      "line": "Lijn",
       "submit": "Verzenden"
     },
     "errors": {

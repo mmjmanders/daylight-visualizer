@@ -6,16 +6,23 @@ import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
-import { type Datum, useGeolocationQuery, useReverseGeolocationQuery } from '@/queries';
+import {
+  type ChartData,
+  type Datum,
+  useGeolocationQuery,
+  useReverseGeolocationQuery,
+  useSunsetQuery,
+} from '@/queries';
 import { offset, useFloating } from '@floating-ui/vue';
 import { toTypedSchema } from '@vee-validate/yup';
-import { createTimeOfInterest } from 'astronomy-bundle/time';
-import { createSun } from 'astronomy-bundle/sun';
-import type Location from 'astronomy-bundle/earth/Location';
 
 const { locale } = useI18n();
 
-const chartData = defineModel<Datum[]>('chartData');
+const chartData = defineModel<ChartData>('chartData');
+const emit = defineEmits<{
+  chartTypeChange: [type: 'polar' | 'line'];
+}>();
+
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
     object({
@@ -41,6 +48,7 @@ const { meta, defineField, handleSubmit, errors } = useForm({
           const endDate = DateTime.fromISO(value);
           return endDate.diff(startDate, 'years').years < 1;
         }),
+      chartType: string().required(),
     }),
   ),
 });
@@ -74,8 +82,10 @@ const defaultStartDate = defaultEndDate.minus({ months: 1 });
 const [addressModel, addressModelAttrs] = defineField('address');
 const [startDateModel, startDateModelAttrs] = defineField('startDate');
 const [endDateModel, endDateModelAttrs] = defineField('endDate');
+const [chartTypeModel, chartTypeModelAttrs] = defineField('chartType');
 startDateModel.value = defaultStartDate.toISODate();
 endDateModel.value = defaultEndDate.toISODate();
+chartTypeModel.value = 'polar';
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null);
 const reverseGeocodingLongitudeRef = ref<number | null>(null);
@@ -112,55 +122,34 @@ const { data: geocodingData, isFetching: isLoadingGeocodingData } = useGeolocati
 
 const latitudeRef = ref<number | null>(null);
 const longitudeRef = ref<number | null>(null);
-const timezoneRef = ref<string | undefined>(undefined);
 const startDateRef = ref<string | undefined>(undefined);
 const endDateRef = ref<string | undefined>(undefined);
 
-watch([latitudeRef, longitudeRef, startDateRef, endDateRef, timezoneRef], async (newValues) => {
-  if (newValues?.every((v) => v != null)) {
-    const [lat, lon, startISO, endISO, timezone] = newValues as [
-      number,
-      number,
-      string,
-      string,
-      string,
-    ];
-    const startDate = DateTime.fromISO(startISO, { zone: timezone }).startOf('day');
-    const endDate = DateTime.fromISO(endISO, { zone: timezone }).startOf('day');
-    const numDays = endDate.diff(startDate, 'days').days + 1;
-    const data: Datum[] = await Promise.all(
-      Array.from({ length: numDays }, async (_, i) => {
-        const localMidnight = startDate.plus({ days: i });
-        const utcDate = localMidnight.toUTC();
-        const timeOfInterest = createTimeOfInterest.fromDate(utcDate.toJSDate());
-        const sun = createSun(timeOfInterest);
-
-        const sunrise = await sun.getRise({ lat, lon } as Location);
-        const sunset = await sun.getSet({ lat, lon } as Location);
-
-        const sunriseDateTime = DateTime.fromJSDate(sunrise.getDate()).setZone(timezone);
-        const sunsetDateTime = DateTime.fromJSDate(sunset.getDate()).setZone(timezone);
-
-        return {
-          date: localMidnight.toMillis(),
-          sunrise: sunriseDateTime.diff(localMidnight).toMillis(),
-          sunset: sunsetDateTime.diff(localMidnight).toMillis(),
-          timezone: newValues[4]!,
-        };
-      }),
-    );
-    if (data?.length !== 0) {
-      chartData.value = data;
-    }
-  }
-});
+const { data: sunsetData, isFetching: isLoadingSunsetData } = useSunsetQuery(
+  latitudeRef,
+  longitudeRef,
+  startDateRef,
+  endDateRef,
+);
 
 watch(geocodingData, (data) => {
   if (data != null) {
     latitudeRef.value = data.lat;
     longitudeRef.value = data.lon;
-    timezoneRef.value = data.timezone;
   }
+});
+
+watch(sunsetData, (data) => {
+  if (data?.length !== 0) {
+    chartData.value = {
+      chartType: chartTypeModel.value as 'polar' | 'line',
+      data: data as Datum[],
+    };
+  }
+});
+
+watch(chartTypeModel, (newType) => {
+  emit('chartTypeChange', newType as 'polar' | 'line');
 });
 
 const onSubmit = handleSubmit(() => {
@@ -171,7 +160,10 @@ const onSubmit = handleSubmit(() => {
 
 const isLoadingData = computed(
   () =>
-    isUsingLocationApi.value || isLoadingReverseGeocodingData.value || isLoadingGeocodingData.value,
+    isUsingLocationApi.value ||
+    isLoadingReverseGeocodingData.value ||
+    isLoadingGeocodingData.value ||
+    isLoadingSunsetData.value,
 );
 </script>
 
@@ -217,7 +209,7 @@ const isLoadingData = computed(
         </div>
       </div>
       <div class="row row-gap-2">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-3">
           <label for="startDate" class="form-label">{{ $t('form.labels.startDate') }}</label>
           <input
             v-bind="startDateModelAttrs"
@@ -236,7 +228,7 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.startDate.${errors.startDate}`) }}</span
           >
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-3">
           <label for="endDate" class="form-label">{{ $t('form.labels.endDate') }}</label>
           <input
             v-bind="endDateModelAttrs"
@@ -255,6 +247,18 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.endDate.${errors.endDate}`) }}</span
           >
         </div>
+        <div class="col-12 col-md-2">
+          <label for="chartType" class="form-label">{{ $t('form.labels.chartType') }}</label>
+          <select
+            v-bind="chartTypeModelAttrs"
+            v-model="chartTypeModel"
+            id="chartType"
+            class="form-select"
+          >
+            <option value="polar">{{ $t('form.labels.polar') }}</option>
+            <option value="line">{{ $t('form.labels.line') }}</option>
+          </select>
+        </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
             type="submit"
@@ -263,7 +267,7 @@ const isLoadingData = computed(
             :disabled="!meta.valid || isLoadingData"
           >
             {{ $t('form.labels.submit') }}
-            <template v-if="isLoadingGeocodingData">
+            <template v-if="isLoadingGeocodingData || isLoadingSunsetData">
               <span>&nbsp;</span>
               <FontAwesomeIcon :icon="faSpinner" spin />
             </template>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Datum } from '@/queries';
+import type { ChartData } from '@/queries';
 import type { Options } from 'highcharts';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import { DateTime } from 'luxon';
 
 const { t, locale } = useI18n();
-const props = defineProps<{ data: Datum[] }>();
+const props = defineProps<{ chartData: ChartData }>();
 
 const chartOptions = computed<Options>(() => ({
   accessibility: {
@@ -16,7 +16,7 @@ const chartOptions = computed<Options>(() => ({
     enabled: true,
   },
   chart: {
-    polar: true,
+    polar: props.chartData.chartType === 'polar',
     styledMode: true,
   },
   credits: {
@@ -33,9 +33,9 @@ const chartOptions = computed<Options>(() => ({
   series: [
     {
       name: t('chart.labels.daylight'),
-      type: 'areasplinerange',
+      type: props.chartData.chartType === 'polar' ? 'areasplinerange' : 'arearange',
       linecap: 'round',
-      data: props.data
+      data: props.chartData.data
         .filter((d) => d.sunrise != null && d.sunset != null)
         .map((d) => ({
           x: d.date,
@@ -99,18 +99,27 @@ const chartOptions = computed<Options>(() => ({
 </script>
 
 <template>
-  <div class="chart-container">
+  <div class="chart-container" :class="chartData.chartType">
     <highcharts :options="chartOptions" class="highcharts-light" :lang="locale" />
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .chart-container {
-  aspect-ratio: 1 / 1;
-}
-
-.highcharts-light {
   width: 100%;
   height: 100%;
+
+  &.polar {
+    aspect-ratio: 1 / 1;
+  }
+  &.line {
+    margin-top: 2rem;
+    aspect-ratio: 16 / 9;
+  }
+
+  .highcharts-light {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

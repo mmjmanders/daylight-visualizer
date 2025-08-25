@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import type { Ref } from 'vue';
-import { computed } from 'vue';
+import { type Ref, computed } from 'vue';
 
 const { VITE_GEOAPIFY_REVERSE_GEOLOCATION_API_BASE_URL: baseUrl, VITE_GEOAPIFY_API_KEY: apiKey } =
   import.meta.env;

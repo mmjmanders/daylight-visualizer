@@ -5,6 +5,9 @@
       "startDate": "Start date",
       "endDate": "End date",
       "getLocation": "Get location",
+      "chartType": "Chart Type",
+      "polar": "Polar",
+      "line": "Line",
       "submit": "Submit"
     },
     "errors": {

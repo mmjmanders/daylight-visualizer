@@ -28,7 +28,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.54.2-noble
+      image: mcr.microsoft.com/playwright:v1.55.0-noble
     needs: pnpm_install
     steps:
       - uses: actions/checkout@v4
