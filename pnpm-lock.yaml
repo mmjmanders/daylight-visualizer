@@ -14,10 +14,10 @@ importers:
       '@fontsource/fira-mono':
         specifier: ^5.2.6
         version: 5.2.6
-      '@fontsource/oxygen':
+      '@fontsource/reddit-sans':
         specifier: ^5.2.6
         version: 5.2.6
-      '@fontsource/palanquin':
+      '@fontsource/sora':
         specifier: ^5.2.6
         version: 5.2.6
       '@fortawesome/fontawesome-svg-core':
@@ -528,11 +528,11 @@ packages:
   '@fontsource/fira-mono@5.2.6':
     resolution: {integrity: sha512-6pyiGeFH+5DP5sICSwx5wu+9BlTEMTKki7bTppsEqXJysi1MiK82n6oSUaYkQWRLH51+DK7zv2JJsi82cOIS3g==}
 
-  '@fontsource/oxygen@5.2.6':
-    resolution: {integrity: sha512-JRy8jGurqF4RfWQ9Q/bMmrVDGbZbVwn/Ms3oCy9XbZGAMrHlNsFRNL2enxrIsSVZUg+2VVDKQkb1xhm/jIusvw==}
+  '@fontsource/reddit-sans@5.2.6':
+    resolution: {integrity: sha512-6E5Ye8gxUcIrIELjSlgqrhsVp7e1z5Fy2tQ/wXoLCDlQABo8JiRMQ1GLLQmnFiEvbyLDopGfYrsFHiRi3IylOQ==}
 
-  '@fontsource/palanquin@5.2.6':
-    resolution: {integrity: sha512-kIYdjuY2wszAI0JkmDvO3ebrIbFohLtapeDFKNU9IpH2TkmlBfTl9nJMK0/qvGIPJx9arQOjDXqNABtxX6s9Bw==}
+  '@fontsource/sora@5.2.6':
+    resolution: {integrity: sha512-OPknOmn82HIJg32UGg9iEjEVFdC+xOZBqrmQNUgsem6hFwBBrqXnTwIpro7leq/uFRdupkN42hc0JJKH20j22w==}
 
   '@fortawesome/fontawesome-common-types@7.0.0':
     resolution: {integrity: sha512-PGMrIYXLGA5K8RWy8zwBkd4vFi4z7ubxtet6Yn13Plf6krRTwPbdlCwlcfmoX0R7B4Z643QvrtHmdQ5fNtfFCg==}
@@ -3044,9 +3044,9 @@ snapshots:
 
   '@fontsource/fira-mono@5.2.6': {}
 
-  '@fontsource/oxygen@5.2.6': {}
+  '@fontsource/reddit-sans@5.2.6': {}
 
-  '@fontsource/palanquin@5.2.6': {}
+  '@fontsource/sora@5.2.6': {}
 
   '@fortawesome/fontawesome-common-types@7.0.0': {}
 

@@ -33,7 +33,7 @@ const chartOptions = computed<Options>(() => ({
   series: [
     {
       name: t('chart.labels.daylight'),
-      type: props.chartData.chartType === 'polar' ? 'areasplinerange' : 'arearange',
+      type: 'areasplinerange',
       linecap: 'round',
       data: props.chartData.data
         .filter((d) => d.sunrise != null && d.sunset != null)

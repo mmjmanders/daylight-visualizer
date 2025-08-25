@@ -2,10 +2,11 @@
 @import "bootstrap/scss/functions";
 
 // 2. Include any default variable overrides here
-$font-family-sans-serif: "Oxygen", sans-serif;
+$font-family-sans-serif: "Sora", sans-serif;
 $font-family-monospace: "Fira Mono", monospace;
-$headings-font-family: "Palanquin", sans-serif;
+$headings-font-family: "Reddit Sans", sans-serif;
 $enable-validation-icons: false;
+$table-th-font-weight: 500;
 $container-max-widths: (
   sm: 540px,
   md: 720px,
