@@ -1,8 +1,14 @@
 .highcharts-light {
-  --highcharts-color-0: var(--bs-warning);
+  --highcharts-color-0: oklch(0.950 0.202 112.6);
 
   .highcharts-credits {
     fill: var(--bs-gray-900);
+  }
+
+  .highcharts-legend-item {
+    text {
+      cursor: inherit;
+    }
   }
 
   .highcharts-background {

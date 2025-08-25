@@ -23,6 +23,13 @@ const chartOptions = computed<Options>(() => ({
     href: 'https://sunrisesunset.io/',
     text: 'Powered by SunriseSunset.io',
   },
+  legend: {
+    events: {
+      itemClick: function () {
+        return false;
+      },
+    },
+  },
   plotOptions: {
     series: {
       marker: {
@@ -51,7 +58,7 @@ const chartOptions = computed<Options>(() => ({
     timezone: undefined,
   },
   title: {
-    text: '',
+    text: undefined,
   },
   tooltip: {
     useHTML: true,
@@ -94,6 +101,9 @@ const chartOptions = computed<Options>(() => ({
   yAxis: {
     type: 'datetime',
     labels: { format: '{value:%k:%M}' },
+    title: {
+      text: undefined,
+    },
   },
 }));
 </script>

@@ -1,7 +1,9 @@
-import '@fontsource/palanquin/latin-700.css';
-import '@fontsource/oxygen/latin-400.css';
-import '@fontsource/oxygen/latin-700.css';
+import '@fontsource/reddit-sans/latin-500.css';
+import '@fontsource/reddit-sans/latin-700.css';
+import '@fontsource/sora/latin-400.css';
+import '@fontsource/sora/latin-700.css';
 import '@fontsource/fira-mono/400.css';
+import '@fontsource/fira-mono/500.css';
 import 'highcharts/css/highcharts.css';
 
 import './assets/main.scss';
