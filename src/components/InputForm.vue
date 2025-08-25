@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { DateTime } from 'luxon';
 import { useI18n } from 'vue-i18n';
 import {
+  type ChartData,
   type Datum,
   useGeolocationQuery,
   useReverseGeolocationQuery,
@@ -17,7 +18,11 @@ import { toTypedSchema } from '@vee-validate/yup';
 
 const { locale } = useI18n();
 
-const chartData = defineModel<Datum[]>('chartData');
+const chartData = defineModel<ChartData>('chartData');
+const emit = defineEmits<{
+  chartTypeChange: [type: 'polar' | 'line'];
+}>();
+
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
     object({
@@ -43,6 +48,7 @@ const { meta, defineField, handleSubmit, errors } = useForm({
           const endDate = DateTime.fromISO(value);
           return endDate.diff(startDate, 'years').years < 1;
         }),
+      chartType: string().required(),
     }),
   ),
 });
@@ -76,8 +82,10 @@ const defaultStartDate = defaultEndDate.minus({ months: 1 });
 const [addressModel, addressModelAttrs] = defineField('address');
 const [startDateModel, startDateModelAttrs] = defineField('startDate');
 const [endDateModel, endDateModelAttrs] = defineField('endDate');
+const [chartTypeModel, chartTypeModelAttrs] = defineField('chartType');
 startDateModel.value = defaultStartDate.toISODate();
 endDateModel.value = defaultEndDate.toISODate();
+chartTypeModel.value = 'polar';
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null);
 const reverseGeocodingLongitudeRef = ref<number | null>(null);
@@ -133,8 +141,15 @@ watch(geocodingData, (data) => {
 
 watch(sunsetData, (data) => {
   if (data?.length !== 0) {
-    chartData.value = data;
+    chartData.value = {
+      chartType: chartTypeModel.value as 'polar' | 'line',
+      data: data as Datum[],
+    };
   }
+});
+
+watch(chartTypeModel, (newType) => {
+  emit('chartTypeChange', newType as 'polar' | 'line');
 });
 
 const onSubmit = handleSubmit(() => {
@@ -194,7 +209,7 @@ const isLoadingData = computed(
         </div>
       </div>
       <div class="row row-gap-2">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-3">
           <label for="startDate" class="form-label">{{ $t('form.labels.startDate') }}</label>
           <input
             v-bind="startDateModelAttrs"
@@ -213,7 +228,7 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.startDate.${errors.startDate}`) }}</span
           >
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-3">
           <label for="endDate" class="form-label">{{ $t('form.labels.endDate') }}</label>
           <input
             v-bind="endDateModelAttrs"
@@ -231,6 +246,18 @@ const isLoadingData = computed(
             :style="endDateTooltipStyles"
             >{{ $t(`form.errors.endDate.${errors.endDate}`) }}</span
           >
+        </div>
+        <div class="col-12 col-md-2">
+          <label for="chartType" class="form-label">{{ $t('form.labels.chartType') }}</label>
+          <select
+            v-bind="chartTypeModelAttrs"
+            v-model="chartTypeModel"
+            id="chartType"
+            class="form-select"
+          >
+            <option value="polar">{{ $t('form.labels.polar') }}</option>
+            <option value="line">{{ $t('form.labels.line') }}</option>
+          </select>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button

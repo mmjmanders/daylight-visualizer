@@ -12,3 +12,13 @@ test('show chart on valid data', async ({ page }) => {
   await page.locator('div.highcharts-container').waitFor();
   await expect(page.locator('div.highcharts-container')).toBeVisible();
 });
+
+test('should switch chart type and css class', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('button[type=button]').click();
+  await page.locator('button[type=submit]').click();
+  await page.locator('div.highcharts-container').waitFor();
+  await expect(page.locator('div.chart-container.polar')).toBeVisible();
+  await page.locator('#chartType').selectOption('line');
+  await expect(page.locator('div.chart-container.line')).toBeVisible();
+});

@@ -1,17 +1,9 @@
 import { useQuery } from '@tanstack/vue-query';
-import type { Ref } from 'vue';
-import { computed } from 'vue';
+import { type Ref, computed } from 'vue';
 import { DateTime } from 'luxon';
+import type { Datum } from './types';
 
 const { VITE_SUNSET_API_BASE_URL: baseUrl } = import.meta.env;
-
-export type Datum = {
-  date: number;
-  sunrise: number;
-  sunset: number;
-  day_length: string;
-  timezone: string;
-};
 
 export const useSunsetQuery = (
   lat: Ref<number | null>,
