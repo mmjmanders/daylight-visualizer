@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "analyze-bundle": "pnpm dlx vite-bundle-visualizer"
   },
   "dependencies": {
     "@floating-ui/vue": "^1.1.9",
