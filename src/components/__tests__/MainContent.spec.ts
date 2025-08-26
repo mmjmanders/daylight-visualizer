@@ -3,7 +3,6 @@ import { mount, VueWrapper } from '@vue/test-utils';
 import MainContent from '../MainContent.vue';
 import { global } from './globalMock';
 import waitForExpect from 'wait-for-expect';
-import InputForm from '../InputForm.vue';
 
 describe('MainContent.vue', () => {
   let component: VueWrapper<any>;
@@ -85,7 +84,6 @@ describe('MainContent.vue', () => {
     await waitForExpect(() => {
       expect(component.find('.chart-container.line').exists()).toBe(false);
       expect(component.find('.chart-container.polar').exists()).toBe(true);
-      console.log(component.getComponent(InputForm).vm);
     });
   });
 });
