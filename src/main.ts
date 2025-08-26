@@ -2,8 +2,8 @@ import '@fontsource/reddit-sans/latin-500.css';
 import '@fontsource/reddit-sans/latin-700.css';
 import '@fontsource/sora/latin-400.css';
 import '@fontsource/sora/latin-700.css';
-import '@fontsource/fira-mono/400.css';
-import '@fontsource/fira-mono/500.css';
+import '@fontsource/fira-mono/latin-400.css';
+import '@fontsource/fira-mono/latin-500.css';
 import 'highcharts/css/highcharts.css';
 
 import './assets/main.scss';
@@ -32,7 +32,7 @@ createApp(App)
     createI18n({
       legacy: false,
       locale,
-      fallbackLocale: 'en',
+      fallbackLocale,
       messages,
     }),
   )
