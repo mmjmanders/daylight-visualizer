@@ -25,7 +25,7 @@
     "@tanstack/vue-query": "^5.85.5",
     "@tanstack/vue-query-devtools": "^5.85.5",
     "@vee-validate/yup": "^4.15.1",
-    "bootstrap": "^5.3.7",
+    "bootstrap": "^5.3.8",
     "highcharts": "^12.3.0",
     "highcharts-vue": "^2.0.1",
     "luxon": "^3.7.1",

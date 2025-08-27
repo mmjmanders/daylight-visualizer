@@ -1,11 +1,11 @@
 import { vi, describe, test, expect, afterEach, beforeEach } from 'vitest';
 import { mount, VueWrapper } from '@vue/test-utils';
 import MainContent from '../MainContent.vue';
-import { global } from './globalMock';
+import { global } from '../../__tests__/globalMock';
 import waitForExpect from 'wait-for-expect';
 
 describe('MainContent.vue', () => {
-  let component: VueWrapper<any>;
+  let wrapper: VueWrapper<any>;
 
   beforeEach(() => {
     vi.stubGlobal(
@@ -41,8 +41,8 @@ describe('MainContent.vue', () => {
         }),
     );
 
-    component = mount(MainContent, {
-      global,
+    wrapper = mount(MainContent, {
+      global: { ...global, stubs: ['HighchartsVue', 'Highcharts'] },
     });
   });
 
@@ -52,7 +52,7 @@ describe('MainContent.vue', () => {
   });
 
   test('should render component', async () => {
-    expect(component.exists()).toBe(true);
+    expect(wrapper.exists()).toBe(true);
   });
 
   test.each([
@@ -61,29 +61,29 @@ describe('MainContent.vue', () => {
     },
     { chartType: 'line' },
   ])('should have chart type $chartType', async ({ chartType }) => {
-    await component.get('input#address').setValue('New York City');
-    await component.get('select#chartType').setValue(chartType);
-    await component.get('form').trigger('submit.prevent');
+    await wrapper.get('input#address').setValue('New York City');
+    await wrapper.get('select#chartType').setValue(chartType);
+    await wrapper.get('form').trigger('submit.prevent');
     await waitForExpect(async () => {
-      const chartContainer = component.find('.chart-container');
+      const chartContainer = wrapper.find('.chart-container');
       expect(chartContainer.exists()).toBe(true);
       expect(chartContainer.classes()).toContain(chartType);
     });
   });
 
   test('should switch chart type when changed', async () => {
-    await component.get('input#address').setValue('New York City');
-    await component.get('select#chartType').setValue('line');
-    await component.get('form').trigger('submit.prevent');
+    await wrapper.get('input#address').setValue('New York City');
+    await wrapper.get('select#chartType').setValue('line');
+    await wrapper.get('form').trigger('submit.prevent');
     await waitForExpect(async () => {
-      expect(component.find('.chart-container.line').exists()).toBe(true);
-      expect(component.find('.chart-container.polar').exists()).toBe(false);
+      expect(wrapper.find('.chart-container.line').exists()).toBe(true);
+      expect(wrapper.find('.chart-container.polar').exists()).toBe(false);
     });
 
-    await component.get('select#chartType').setValue('polar');
+    await wrapper.get('select#chartType').setValue('polar');
     await waitForExpect(() => {
-      expect(component.find('.chart-container.line').exists()).toBe(false);
-      expect(component.find('.chart-container.polar').exists()).toBe(true);
+      expect(wrapper.find('.chart-container.line').exists()).toBe(false);
+      expect(wrapper.find('.chart-container.polar').exists()).toBe(true);
     });
   });
 });

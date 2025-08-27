@@ -1,24 +1,22 @@
 import { describe, test, expect, beforeEach } from 'vitest';
 import { shallowMount, VueWrapper } from '@vue/test-utils';
 import App from '../App.vue';
-import { VueQueryPlugin } from '@tanstack/vue-query';
+import { global } from './globalMock';
 
 describe('App.vue', () => {
-  let component: VueWrapper<any>;
+  let wrapper: VueWrapper<any>;
 
   beforeEach(() => {
-    component = shallowMount(App, {
-      global: {
-        plugins: [VueQueryPlugin],
-      },
+    wrapper = shallowMount(App, {
+      global,
     });
   });
 
   test('should render component', async () => {
-    expect(component.exists()).toBe(true);
+    expect(wrapper.exists()).toBe(true);
   });
 
   test('should have version element', async () => {
-    expect(component.html()).toContain('v2.2');
+    expect(wrapper.html()).toContain('v2.2');
   });
 });
