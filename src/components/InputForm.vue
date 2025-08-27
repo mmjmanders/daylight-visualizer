@@ -4,7 +4,10 @@ import { computed, ref, watch } from 'vue';
 import { object, string } from 'yup';
 import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { DateTime } from 'luxon';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { useI18n } from 'vue-i18n';
 import {
   type ChartData,
@@ -15,6 +18,10 @@ import {
 } from '@/queries';
 import { offset, useFloating } from '@floating-ui/vue';
 import { toTypedSchema } from '@vee-validate/yup';
+
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
+dayjs.extend(isSameOrBefore);
 
 const { locale } = useI18n();
 
@@ -29,26 +36,22 @@ const { meta, defineField, handleSubmit, errors } = useForm({
       address: string()
         .required('is-required')
         .test('is-required', 'is-required', (value) => value?.trim()?.length !== 0),
-      startDate: string()
-        .required('is-required')
-        .test('start-before-end', 'start-before-end', (value, context) => {
-          const startDate = DateTime.fromISO(value);
-          const endDate = DateTime.fromISO(context.parent.endDate);
-          return startDate <= endDate;
-        }),
-      endDate: string()
-        .required('is-required')
-        .test('min-range', 'min-range', (value, context) => {
-          const startDate = DateTime.fromISO(context.parent.startDate);
-          const endDate = DateTime.fromISO(value);
-          return endDate.diff(startDate, 'months').months >= 1;
-        })
-        .test('max-range', 'max-range', (value, context) => {
-          const startDate = DateTime.fromISO(context.parent.startDate);
-          const endDate = DateTime.fromISO(value);
-          return endDate.diff(startDate, 'years').years < 1;
-        }),
+      startDate: string().required('is-required'),
+      endDate: string().required('is-required'),
       chartType: string().required(),
+    }).test('valid-dates', (values, ctx) => {
+      const { startDate, endDate } = values as { startDate: string; endDate: string };
+      const start = dayjs(startDate, 'YYYY-MM-DD', true);
+      const end = dayjs(endDate, 'YYYY-MM-DD', true);
+      if (!start.isValid() || !end.isValid()) {
+        return true;
+      } else if (start.isAfter(end)) {
+        return ctx.createError({ path: 'startDate', message: 'start-before-end' });
+      } else if (end.diff(start, 'month', true) < 1) {
+        return ctx.createError({ path: 'endDate', message: 'min-range' });
+      } else if (end.diff(start, 'year', true) >= 1) {
+        return ctx.createError({ path: 'endDate', message: 'max-range' });
+      }
     }),
   ),
 });
@@ -76,15 +79,15 @@ const { floatingStyles: endDateTooltipStyles } = useFloating(endDateInputRef, en
   middleware: [offset(10)],
 });
 
-const defaultEndDate = DateTime.now();
-const defaultStartDate = defaultEndDate.minus({ months: 1 });
+const defaultEndDate = dayjs();
+const defaultStartDate = defaultEndDate.subtract(1, 'month');
 
 const [addressModel, addressModelAttrs] = defineField('address');
 const [startDateModel, startDateModelAttrs] = defineField('startDate');
 const [endDateModel, endDateModelAttrs] = defineField('endDate');
 const [chartTypeModel, chartTypeModelAttrs] = defineField('chartType');
-startDateModel.value = defaultStartDate.toISODate();
-endDateModel.value = defaultEndDate.toISODate();
+startDateModel.value = defaultStartDate.format('YYYY-MM-DD');
+endDateModel.value = defaultEndDate.format('YYYY-MM-DD');
 chartTypeModel.value = 'polar';
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null);

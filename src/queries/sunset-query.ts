@@ -1,7 +1,14 @@
 import { useQuery } from '@tanstack/vue-query';
 import { type Ref, computed } from 'vue';
-import { DateTime } from 'luxon';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import type { Datum } from './types';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(customParseFormat);
 
 const { VITE_SUNSET_API_BASE_URL: baseUrl } = import.meta.env;
 
@@ -37,15 +44,13 @@ export const useSunsetQuery = (
             sunset: string;
             day_length: string;
           }) => {
-            const date = DateTime.fromISO(d.date, { zone: d.timezone }).toMillis();
+            const date = dayjs.tz(d.date, d.timezone).startOf('day').valueOf();
             const sunrise =
-              DateTime.fromFormat(`${d.date} ${d.sunrise}`, 'yyyy-MM-dd HH:mm:ss', {
-                zone: d.timezone,
-              }).toMillis() - date;
+              dayjs.tz(`${d.date} ${d.sunrise}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
+              date;
             const sunset =
-              DateTime.fromFormat(`${d.date} ${d.sunset}`, 'yyyy-MM-dd HH:mm:ss', {
-                zone: d.timezone,
-              }).toMillis() - date;
+              dayjs.tz(`${d.date} ${d.sunset}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() - date;
+
             return {
               date,
               sunrise,

@@ -22,7 +22,7 @@ export default defineConfig({
             '@fortawesome/vue-fontawesome',
           ],
           highcharts: ['highcharts', 'highcharts-vue'],
-          luxon: ['luxon'],
+          dayjs: ['dayjs'],
           'tanstack-vue-query': ['@tanstack/vue-query'],
           yup: ['@vee-validate/yup', 'yup'],
         },

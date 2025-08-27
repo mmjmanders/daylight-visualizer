@@ -3,7 +3,14 @@ import type { ChartData } from '@/queries';
 import type { Options } from 'highcharts';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
-import { DateTime } from 'luxon';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(localizedFormat);
 
 const { t, locale } = useI18n();
 const props = defineProps<{ chartData: ChartData }>();
@@ -49,6 +56,7 @@ const chartOptions = computed<Options>(() => ({
           low: d.sunrise,
           high: d.sunset,
           custom: {
+            day_length: d.day_length,
             timezone: d.timezone,
           },
         })),
@@ -63,18 +71,16 @@ const chartOptions = computed<Options>(() => ({
   tooltip: {
     useHTML: true,
     formatter: function () {
-      const date = DateTime.fromMillis(this.x, { zone: this.custom.timezone })
-        .setLocale(locale.value)
-        .toLocaleString({
-          ...DateTime.DATE_HUGE,
-          month: 'short',
-        });
-      const sunrise = DateTime.fromMillis(this.x + (this.low ?? 0), { zone: this.custom.timezone })
-        .setLocale(locale.value)
-        .toLocaleString(DateTime.TIME_WITH_SECONDS);
-      const sunset = DateTime.fromMillis(this.x + (this.high ?? 0), { zone: this.custom.timezone })
-        .setLocale(locale.value)
-        .toLocaleString(DateTime.TIME_WITH_SECONDS);
+      const date = dayjs(this.x).tz(this.custom.timezone).locale(locale.value).format('dddd, ll');
+      const sunrise = dayjs(this.x + (this.low ?? 0))
+        .tz(this.custom.timezone)
+        .locale(locale.value)
+        .format('LTS');
+      const sunset = dayjs(this.x + (this.high ?? 0))
+        .tz(this.custom.timezone)
+        .locale(locale.value)
+        .format('LTS');
+
       return `<table class="table table-borderless table-sm">
                 <thead class="border-bottom">
                   <tr>
@@ -89,7 +95,11 @@ const chartOptions = computed<Options>(() => ({
                   <tr>
                     <th scope="row">${t('chart.labels.sunset')}</th>
                     <td>${sunset}</td>
-                  </tr>                  
+                  </tr>
+                  <tr>
+                    <th scope="row">${t('chart.labels.daylight')}</th>
+                    <td>${this.custom.day_length}</td>
+                  </tr>                 
                 </tbody>
               </table>`;
     },
@@ -122,6 +132,7 @@ const chartOptions = computed<Options>(() => ({
   &.polar {
     aspect-ratio: 1 / 1;
   }
+
   &.line {
     margin-top: 2rem;
     aspect-ratio: 16 / 9;
