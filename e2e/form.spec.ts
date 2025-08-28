@@ -20,29 +20,76 @@ test.describe('Form', () => {
   [
     {
       selector: '#startDate',
-      message: '',
+      language: 'en',
+      message: 'Start date must be before (or equal to) end date',
       startDate: '2025-03-02',
       endDate: '2025-03-01',
     },
     {
       selector: '#endDate',
-      message: '',
+      language: 'en',
+      message: 'Minimum range must be one month',
       startDate: '2025-03-02',
       endDate: '2025-03-10',
     },
     {
       selector: '#endDate',
-      message: '',
+      language: 'en',
+      message: 'Maximum range is one year',
       startDate: '2025-03-02',
       endDate: '2026-03-10',
     },
-  ].forEach(({ selector, message, startDate, endDate }) => {
-    test(`expect ${selector} to be invalid with message ${message} when startDate is ${startDate} and endDate is ${endDate}`, async ({
+    {
+      selector: '#startDate',
+      language: 'nl',
+      message: 'Startdatum moet liggen voor (of gelijk zijn aan) einddatum',
+      startDate: '2025-03-02',
+      endDate: '2025-03-01',
+    },
+    {
+      selector: '#endDate',
+      language: 'nl',
+      message: 'Minimale periode is 1 maand',
+      startDate: '2025-03-02',
+      endDate: '2025-03-10',
+    },
+    {
+      selector: '#endDate',
+      language: 'nl',
+      message: 'Maximale periode is 1 jaar',
+      startDate: '2025-03-02',
+      endDate: '2026-03-10',
+    },
+    {
+      selector: '#startDate',
+      language: 'fr',
+      message: 'Start date must be before (or equal to) end date',
+      startDate: '2025-03-02',
+      endDate: '2025-03-01',
+    },
+    {
+      selector: '#endDate',
+      language: 'fr',
+      message: 'Minimum range must be one month',
+      startDate: '2025-03-02',
+      endDate: '2025-03-10',
+    },
+    {
+      selector: '#endDate',
+      language: 'fr',
+      message: 'Maximum range is one year',
+      startDate: '2025-03-02',
+      endDate: '2026-03-10',
+    },
+  ].forEach(({ selector, language, message, startDate, endDate }) => {
+    test(`expect ${selector} to be invalid with message '${message}' for language '${language}' when startDate is ${startDate} and endDate is ${endDate}`, async ({
       page,
     }) => {
+      await page.goto(`/?lang=${language}`);
       await page.locator('#startDate').fill(startDate);
       await page.locator('#endDate').fill(endDate);
       await expect(page.locator(selector)).toHaveClass(/is-invalid/);
+      await expect(page.locator(`${selector} + span.popover`)).toHaveText(message);
     });
   });
 
