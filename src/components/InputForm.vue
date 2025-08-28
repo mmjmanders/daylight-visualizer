@@ -51,6 +51,8 @@ const { meta, defineField, handleSubmit, errors } = useForm({
         return ctx.createError({ path: 'endDate', message: 'min-range' });
       } else if (end.diff(start, 'year', true) >= 1) {
         return ctx.createError({ path: 'endDate', message: 'max-range' });
+      } else {
+        return true;
       }
     }),
   ),

@@ -54,7 +54,7 @@ describe('InputForm.vue', () => {
     { startDate: '2025-08-26', endDate: '2026-08-27', message: 'Maximum range is one year' },
     {
       startDate: '2025-08-26',
-      endDate: '2025-0-25',
+      endDate: '2025-08-25',
       message: 'Start date must be before (or equal to) end date',
     },
   ])(
