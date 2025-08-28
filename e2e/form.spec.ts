@@ -17,22 +17,33 @@ test.describe('Form', () => {
     await expect(page.locator('button[type=submit]')).toBeEnabled();
   });
 
-  test('expect startDate to be invalid', async ({ page }) => {
-    await page.locator('#endDate').fill('2025-03-01');
-    await page.locator('#startDate').fill('2025-03-02');
-    await expect(page.locator('#startDate')).toHaveClass(/is-invalid/);
-  });
-
-  test('expect endDate to be invalid due to too small range', async ({ page }) => {
-    await page.locator('#startDate').fill('2025-03-02');
-    await page.locator('#endDate').fill('2025-03-10');
-    await expect(page.locator('#endDate')).toHaveClass(/is-invalid/);
-  });
-
-  test('expect endDate to be invalid due to too large range', async ({ page }) => {
-    await page.locator('#startDate').fill('2025-03-02');
-    await page.locator('#endDate').fill('2026-03-10');
-    await expect(page.locator('#endDate')).toHaveClass(/is-invalid/);
+  [
+    {
+      selector: '#startDate',
+      message: '',
+      startDate: '2025-03-02',
+      endDate: '2025-03-01',
+    },
+    {
+      selector: '#endDate',
+      message: '',
+      startDate: '2025-03-02',
+      endDate: '2025-03-10',
+    },
+    {
+      selector: '#endDate',
+      message: '',
+      startDate: '2025-03-02',
+      endDate: '2026-03-10',
+    },
+  ].forEach(({ selector, message, startDate, endDate }) => {
+    test(`expect ${selector} to be invalid with message ${message} when startDate is ${startDate} and endDate is ${endDate}`, async ({
+      page,
+    }) => {
+      await page.locator('#startDate').fill(startDate);
+      await page.locator('#endDate').fill(endDate);
+      await expect(page.locator(selector)).toHaveClass(/is-invalid/);
+    });
   });
 
   test('expect submit button to be disabled on initial load', async ({ page }) => {
