@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { object, string } from 'yup';
 import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -170,6 +170,24 @@ const isLoadingData = computed(
     isLoadingGeocodingData.value ||
     isLoadingSunsetData.value,
 );
+
+const isNarrowDisplay = ref<boolean>(false);
+const updateIsNarrowDisplay = () => {
+  if (screen.width < 992) {
+    isNarrowDisplay.value = true;
+    chartTypeModel.value = 'polar';
+  } else {
+    isNarrowDisplay.value = false;
+  }
+};
+onMounted(() => {
+  updateIsNarrowDisplay();
+  addEventListener('resize', updateIsNarrowDisplay);
+});
+
+onUnmounted(() => {
+  removeEventListener('resize', updateIsNarrowDisplay);
+});
 </script>
 
 <template>
@@ -214,7 +232,7 @@ const isLoadingData = computed(
         </div>
       </div>
       <div class="row row-gap-2">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4 col-lg-3">
           <label for="startDate" class="form-label">{{ $t('form.labels.startDate') }}</label>
           <input
             v-bind="startDateModelAttrs"
@@ -233,7 +251,7 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.startDate.${errors.startDate}`) }}</span
           >
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4 col-lg-3">
           <label for="endDate" class="form-label">{{ $t('form.labels.endDate') }}</label>
           <input
             v-bind="endDateModelAttrs"
@@ -252,13 +270,14 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.endDate.${errors.endDate}`) }}</span
           >
         </div>
-        <div class="col-12 col-md-2">
+        <div class="d-none d-lg-block col-lg-2">
           <label for="chartType" class="form-label">{{ $t('form.labels.chartType') }}</label>
           <select
             v-bind="chartTypeModelAttrs"
             v-model="chartTypeModel"
             id="chartType"
             class="form-select"
+            :disabled="isNarrowDisplay"
           >
             <option value="polar">{{ $t('form.labels.polar') }}</option>
             <option value="line">{{ $t('form.labels.line') }}</option>
