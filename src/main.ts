@@ -18,12 +18,13 @@ import * as nl from './locales/nl.json';
 import { createI18n } from 'vue-i18n';
 import { createApp } from 'vue';
 import App from './App.vue';
+import { parseQuery } from 'vue-router';
 
+const query = parseQuery(location.search);
 const messages = { en, nl };
 const fallbackLocale = 'en';
-const language =
-  new URLSearchParams(location.search).get('lang') ?? navigator.language.split('-')[0];
-const locale = Object.keys(messages).includes(language) ? language : fallbackLocale;
+const language = query['lang'] ?? navigator.language.split('-')[0];
+const locale = Object.keys(messages).includes(language as string) ? language : fallbackLocale;
 
 createApp(App)
   .use(HighchartsVue)
@@ -31,7 +32,7 @@ createApp(App)
   .use(
     createI18n({
       legacy: false,
-      locale,
+      locale: locale as string,
       fallbackLocale,
       messages,
     }),
