@@ -124,23 +124,4 @@ const chartOptions = computed<Options>(() => ({
   </div>
 </template>
 
-<style scoped lang="scss">
-.chart-container {
-  width: 100%;
-  height: 100%;
-
-  &.polar {
-    aspect-ratio: 1 / 1;
-  }
-
-  &.line {
-    margin-top: 2rem;
-    aspect-ratio: 16 / 9;
-  }
-
-  .highcharts-light {
-    width: 100%;
-    height: 100%;
-  }
-}
-</style>
+<style scoped></style>
