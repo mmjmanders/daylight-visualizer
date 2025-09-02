@@ -3,6 +3,8 @@ import { shallowMount, VueWrapper } from '@vue/test-utils';
 import App from '../App.vue';
 import { global } from './globalMock';
 
+const { VITE_APP_VERSION: version } = import.meta.env;
+
 describe('App.vue', () => {
   let wrapper: VueWrapper<any>;
 
@@ -17,6 +19,6 @@ describe('App.vue', () => {
   });
 
   test('should have version element', async () => {
-    expect(wrapper.html()).toContain('v2.2');
+    expect(wrapper.html()).toContain(`v${version}`);
   });
 });
