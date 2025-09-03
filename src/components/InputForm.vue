@@ -173,13 +173,15 @@ const isLoadingData = computed(
 
 const isNarrowDisplay = ref<boolean>(false);
 const updateIsNarrowDisplay = () => {
-  if (screen.width < 992) {
-    isNarrowDisplay.value = true;
-    chartTypeModel.value = 'polar';
-  } else {
-    isNarrowDisplay.value = false;
-  }
+  isNarrowDisplay.value = !matchMedia('(min-width: 992px)').matches;
 };
+
+watch(isNarrowDisplay, (narrow) => {
+  if (narrow === true) {
+    chartTypeModel.value = 'polar';
+  }
+});
+
 onMounted(() => {
   updateIsNarrowDisplay();
   addEventListener('resize', updateIsNarrowDisplay);
@@ -272,16 +274,17 @@ onUnmounted(() => {
         </div>
         <div class="d-none d-lg-block col-lg-2">
           <label for="chartType" class="form-label">{{ $t('form.labels.chartType') }}</label>
-          <select
-            v-bind="chartTypeModelAttrs"
-            v-model="chartTypeModel"
-            id="chartType"
-            class="form-select"
-            :disabled="isNarrowDisplay"
-          >
-            <option value="polar">{{ $t('form.labels.polar') }}</option>
-            <option value="line">{{ $t('form.labels.line') }}</option>
-          </select>
+          <fieldset :disabled="isNarrowDisplay">
+            <select
+              v-bind="chartTypeModelAttrs"
+              v-model="chartTypeModel"
+              id="chartType"
+              class="form-select"
+            >
+              <option value="polar">{{ $t('form.labels.polar') }}</option>
+              <option value="line">{{ $t('form.labels.line') }}</option>
+            </select>
+          </fieldset>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button

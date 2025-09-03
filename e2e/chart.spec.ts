@@ -17,13 +17,16 @@ test.describe('Chart', () => {
     await expect(page.locator('div.highcharts-container')).toBeVisible();
   });
 
-  test('should switch chart type and css class', async ({ page, viewport }) => {
-    test.skip(viewport != null && viewport.width < 992, 'Test only runs on wide screens');
+  test('should switch chart type and css class, but not on mobile', async ({ page, isMobile }) => {
     await page.locator('button[type=button]').click();
     await page.locator('button[type=submit]').click();
     await page.locator('div.highcharts-container').waitFor();
     await expect(page.locator('div.chart-container.polar')).toBeVisible();
-    await page.locator('#chartType').selectOption('line');
-    await expect(page.locator('div.chart-container.line')).toBeVisible();
+    if (!isMobile && window.innerWidth >= 992) {
+      await page.locator('#chartType').selectOption('line');
+      await expect(page.locator('div.chart-container.line')).toBeVisible();
+    } else {
+      await expect(page.locator('#chartType')).toBeDisabled();
+    }
   });
 });
