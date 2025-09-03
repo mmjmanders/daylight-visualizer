@@ -173,7 +173,7 @@ const isLoadingData = computed(
 
 const isNarrowDisplay = ref<boolean>(false);
 const updateIsNarrowDisplay = () => {
-  if (screen.width < 992) {
+  if (visualViewport && visualViewport.width < 992) {
     isNarrowDisplay.value = true;
     chartTypeModel.value = 'polar';
   } else {

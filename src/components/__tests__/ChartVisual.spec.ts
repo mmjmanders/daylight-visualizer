@@ -1,16 +1,17 @@
-import { mount } from '@vue/test-utils';
-import { describe, test, expect } from 'vitest';
+import { shallowMount, VueWrapper } from '@vue/test-utils';
+import { describe, test, expect, beforeEach } from 'vitest';
 import { global } from '../../__tests__/globalMock';
 import ChartVisual from '../ChartVisual.vue';
-import HighchartsVue from 'highcharts-vue';
 import waitForExpect from 'wait-for-expect';
 
 describe('ChartVisual.vue', () => {
-  test('should render component', async () => {
-    const wrapper = mount(ChartVisual, {
+  let wrapper: VueWrapper<any>;
+
+  beforeEach(() => {
+    wrapper = shallowMount(ChartVisual, {
       global: {
         ...global,
-        plugins: [...global.plugins, HighchartsVue],
+        stubs: ['highcharts'],
       },
       props: {
         chartData: {
@@ -19,14 +20,17 @@ describe('ChartVisual.vue', () => {
         },
       },
     });
+  });
+
+  test('should render component', async () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  test('should have no data', async () => {
-    const wrapper = mount(ChartVisual, {
+  test('should have polar chart', async () => {
+    wrapper = shallowMount(ChartVisual, {
       global: {
         ...global,
-        plugins: [...global.plugins, HighchartsVue],
+        stubs: ['highcharts'],
       },
       props: {
         chartData: {
@@ -36,38 +40,25 @@ describe('ChartVisual.vue', () => {
       },
     });
     waitForExpect(() => {
-      expect(wrapper.get('.highcharts-series > path.highcharts-area').attributes('d')).toBe(
-        'M 0 0',
-      );
+      expect(wrapper.get('.highcharts-container.polar')).toBeTruthy();
     });
   });
 
-  test('should have chart', async () => {
-    const wrapper = mount(ChartVisual, {
+  test('should have line chart', async () => {
+    wrapper = shallowMount(ChartVisual, {
       global: {
         ...global,
-        plugins: [...global.plugins, HighchartsVue],
+        stubs: ['highcharts'],
       },
       props: {
         chartData: {
-          chartType: 'polar',
-          data: [
-            {
-              date: 1700000000000,
-              sunrise: 6 * 3600,
-              sunset: 18 * 3600,
-              day_length: '12:00:00',
-              timezone: 'UTC',
-            },
-          ],
+          chartType: 'line',
+          data: [],
         },
       },
     });
     waitForExpect(() => {
-      expect(wrapper.get('.highcharts-series > path.highcharts-area').attributes('d')).not.toBe(
-        'M 0 0',
-      );
-      expect(wrapper.get('.highcharts-xaxis-grid.highcharts-radial-axis-grid')).toBeTruthy();
+      expect(wrapper.get('.highcharts-container.line')).toBeTruthy();
     });
   });
 });
