@@ -8,6 +8,7 @@ on:
       - 'src/**'
       - 'public/**'
       - '!**/*.spec.ts'
+      - '.env'
 
 jobs:
   pnpm_install:
