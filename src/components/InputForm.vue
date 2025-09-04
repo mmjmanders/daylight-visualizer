@@ -176,11 +176,15 @@ const updateIsNarrowDisplay = () => {
   isNarrowDisplay.value = !matchMedia('(min-width: 992px)').matches;
 };
 
-watch(isNarrowDisplay, (narrow) => {
-  if (narrow === true) {
-    chartTypeModel.value = 'polar';
-  }
-});
+watch(
+  isNarrowDisplay,
+  (narrow) => {
+    if (narrow === true) {
+      chartTypeModel.value = 'polar';
+    }
+  },
+  { immediate: true },
+);
 
 onMounted(() => {
   updateIsNarrowDisplay();
