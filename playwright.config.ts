@@ -78,21 +78,9 @@ export default defineConfig({
       },
     },
     {
-      name: 'Mobile Chrome Landscape',
-      use: {
-        ...devices['Pixel 7 landscape'],
-      },
-    },
-    {
       name: 'Tablet Chrome',
       use: {
         ...devices['Galaxy Tab S9'],
-      },
-    },
-    {
-      name: 'Tablet Chrome Landscape',
-      use: {
-        ...devices['Galaxy Tab S9 landscape'],
       },
     },
     {
@@ -102,21 +90,9 @@ export default defineConfig({
       },
     },
     {
-      name: 'Mobile Safari Landscape',
-      use: {
-        ...devices['iPhone 15 landscape'],
-      },
-    },
-    {
       name: 'Tablet Safari',
       use: {
         ...devices['iPad (gen 7)'],
-      },
-    },
-    {
-      name: 'Tablet Safari Landscape',
-      use: {
-        ...devices['iPad (gen 7) landscape'],
       },
     },
 
