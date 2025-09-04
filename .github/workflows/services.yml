@@ -51,15 +51,14 @@ jobs:
           path: ./dist
 
   test-e2e:
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.55.0-noble
     needs: [pnpm_install, build]
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1, 2, 3, 4, 5, 6]
-        shardCount: [6]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        shardIndex: [1, 2, 3]
+        shardCount: [3]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - run: echo "store-dir=.pnpm-store" | tee -a $GITHUB_WORKSPACE/.npmrc
@@ -77,9 +76,15 @@ jobs:
         with:
           name: build-${{ github.sha }}
           path: ./dist
+      - run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            pnpm exec playwright install --with-deps
+          else
+            pnpm exec playwright install
+          fi
       - run: pnpm test:e2e --shard=${{ matrix.shardIndex }}/${{ matrix.shardCount }}
         env:
-          HOME: /root
+          HOME: ${{ matrix.os == 'ubuntu-latest' && '/root' || '/Users/runner' }}
 
   test-unit:
     runs-on: ubuntu-latest    
