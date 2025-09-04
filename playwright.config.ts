@@ -78,9 +78,21 @@ export default defineConfig({
       },
     },
     {
+      name: 'Tablet Chrome',
+      use: {
+        ...devices['Galaxy Tab S9'],
+      },
+    },
+    {
       name: 'Mobile Safari',
       use: {
         ...devices['iPhone 15'],
+      },
+    },
+    {
+      name: 'Tablet Safari',
+      use: {
+        ...devices['iPad (gen 7)'],
       },
     },
 
