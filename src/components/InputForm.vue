@@ -171,23 +171,18 @@ const isLoadingData = computed(
     isLoadingSunsetData.value,
 );
 
-const isNarrowDisplay = ref<boolean>(false);
+const isNarrowDisplay = ref<boolean>(window.innerWidth < 992);
 const updateIsNarrowDisplay = () => {
-  isNarrowDisplay.value = !matchMedia('(min-width: 992px)').matches;
+  isNarrowDisplay.value = window.innerWidth < 992;
 };
 
-watch(
-  isNarrowDisplay,
-  (narrow) => {
-    if (narrow === true) {
-      chartTypeModel.value = 'polar';
-    }
-  },
-  { immediate: true },
-);
+watch(isNarrowDisplay, (narrow: boolean) => {
+  if (narrow) {
+    chartTypeModel.value = 'polar';
+  }
+});
 
 onMounted(() => {
-  updateIsNarrowDisplay();
   addEventListener('resize', updateIsNarrowDisplay);
 });
 

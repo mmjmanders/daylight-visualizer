@@ -11,13 +11,10 @@ importers:
       '@floating-ui/vue':
         specifier: ^1.1.9
         version: 1.1.9(vue@3.5.21(typescript@5.9.2))
-      '@fontsource/fira-mono':
+      '@fontsource/montserrat':
         specifier: ^5.2.6
         version: 5.2.6
-      '@fontsource/reddit-sans':
-        specifier: ^5.2.6
-        version: 5.2.6
-      '@fontsource/sora':
+      '@fontsource/roboto-mono':
         specifier: ^5.2.6
         version: 5.2.6
       '@fortawesome/fontawesome-svg-core':
@@ -534,14 +531,11 @@ packages:
   '@floating-ui/vue@1.1.9':
     resolution: {integrity: sha512-BfNqNW6KA83Nexspgb9DZuz578R7HT8MZw1CfK9I6Ah4QReNWEJsXWHN+SdmOVLNGmTPDi+fDT535Df5PzMLbQ==}
 
-  '@fontsource/fira-mono@5.2.6':
-    resolution: {integrity: sha512-6pyiGeFH+5DP5sICSwx5wu+9BlTEMTKki7bTppsEqXJysi1MiK82n6oSUaYkQWRLH51+DK7zv2JJsi82cOIS3g==}
+  '@fontsource/montserrat@5.2.6':
+    resolution: {integrity: sha512-AfFxq1q5tgkOsjQfMFsh95uMXh39VbGOuBLlHLFg16/txv93lqK7Sr6jev0neuJzZy1kqRG16SH6xpUYnk4cZg==}
 
-  '@fontsource/reddit-sans@5.2.6':
-    resolution: {integrity: sha512-6E5Ye8gxUcIrIELjSlgqrhsVp7e1z5Fy2tQ/wXoLCDlQABo8JiRMQ1GLLQmnFiEvbyLDopGfYrsFHiRi3IylOQ==}
-
-  '@fontsource/sora@5.2.6':
-    resolution: {integrity: sha512-OPknOmn82HIJg32UGg9iEjEVFdC+xOZBqrmQNUgsem6hFwBBrqXnTwIpro7leq/uFRdupkN42hc0JJKH20j22w==}
+  '@fontsource/roboto-mono@5.2.6':
+    resolution: {integrity: sha512-fLCa3zs9XruKE8Fdbq0UWB0wqTi5dzi09QsnW7HgTwwnSVDZ3nH+X7Qg7l0yeIZs+E472cKE3RUD21ZnaXk4Zg==}
 
   '@fortawesome/fontawesome-common-types@7.0.1':
     resolution: {integrity: sha512-0VpNtO5cNe1/HQWMkl4OdncYK/mv9hnBte0Ew0n6DMzmo3Q3WzDFABHm6LeNTipt5zAyhQ6Ugjiu8aLaEjh1gg==}
@@ -2960,11 +2954,9 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@fontsource/fira-mono@5.2.6': {}
+  '@fontsource/montserrat@5.2.6': {}
 
-  '@fontsource/reddit-sans@5.2.6': {}
-
-  '@fontsource/sora@5.2.6': {}
+  '@fontsource/roboto-mono@5.2.6': {}
 
   '@fortawesome/fontawesome-common-types@7.0.1': {}
 
