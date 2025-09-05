@@ -6,8 +6,6 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      outputFile: { html: 'vitest-report/index.html' },
-      reporters: ['html'],
       coverage: {
         extension: ['.vue'],
         provider: 'v8',

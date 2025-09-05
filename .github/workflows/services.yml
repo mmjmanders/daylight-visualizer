@@ -47,8 +47,9 @@ jobs:
       - run: pnpm build
       - uses: actions/upload-artifact@v4
         with:
-          name: build-${{ github.sha }}
+          name: build-${{ github.run_attempt }}
           path: ./dist
+          retention-days: 1
 
   test-e2e:
     runs-on: ubuntu-latest
@@ -75,46 +76,11 @@ jobs:
       - run: pnpm install --prefer-offline --frozen-lockfile
       - uses: actions/download-artifact@v5
         with:
-          name: build-${{ github.sha }}
+          name: build-${{ github.run_attempt }}
           path: ./dist
       - run: pnpm test:e2e --shard=${{ matrix.shardIndex }}/${{ matrix.shardCount }}
         env:
           HOME: /root
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: blob-report-${{ matrix.shardIndex }}
-          path: ./blob-report
-          retention-days: 1
-
-  upload-e2e-reports:
-    runs-on: ubuntu-latest
-    needs: test-e2e
-    if: ${{ !cancelled() }}
-    steps:
-      - uses: actions/checkout@v4
-      - run: echo "store-dir=.pnpm-store" | tee -a $GITHUB_WORKSPACE/.npmrc
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-      - uses: actions/cache@v4
-        with:
-          path: |
-            .pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm install --prefer-offline --frozen-lockfile
-      - uses: actions/download-artifact@v5
-        with:
-          path: ./all-blob-reports
-          pattern: blob-report-*
-          merge-multiple: true
-      - run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
-      - uses: actions/upload-artifact@v4
-        with:
-          name: e2e-report-${{ github.run_attempt }}
-          path: ./playwright-report
-          retention-days: 14
 
   test-unit:
     runs-on: ubuntu-latest
@@ -136,12 +102,5 @@ jobs:
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: vitest-report-${{ github.run_attempt }}
-          path: ./vitest-report
-          retention-days: 14
-      - if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
           name: coverage-report-${{ github.run_attempt }}
           path: ./coverage
-          retention-days: 14
