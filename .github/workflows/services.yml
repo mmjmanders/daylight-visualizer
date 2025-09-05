@@ -47,8 +47,9 @@ jobs:
       - run: pnpm build
       - uses: actions/upload-artifact@v4
         with:
-          name: build-${{ github.sha }}
+          name: build-${{ github.run_attempt }}
           path: ./dist
+          retention-days: 1
 
   test-e2e:
     runs-on: ubuntu-latest
@@ -75,7 +76,7 @@ jobs:
       - run: pnpm install --prefer-offline --frozen-lockfile
       - uses: actions/download-artifact@v5
         with:
-          name: build-${{ github.sha }}
+          name: build-${{ github.run_attempt }}
           path: ./dist
       - run: pnpm test:e2e --shard=${{ matrix.shardIndex }}/${{ matrix.shardCount }}
         env:
@@ -97,4 +98,9 @@ jobs:
             .pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install --prefer-offline --frozen-lockfile
-      - run: pnpm test:unit
+      - run: pnpm test:unit --coverage
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{ github.run_attempt }}
+          path: ./coverage
