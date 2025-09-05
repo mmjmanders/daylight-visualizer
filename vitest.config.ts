@@ -9,7 +9,6 @@ export default mergeConfig(
       coverage: {
         extension: ['.vue'],
         provider: 'v8',
-        reporter: ['text', 'html'],
       },
       environment: 'happy-dom',
       exclude: [...configDefaults.exclude, 'e2e/**'],
