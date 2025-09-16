@@ -120,7 +120,7 @@ const chartOptions = computed<Options>(() => ({
 
 <template>
   <div class="chart-container">
-    <highcharts :options="chartOptions" class="highcharts-light" :lang="locale" />
+    <highcharts :options="chartOptions" :lang="locale" />
   </div>
 </template>
 
