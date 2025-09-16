@@ -10,6 +10,7 @@ import HighchartsVue from 'highcharts-vue';
 import 'highcharts/highcharts-more';
 import 'highcharts/modules/boost-canvas';
 import 'highcharts/modules/boost';
+import 'highcharts/themes/adaptive';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import * as en from './locales/en.json';
 import * as nl from './locales/nl.json';
