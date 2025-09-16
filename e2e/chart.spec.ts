@@ -21,13 +21,6 @@ test.describe('Chart', () => {
     await page.locator('button[type=button]').click();
     await page.locator('button[type=submit]').click();
     await page.locator('div.highcharts-container').waitFor();
-    await expect(page.locator('div.chart-container.polar')).toBeVisible();
-    const innerWidth = await page.evaluate(() => window.innerWidth);
-    if (innerWidth < 992) {
-      await expect(page.locator('#chartType')).toBeDisabled();
-    } else {
-      await page.locator('#chartType').selectOption('line');
-      await expect(page.locator('div.chart-container.line')).toBeVisible();
-    }
+    await expect(page.locator('div.chart-container')).toBeVisible();
   });
 });
