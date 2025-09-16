@@ -1,12 +1,9 @@
-import { vi, describe, test, expect, afterEach, beforeEach } from 'vitest';
-import { mount, VueWrapper } from '@vue/test-utils';
-import MainContent from '../MainContent.vue';
+import { mount } from '@vue/test-utils';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { global } from '../../__tests__/globalMock';
-import waitForExpect from 'wait-for-expect';
+import MainContent from '../MainContent.vue';
 
 describe('MainContent.vue', () => {
-  let wrapper: VueWrapper<any>;
-
   beforeEach(() => {
     vi.stubGlobal(
       'fetch',
@@ -40,10 +37,6 @@ describe('MainContent.vue', () => {
           }),
         }),
     );
-
-    wrapper = mount(MainContent, {
-      global: { ...global, stubs: ['HighchartsVue', 'Highcharts'] },
-    });
   });
 
   afterEach(() => {
@@ -52,38 +45,9 @@ describe('MainContent.vue', () => {
   });
 
   test('should render component', async () => {
+    const wrapper = mount(MainContent, {
+      global: { ...global, stubs: ['HighchartsVue', 'Highcharts'] },
+    });
     expect(wrapper.exists()).toBe(true);
-  });
-
-  test.each([
-    {
-      chartType: 'polar',
-    },
-    { chartType: 'line' },
-  ])('should have chart type $chartType', async ({ chartType }) => {
-    await wrapper.get('input#address').setValue('New York City');
-    await wrapper.get('select#chartType').setValue(chartType);
-    await wrapper.get('form').trigger('submit.prevent');
-    await waitForExpect(async () => {
-      const chartContainer = wrapper.find('.chart-container');
-      expect(chartContainer.exists()).toBe(true);
-      expect(chartContainer.classes()).toContain(chartType);
-    });
-  });
-
-  test('should switch chart type when changed', async () => {
-    await wrapper.get('input#address').setValue('New York City');
-    await wrapper.get('select#chartType').setValue('line');
-    await wrapper.get('form').trigger('submit.prevent');
-    await waitForExpect(async () => {
-      expect(wrapper.find('.chart-container.line').exists()).toBe(true);
-      expect(wrapper.find('.chart-container.polar').exists()).toBe(false);
-    });
-
-    await wrapper.get('select#chartType').setValue('polar');
-    await waitForExpect(() => {
-      expect(wrapper.find('.chart-container.line').exists()).toBe(false);
-      expect(wrapper.find('.chart-container.polar').exists()).toBe(true);
-    });
   });
 });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ChartData } from '@/queries';
+import type { Datum } from '@/queries';
 import type { Options } from 'highcharts';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
@@ -13,7 +13,7 @@ dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 
 const { t, locale } = useI18n();
-const props = defineProps<{ chartData: ChartData }>();
+const props = defineProps<{ data: Datum[] }>();
 
 const chartOptions = computed<Options>(() => ({
   accessibility: {
@@ -23,7 +23,7 @@ const chartOptions = computed<Options>(() => ({
     enabled: true,
   },
   chart: {
-    polar: props.chartData.chartType === 'polar',
+    polar: true,
     styledMode: true,
   },
   credits: {
@@ -47,9 +47,9 @@ const chartOptions = computed<Options>(() => ({
   series: [
     {
       name: t('chart.labels.daylight'),
-      type: props.chartData.chartType === 'polar' ? 'areasplinerange' : 'arearange',
+      type: 'areasplinerange',
       linecap: 'round',
-      data: props.chartData.data
+      data: props.data
         .filter((d) => d.sunrise != null && d.sunset != null)
         .map((d) => ({
           x: d.date,
@@ -119,7 +119,7 @@ const chartOptions = computed<Options>(() => ({
 </script>
 
 <template>
-  <div class="chart-container" :class="chartData.chartType">
+  <div class="chart-container">
     <highcharts :options="chartOptions" class="highcharts-light" :lang="locale" />
   </div>
 </template>

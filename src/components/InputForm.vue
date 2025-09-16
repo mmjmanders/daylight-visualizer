@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { object, string } from 'yup';
 import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -10,7 +10,6 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { useI18n } from 'vue-i18n';
 import {
-  type ChartData,
   type Datum,
   useGeolocationQuery,
   useReverseGeolocationQuery,
@@ -25,10 +24,7 @@ dayjs.extend(isSameOrBefore);
 
 const { locale } = useI18n();
 
-const chartData = defineModel<ChartData>('chartData');
-const emit = defineEmits<{
-  chartTypeChange: [type: 'polar' | 'line'];
-}>();
+const chartData = defineModel<Datum[]>('chartData');
 
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
@@ -38,7 +34,6 @@ const { meta, defineField, handleSubmit, errors } = useForm({
         .test('is-required', 'is-required', (value) => value?.trim()?.length !== 0),
       startDate: string().required('is-required'),
       endDate: string().required('is-required'),
-      chartType: string().required(),
     }).test('valid-dates', (values, ctx) => {
       const { startDate, endDate } = values as { startDate: string; endDate: string };
       const start = dayjs(startDate, 'YYYY-MM-DD', true);
@@ -87,10 +82,8 @@ const defaultStartDate = defaultEndDate.subtract(1, 'month');
 const [addressModel, addressModelAttrs] = defineField('address');
 const [startDateModel, startDateModelAttrs] = defineField('startDate');
 const [endDateModel, endDateModelAttrs] = defineField('endDate');
-const [chartTypeModel, chartTypeModelAttrs] = defineField('chartType');
 startDateModel.value = defaultStartDate.format('YYYY-MM-DD');
 endDateModel.value = defaultEndDate.format('YYYY-MM-DD');
-chartTypeModel.value = 'polar';
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null);
 const reverseGeocodingLongitudeRef = ref<number | null>(null);
@@ -146,15 +139,8 @@ watch(geocodingData, (data) => {
 
 watch(sunsetData, (data) => {
   if (data?.length !== 0) {
-    chartData.value = {
-      chartType: chartTypeModel.value as 'polar' | 'line',
-      data: data as Datum[],
-    };
+    chartData.value = data;
   }
-});
-
-watch(chartTypeModel, (newType) => {
-  emit('chartTypeChange', newType as 'polar' | 'line');
 });
 
 const onSubmit = handleSubmit(() => {
@@ -170,25 +156,6 @@ const isLoadingData = computed(
     isLoadingGeocodingData.value ||
     isLoadingSunsetData.value,
 );
-
-const isNarrowDisplay = ref<boolean>(window.innerWidth < 992);
-const updateIsNarrowDisplay = () => {
-  isNarrowDisplay.value = window.innerWidth < 992;
-};
-
-watch(isNarrowDisplay, (narrow: boolean) => {
-  if (narrow) {
-    chartTypeModel.value = 'polar';
-  }
-});
-
-onMounted(() => {
-  addEventListener('resize', updateIsNarrowDisplay);
-});
-
-onUnmounted(() => {
-  removeEventListener('resize', updateIsNarrowDisplay);
-});
 </script>
 
 <template>
@@ -233,7 +200,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="row row-gap-2">
-        <div class="col-12 col-md-4 col-lg-3">
+        <div class="col-12 col-md-4">
           <label for="startDate" class="form-label">{{ $t('form.labels.startDate') }}</label>
           <input
             v-bind="startDateModelAttrs"
@@ -252,7 +219,7 @@ onUnmounted(() => {
             >{{ $t(`form.errors.startDate.${errors.startDate}`) }}</span
           >
         </div>
-        <div class="col-12 col-md-4 col-lg-3">
+        <div class="col-12 col-md-4">
           <label for="endDate" class="form-label">{{ $t('form.labels.endDate') }}</label>
           <input
             v-bind="endDateModelAttrs"
@@ -270,20 +237,6 @@ onUnmounted(() => {
             :style="endDateTooltipStyles"
             >{{ $t(`form.errors.endDate.${errors.endDate}`) }}</span
           >
-        </div>
-        <div class="d-none d-lg-block col-lg-2">
-          <label for="chartType" class="form-label">{{ $t('form.labels.chartType') }}</label>
-          <fieldset :disabled="isNarrowDisplay">
-            <select
-              v-bind="chartTypeModelAttrs"
-              v-model="chartTypeModel"
-              id="chartType"
-              class="form-select"
-            >
-              <option value="polar">{{ $t('form.labels.polar') }}</option>
-              <option value="line">{{ $t('form.labels.line') }}</option>
-            </select>
-          </fieldset>
         </div>
         <div class="col-auto d-flex flex-column justify-content-end">
           <button
