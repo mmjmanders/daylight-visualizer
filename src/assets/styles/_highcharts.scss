@@ -1,9 +1,7 @@
 .chart-container {
-  --dlv-background-color: oklch(0.135 0.025 106.8 / 0.75);
   --highcharts-color-0: oklch(0.95 0.189 107);
 
   @media (prefers-color-scheme: dark) {
-    --dlv-background-color: oklch(0.90 0.025 106.8 / 0.75);
     --highcharts-color-0: oklch(0.55 0.15 107);
   }
 
@@ -14,10 +12,6 @@
   &>div {
     width: 100%;
     height: 100%;
-  }
-
-  .highcharts-axis-line {
-    fill: var(--dlv-background-color);
   }
 
   .highcharts-credits {
