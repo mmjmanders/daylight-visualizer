@@ -7,6 +7,7 @@ const config = {
         'oklab-function': {
           preserve: true,
         },
+        'nesting-rules': {},
       },
     },
   },
