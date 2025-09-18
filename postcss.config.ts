@@ -2,7 +2,13 @@
 const config = {
   plugins: {
     autoprefixer: {},
-    'postcss-preset-env': {},
+    'postcss-preset-env': {
+      features: {
+        'oklab-function': {
+          preserve: true,
+        },
+      },
+    },
   },
 };
 
