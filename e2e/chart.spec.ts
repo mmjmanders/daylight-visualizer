@@ -17,10 +17,33 @@ test.describe('Chart', () => {
     await expect(page.locator('div.highcharts-container')).toBeVisible();
   });
 
-  test('should switch chart type and css class, but not on mobile', async ({ page }) => {
-    await page.locator('button[type=button]').click();
-    await page.locator('button[type=submit]').click();
-    await page.locator('div.highcharts-container').waitFor();
-    await expect(page.locator('div.chart-container')).toBeVisible();
+  [
+    {
+      colorScheme: 'light',
+      chartColor: 'oklch(0.95 0.189 107)',
+      backgroundColor: 'rgb(255, 255, 255)',
+    },
+    {
+      colorScheme: 'dark',
+      chartColor: 'oklch(0.55 0.15 107)',
+      backgroundColor: 'rgb(33, 37, 41)',
+    },
+  ].forEach(({ colorScheme, chartColor, backgroundColor }) => {
+    test(`should have correct colors for colorScheme ${colorScheme}`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: colorScheme as 'light' | 'dark' });
+      await page.locator('button[type=button]').click();
+      await page.locator('button[type=submit]').click();
+      await page.locator('.highcharts-series.highcharts-series-0').waitFor();
+      expect(
+        await page
+          .locator('body')
+          .evaluate((el) => getComputedStyle(el).getPropertyValue('background-color')),
+      ).toBe(backgroundColor);
+      expect(
+        await page
+          .locator('.highcharts-series.highcharts-series-0')
+          .evaluate((el) => getComputedStyle(el).getPropertyValue('fill')),
+      ).toBe(chartColor);
+    });
   });
 });
