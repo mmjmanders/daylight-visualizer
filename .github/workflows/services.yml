@@ -2,7 +2,11 @@ on:
   pull_request:
 
 jobs:
+  pnpm-install:
+    uses: ./.github/workflows/.pnpm_install.yaml
+
   lint:
+    needs: pnpm-install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -16,6 +20,7 @@ jobs:
       - run: pnpm lint
 
   build:
+    needs: pnpm-install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -37,10 +42,10 @@ jobs:
           retention-days: 1
 
   test-e2e:
+    needs: build
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.55.1-noble
-    needs: build
     strategy:
       fail-fast: false
       matrix:
@@ -64,6 +69,7 @@ jobs:
           HOME: /root
 
   test-unit:
+    needs: pnpm-install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
