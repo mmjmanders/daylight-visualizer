@@ -6,7 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: echo "store-dir=.pnpm-store" | tee -a $GITHUB_WORKSPACE/.npmrc
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
@@ -20,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: echo "store-dir=.pnpm-store" | tee -a $GITHUB_WORKSPACE/.npmrc
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
@@ -50,7 +48,6 @@ jobs:
         shardCount: [3]
     steps:
       - uses: actions/checkout@v5
-      - run: echo "store-dir=.pnpm-store" | tee -a $GITHUB_WORKSPACE/.npmrc
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
@@ -70,7 +67,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: echo "store-dir=.pnpm-store" | tee -a $GITHUB_WORKSPACE/.npmrc
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
