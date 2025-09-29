@@ -39,6 +39,8 @@
     "@nx/vite": "21.5.3",
     "@nx/web": "21.5.3",
     "@playwright/test": "^1.55.1",
+    "@swc-node/register": "^1.11.1",
+    "@swc/core": "^1.13.5",
     "@tanstack/eslint-plugin-query": "^5.91.0",
     "@tanstack/vue-query-devtools": "^5.90.2",
     "@tsconfig/node22": "^22.0.2",
