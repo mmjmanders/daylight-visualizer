@@ -21,7 +21,7 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --prefer-offline --frozen-lockfile
-      - run: pnpm lint
+      - run: pnpm exec nx affected -t lint
 
   build:
     needs: pnpm-install
@@ -48,13 +48,6 @@ jobs:
   test-e2e:
     needs: build
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.55.1-noble
-    strategy:
-      fail-fast: false
-      matrix:
-        shardIndex: [1, 2, 3]
-        shardCount: [3]
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -68,7 +61,8 @@ jobs:
         with:
           name: build-${{ github.run_attempt }}
           path: ./dist
-      - run: pnpm test:e2e --shard=${{ matrix.shardIndex }}/${{ matrix.shardCount }}
+      - run: pnpm exec playwright install --with-deps
+      - run: pnpm exec nx affected -t e2e
         env:
           HOME: /root
 
@@ -84,7 +78,7 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --prefer-offline --frozen-lockfile
-      - run: pnpm test:unit --coverage
+      - run: pnpm exec nx affected -t test --coverage
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
