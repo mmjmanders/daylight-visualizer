@@ -67,8 +67,7 @@ jobs:
           name: build-${{ github.run_attempt }}
           path: ./dist
       - run: pnpm exec playwright install --with-deps
-      - uses: nrwl/nx-set-shas@v4
-      - run: pnpm exec nx affected -t e2e
+      - run: pnpm exec nx run e2e
 
   test-unit:
     needs: pnpm-install
