@@ -4,13 +4,30 @@ on:
       - '.github/workflows/services.yml'
       - 'src/**'
       - 'e2e/**'
+      - 'pnpm-lock.yaml'
 
 jobs:
-  pnpm-install:
-    uses: ./.github/workflows/.pnpm_install.yaml
+  changes:
+    runs-on: ubuntu-latest
+    steps:
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            dependencies:
+              - 'pnpm-lock.yaml'
+            e2e:
+              - 'e2e/**'
+            src:
+              - 'src/**'
+    outputs:
+      dependencies: ${{ steps.filter.outputs.dependencies }}
+      e2e: ${{ steps.filter.outputs.e2e }}
+      src: ${{ steps.filter.outputs.src }}
 
   lint:
-    needs: pnpm-install
+    needs: changes
+    if: ${{ needs.changes.outputs.src == 'true' || needs.changes.outputs.dependencies == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -24,7 +41,8 @@ jobs:
       - run: pnpm lint
 
   build:
-    needs: pnpm-install
+    needs: changes
+    if: ${{ needs.changes.outputs.src == 'true' || needs.changes.outputs.e2e == 'true' || needs.changes.outputs.dependencies == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -73,7 +91,8 @@ jobs:
           HOME: /root
 
   test-unit:
-    needs: pnpm-install
+    needs: changes
+    if: ${{ needs.changes.outputs.src == 'true' || needs.changes.outputs.dependencies == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
