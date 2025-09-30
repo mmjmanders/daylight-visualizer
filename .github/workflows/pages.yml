@@ -9,13 +9,10 @@ on:
       - 'public/**'
       - '!**/*.spec.ts'
       - '.env'
+      - 'pnpm-lock.yaml'
 
 jobs:
-  pnpm-install:
-    uses: ./.github/workflows/.pnpm_install.yaml
-
   build:
-    needs: pnpm-install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
