@@ -20,12 +20,12 @@ test.describe('Chart', () => {
   [
     {
       colorScheme: 'light',
-      chartColor: 'oklch(0.95 0.189 107)',
+      chartColor: 'rgb(254, 246, 60)',
       backgroundColor: 'rgb(255, 255, 255)',
     },
     {
       colorScheme: 'dark',
-      chartColor: 'oklch(0.55 0.15 107)',
+      chartColor: 'rgb(124, 117, 0)',
       backgroundColor: 'rgb(33, 37, 41)',
     },
   ].forEach(({ colorScheme, chartColor, backgroundColor }) => {
@@ -34,16 +34,11 @@ test.describe('Chart', () => {
       await page.locator('button[type=button]').click();
       await page.locator('button[type=submit]').click();
       await page.locator('.highcharts-series.highcharts-series-0').waitFor();
-      expect(
-        await page
-          .locator('body')
-          .evaluate((el) => getComputedStyle(el).getPropertyValue('background-color')),
-      ).toBe(backgroundColor);
-      expect(
-        await page
-          .locator('.highcharts-series.highcharts-series-0')
-          .evaluate((el) => getComputedStyle(el).getPropertyValue('fill')),
-      ).toBe(chartColor);
+      await expect(page.locator('body')).toHaveCSS('background-color', backgroundColor);
+      await expect(page.locator('.highcharts-series.highcharts-series-0')).toHaveCSS(
+        'fill',
+        chartColor,
+      );
     });
   });
 });
