@@ -1,9 +1,5 @@
 .chart-container {
-  --highcharts-color-0: oklch(0.95 0.189 107);
-
-  @media (prefers-color-scheme: dark) {
-    --highcharts-color-0: oklch(0.55 0.15 107);
-  }
+  --highcharts-color-0: var(--dlv-chart-color);
 
   width: 100%;
   height: 100%;

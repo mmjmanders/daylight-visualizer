@@ -1,1 +1,9 @@
 @import 'styles';
+
+:root {
+  --dlv-chart-color: #fef63c;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #7c7500;
+  }
+}

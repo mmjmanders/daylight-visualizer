@@ -20,12 +20,12 @@ test.describe('Chart', () => {
   [
     {
       colorScheme: 'light',
-      chartColor: 'oklch(0.95 0.189 107)',
+      chartColor: '#fef63c',
       backgroundColor: 'rgb(255, 255, 255)',
     },
     {
       colorScheme: 'dark',
-      chartColor: 'oklch(0.55 0.15 107)',
+      chartColor: '#7c7500',
       backgroundColor: 'rgb(33, 37, 41)',
     },
   ].forEach(({ colorScheme, chartColor, backgroundColor }) => {
