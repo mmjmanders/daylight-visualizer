@@ -238,7 +238,7 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.endDate.${errors.endDate}`) }}</span
           >
         </div>
-        <div class="col-auto d-flex flex-column justify-content-end">
+        <div class="col-auto d-flex align-items-end gap-2">
           <button
             type="submit"
             class="btn btn-primary"

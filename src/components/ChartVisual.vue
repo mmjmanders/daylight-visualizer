@@ -31,11 +31,7 @@ const chartOptions = computed<Options>(() => ({
     text: 'Powered by SunriseSunset.io',
   },
   legend: {
-    events: {
-      itemClick: function () {
-        return false;
-      },
-    },
+    enabled: false,
   },
   plotOptions: {
     series: {
