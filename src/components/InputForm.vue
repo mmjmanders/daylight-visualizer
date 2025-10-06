@@ -17,6 +17,7 @@ import {
 } from '@/queries';
 import { offset, useFloating } from '@floating-ui/vue';
 import { toTypedSchema } from '@vee-validate/yup';
+import { ColorPicker, type ColorPickerChangeEvent } from 'primevue';
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
@@ -156,6 +157,14 @@ const isLoadingData = computed(
     isLoadingGeocodingData.value ||
     isLoadingSunsetData.value,
 );
+
+const root = ref<HTMLElement>(document.querySelector(':root') as HTMLElement);
+const chartColor = ref<string>(
+  getComputedStyle(root.value).getPropertyValue('--dlv-chart-color').trim(),
+);
+const changeColor = ({ value }: ColorPickerChangeEvent) => {
+  root.value.style.setProperty('--dlv-chart-color', `#${value}`);
+};
 </script>
 
 <template>
@@ -238,7 +247,7 @@ const isLoadingData = computed(
             >{{ $t(`form.errors.endDate.${errors.endDate}`) }}</span
           >
         </div>
-        <div class="col-auto d-flex flex-column justify-content-end">
+        <div class="col-auto d-flex align-items-end gap-2">
           <button
             type="submit"
             class="btn btn-primary"
@@ -251,6 +260,7 @@ const isLoadingData = computed(
               <FontAwesomeIcon :icon="faSpinner" spin />
             </template>
           </button>
+          <ColorPicker v-model="chartColor" format="hex" @change="changeColor" />
         </div>
       </div>
     </form>

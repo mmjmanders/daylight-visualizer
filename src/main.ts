@@ -20,6 +20,7 @@ import { createI18n } from 'vue-i18n';
 import { createApp } from 'vue';
 import App from './App.vue';
 import { parseQuery } from 'vue-router';
+import PrimeVue from 'primevue/config';
 
 const query = parseQuery(location.search);
 const messages = { en, nl };
@@ -38,4 +39,5 @@ createApp(App)
       messages,
     }),
   )
+  .use(PrimeVue)
   .mount('#app');
