@@ -169,8 +169,12 @@ const changeColor = ({ value }: ColorPickerChangeEvent) => {
 const eyeDropperShown = ref(false);
 
 onMounted(() => {
-  const cursor = document.getElementById('colorPickerCursor') as HTMLElement;
-  const colorPicker = document.getElementById('colorPicker') as HTMLElement;
+  const cursor = document.getElementById('colorPickerCursor');
+  const colorPicker = document.getElementById('colorPicker');
+  if (!cursor || !colorPicker) {
+    return;
+  }
+
   colorPicker.addEventListener('mouseenter', () => {
     eyeDropperShown.value = true;
   });
@@ -184,7 +188,10 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  const colorPicker = document.getElementById('colorPicker') as HTMLElement;
+  const colorPicker = document.getElementById('colorPicker');
+  if (!colorPicker) {
+    return;
+  }
   colorPicker.removeEventListener('mouseenter', () => {});
   colorPicker.removeEventListener('mouseleave', () => {});
   colorPicker.removeEventListener('mousemove', () => {});
