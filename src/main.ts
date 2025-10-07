@@ -5,6 +5,7 @@ import '@fontsource/source-sans-pro/latin-600.css';
 import '@fontsource/roboto-mono/latin-400.css';
 import '@fontsource/roboto-mono/latin-500.css';
 import 'highcharts/css/highcharts.css';
+import '@fortawesome/fontawesome-free/css/solid.css';
 
 import './assets/main.scss';
 

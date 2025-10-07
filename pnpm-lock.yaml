@@ -20,6 +20,9 @@ importers:
       '@fontsource/source-sans-pro':
         specifier: ^5.2.5
         version: 5.2.5
+      '@fortawesome/fontawesome-free':
+        specifier: ^7.1.0
+        version: 7.1.0
       '@fortawesome/fontawesome-svg-core':
         specifier: ^7.1.0
         version: 7.1.0
@@ -570,6 +573,10 @@ packages:
 
   '@fortawesome/fontawesome-common-types@7.1.0':
     resolution: {integrity: sha512-l/BQM7fYntsCI//du+6sEnHOP6a74UixFyOYUyz2DLMXKx+6DEhfR3F2NYGE45XH1JJuIamacb4IZs9S0ZOWLA==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/fontawesome-free@7.1.0':
+    resolution: {integrity: sha512-+WxNld5ZCJHvPQCr/GnzCTVREyStrAJjisUPtUxG5ngDA8TMlPnKp6dddlTpai4+1GNmltAeuk1hJEkBohwZYA==}
     engines: {node: '>=6'}
 
   '@fortawesome/fontawesome-svg-core@7.1.0':
@@ -3227,6 +3234,8 @@ snapshots:
   '@fontsource/source-sans-pro@5.2.5': {}
 
   '@fortawesome/fontawesome-common-types@7.1.0': {}
+
+  '@fortawesome/fontawesome-free@7.1.0': {}
 
   '@fortawesome/fontawesome-svg-core@7.1.0':
     dependencies:
