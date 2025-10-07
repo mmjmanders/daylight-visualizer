@@ -260,7 +260,13 @@ const changeColor = ({ value }: ColorPickerChangeEvent) => {
               <FontAwesomeIcon :icon="faSpinner" spin />
             </template>
           </button>
-          <ColorPicker v-model="chartColor" format="hex" @change="changeColor" />
+          <ColorPicker
+            v-model="chartColor"
+            format="hex"
+            @change="changeColor"
+            pt:root="border border-secondary rounded-3"
+            style="--bs-secondary-rgb: var(--bs-body-color)"
+          />
         </div>
       </div>
     </form>
