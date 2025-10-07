@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { object, string } from 'yup';
 import { faLocationCrosshairs, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -165,6 +165,30 @@ const chartColor = ref<string>(
 const changeColor = ({ value }: ColorPickerChangeEvent) => {
   root.value.style.setProperty('--dlv-chart-color', `#${value}`);
 };
+
+const eyeDropperShown = ref(false);
+
+onMounted(() => {
+  const cursor = document.getElementById('colorPickerCursor') as HTMLElement;
+  const colorPicker = document.getElementById('colorPicker') as HTMLElement;
+  colorPicker.addEventListener('mouseenter', () => {
+    eyeDropperShown.value = true;
+  });
+  colorPicker.addEventListener('mouseleave', () => {
+    eyeDropperShown.value = false;
+  });
+  colorPicker.addEventListener('mousemove', (event: MouseEvent) => {
+    cursor.style.setProperty('left', `${event.clientX}px`);
+    cursor.style.setProperty('top', `${event.clientY - 16}px`);
+  });
+});
+
+onUnmounted(() => {
+  const colorPicker = document.getElementById('colorPicker') as HTMLElement;
+  colorPicker.removeEventListener('mouseenter', () => {});
+  colorPicker.removeEventListener('mouseleave', () => {});
+  colorPicker.removeEventListener('mousemove', () => {});
+});
 </script>
 
 <template>
@@ -264,6 +288,7 @@ const changeColor = ({ value }: ColorPickerChangeEvent) => {
             v-model="chartColor"
             format="hex"
             @change="changeColor"
+            input-id="colorPicker"
             pt:root="border border-secondary rounded-3"
             style="--bs-secondary-rgb: var(--bs-body-color)"
           />
@@ -271,6 +296,15 @@ const changeColor = ({ value }: ColorPickerChangeEvent) => {
       </div>
     </form>
   </div>
+  <div id="colorPickerCursor" v-show="eyeDropperShown">&#xf1fb;</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#colorPickerCursor {
+  pointer-events: none;
+  position: fixed;
+  color: var(--bs-body-color);
+  font-size: 1rem;
+  font-family: 'Font Awesome 7 Free';
+}
+</style>
