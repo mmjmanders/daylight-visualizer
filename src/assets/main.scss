@@ -1,17 +1,9 @@
 @import 'styles';
 
 :root {
-  --p-colorpicker-preview-width: 2.375rem;
-  --p-colorpicker-preview-height: 2.375rem;
-  --p-colorpicker-preview-border-radius: #{$border-radius-lg};
-
   --dlv-chart-color: #fef63c;
 
   @media (prefers-color-scheme: dark) {
     --dlv-chart-color: #7c7500;
   }
-}
-
-.p-colorpicker-preview {
-  cursor: none !important;
 }
