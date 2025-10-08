@@ -5,7 +5,6 @@ import '@fontsource/source-sans-pro/latin-600.css';
 import '@fontsource/roboto-mono/latin-400.css';
 import '@fontsource/roboto-mono/latin-500.css';
 import 'highcharts/css/highcharts.css';
-import '@fortawesome/fontawesome-free/css/solid.css';
 
 import './assets/main.scss';
 
@@ -21,7 +20,6 @@ import { createI18n } from 'vue-i18n';
 import { createApp } from 'vue';
 import App from './App.vue';
 import { parseQuery } from 'vue-router';
-import PrimeVue from 'primevue/config';
 
 const query = parseQuery(location.search);
 const messages = { en, nl };
@@ -40,5 +38,4 @@ createApp(App)
       messages,
     }),
   )
-  .use(PrimeVue)
   .mount('#app');

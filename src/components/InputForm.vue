@@ -17,7 +17,6 @@ import {
 } from '@/queries';
 import { offset, useFloating } from '@floating-ui/vue';
 import { toTypedSchema } from '@vee-validate/yup';
-import { ColorPicker, type ColorPickerChangeEvent } from 'primevue';
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
@@ -157,45 +156,6 @@ const isLoadingData = computed(
     isLoadingGeocodingData.value ||
     isLoadingSunsetData.value,
 );
-
-const root = ref<HTMLElement>(document.querySelector(':root') as HTMLElement);
-const chartColor = ref<string>(
-  getComputedStyle(root.value).getPropertyValue('--dlv-chart-color').trim(),
-);
-const changeColor = ({ value }: ColorPickerChangeEvent) => {
-  root.value.style.setProperty('--dlv-chart-color', `#${value}`);
-};
-
-const eyeDropperShown = ref(false);
-
-onMounted(() => {
-  const cursor = document.getElementById('colorPickerCursor');
-  const colorPicker = document.getElementById('colorPicker');
-  if (!cursor || !colorPicker) {
-    return;
-  }
-
-  colorPicker.addEventListener('mouseenter', () => {
-    eyeDropperShown.value = true;
-  });
-  colorPicker.addEventListener('mouseleave', () => {
-    eyeDropperShown.value = false;
-  });
-  colorPicker.addEventListener('mousemove', (event: MouseEvent) => {
-    cursor.style.setProperty('left', `${event.clientX}px`);
-    cursor.style.setProperty('top', `${event.clientY - 16}px`);
-  });
-});
-
-onUnmounted(() => {
-  const colorPicker = document.getElementById('colorPicker');
-  if (!colorPicker) {
-    return;
-  }
-  colorPicker.removeEventListener('mouseenter', () => {});
-  colorPicker.removeEventListener('mouseleave', () => {});
-  colorPicker.removeEventListener('mousemove', () => {});
-});
 </script>
 
 <template>
@@ -291,27 +251,10 @@ onUnmounted(() => {
               <FontAwesomeIcon :icon="faSpinner" spin />
             </template>
           </button>
-          <ColorPicker
-            v-model="chartColor"
-            format="hex"
-            @change="changeColor"
-            input-id="colorPicker"
-            pt:root="border border-secondary rounded-3"
-            style="--bs-secondary-rgb: var(--bs-body-color)"
-          />
         </div>
       </div>
     </form>
   </div>
-  <div id="colorPickerCursor" v-show="eyeDropperShown">&#xf1fb;</div>
 </template>
 
-<style scoped>
-#colorPickerCursor {
-  pointer-events: none;
-  position: fixed;
-  color: var(--bs-body-color);
-  font-size: 1rem;
-  font-family: 'Font Awesome 7 Free';
-}
-</style>
+<style scoped></style>
