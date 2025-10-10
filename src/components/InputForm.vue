@@ -36,14 +36,12 @@ const { meta, defineField, handleSubmit, errors } = useForm({
       endDate: string().required('is-required'),
     }).test('valid-dates', (values, ctx) => {
       const { startDate, endDate } = values as { startDate: string; endDate: string };
-      const start = dayjs(startDate, 'YYYY-MM-DD', true);
-      const end = dayjs(endDate, 'YYYY-MM-DD', true);
+      const start = dayjs(startDate, 'YYYY-MM', true);
+      const end = dayjs(endDate, 'YYYY-MM', true);
       if (!start.isValid() || !end.isValid()) {
         return true;
       } else if (start.isAfter(end)) {
         return ctx.createError({ path: 'startDate', message: 'start-before-end' });
-      } else if (end.diff(start, 'month', true) < 1) {
-        return ctx.createError({ path: 'endDate', message: 'min-range' });
       } else if (end.diff(start, 'year', true) >= 1) {
         return ctx.createError({ path: 'endDate', message: 'max-range' });
       } else {
@@ -76,14 +74,13 @@ const { floatingStyles: endDateTooltipStyles } = useFloating(endDateInputRef, en
   middleware: [offset(10)],
 });
 
-const defaultEndDate = dayjs();
-const defaultStartDate = defaultEndDate.subtract(1, 'month');
+const today = dayjs();
 
 const [addressModel, addressModelAttrs] = defineField('address');
 const [startDateModel, startDateModelAttrs] = defineField('startDate');
 const [endDateModel, endDateModelAttrs] = defineField('endDate');
-startDateModel.value = defaultStartDate.format('YYYY-MM-DD');
-endDateModel.value = defaultEndDate.format('YYYY-MM-DD');
+startDateModel.value = today.format('YYYY-MM');
+endDateModel.value = today.format('YYYY-MM');
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null);
 const reverseGeocodingLongitudeRef = ref<number | null>(null);
@@ -207,7 +204,7 @@ const isLoadingData = computed(
             v-model="startDateModel"
             id="startDate"
             ref="startDateInputRef"
-            type="date"
+            type="month"
             class="form-control"
             :class="{ 'is-invalid': errors.startDate }"
           />
@@ -226,7 +223,7 @@ const isLoadingData = computed(
             v-model="endDateModel"
             id="endDate"
             ref="endDateInputRef"
-            type="date"
+            type="month"
             class="form-control"
             :class="{ 'is-invalid': errors.endDate }"
           />
