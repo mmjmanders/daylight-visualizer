@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import type { Datum } from './types';
+import type { Datum, SunsetResponse } from './types';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -34,32 +34,34 @@ export const useSunsetQuery = (
       }
       return response.json();
     },
-    select: (data: any): Datum[] | undefined => {
-      if (data?.status === 'OK' && data.results?.length !== 0) {
-        return data.results.map(
-          (d: {
-            date: string;
-            timezone: string;
-            sunrise: string;
-            sunset: string;
-            day_length: string;
-          }) => {
-            const date = dayjs.tz(d.date, d.timezone).startOf('day').valueOf();
+    select: (data: SunsetResponse): Record<string, Datum[]> | undefined => {
+      if (data?.status === 'OK' && data.results.length !== 0) {
+        return data.results
+          .map<Datum>((d) => {
+            const date = dayjs.tz(d.date, d.timezone).startOf('day');
             const sunrise =
               dayjs.tz(`${d.date} ${d.sunrise}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
-              date;
+              date.valueOf();
             const sunset =
-              dayjs.tz(`${d.date} ${d.sunset}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() - date;
+              dayjs.tz(`${d.date} ${d.sunset}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
+              date.valueOf();
 
             return {
-              date,
+              date: date.valueOf(),
               sunrise,
               sunset,
               day_length: d.day_length,
               timezone: d.timezone,
+              month: date.format('YYYY-MM'),
             };
-          },
-        );
+          })
+          ?.reduce(
+            (acc, curr) => {
+              (acc[curr.month] ??= []).push(curr);
+              return acc;
+            },
+            {} as Record<string, Datum[]>,
+          );
       }
       return undefined;
     },

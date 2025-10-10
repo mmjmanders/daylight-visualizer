@@ -22,9 +22,12 @@ dayjs.extend(utc);
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrBefore);
 
+const DATE_FORMAT_MONTH = 'YYYY-MM' as const;
+const DATE_FORMAT_DAY = 'YYYY-MM-DD' as const;
+
 const { locale } = useI18n();
 
-const chartData = defineModel<Datum[]>('chartData');
+const chartData = defineModel<Record<string, Datum[]>>('chartData');
 
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
@@ -79,8 +82,8 @@ const today = dayjs();
 const [addressModel, addressModelAttrs] = defineField('address');
 const [startDateModel, startDateModelAttrs] = defineField('startDate');
 const [endDateModel, endDateModelAttrs] = defineField('endDate');
-startDateModel.value = today.format('YYYY-MM');
-endDateModel.value = today.format('YYYY-MM');
+startDateModel.value = today.format(DATE_FORMAT_MONTH);
+endDateModel.value = today.format(DATE_FORMAT_MONTH);
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null);
 const reverseGeocodingLongitudeRef = ref<number | null>(null);
@@ -135,15 +138,19 @@ watch(geocodingData, (data) => {
 });
 
 watch(sunsetData, (data) => {
-  if (data?.length !== 0) {
+  if (data && Object.entries(data).length !== 0) {
     chartData.value = data;
   }
 });
 
 const onSubmit = handleSubmit(() => {
   addressRef.value = addressModel.value;
-  startDateRef.value = startDateModel.value;
-  endDateRef.value = endDateModel.value;
+  startDateRef.value = dayjs(startDateModel.value, DATE_FORMAT_MONTH)
+    .startOf('month')
+    .format(DATE_FORMAT_DAY);
+  endDateRef.value = dayjs(endDateModel.value, DATE_FORMAT_MONTH)
+    .endOf('month')
+    .format(DATE_FORMAT_DAY);
 });
 
 const isLoadingData = computed(
