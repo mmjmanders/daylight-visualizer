@@ -16,6 +16,43 @@
   }
 
   .chart-container {
+    &.month-01 {
+      --dlv-chart-color: #a7c7e7;
+    }
+    &.month-02 {
+      --dlv-chart-color: #bfa5d6;
+    }
+    &.month-03 {
+      --dlv-chart-color: #8fcb81;
+    }
+    &.month-04 {
+      --dlv-chart-color: #f4b6c2;
+    }
+    &.month-05 {
+      --dlv-chart-color: #7bc67b;
+    }
+    &.month-06 {
+      --dlv-chart-color: #f9e076;
+    }
+    &.month-07 {
+      --dlv-chart-color: #ff6f61;
+    }
+    &.month-08 {
+      --dlv-chart-color: #e89c4d;
+    }
+    &.month-09 {
+      --dlv-chart-color: #cba052;
+    }
+    &.month-10 {
+      --dlv-chart-color: #d96c32;
+    }
+    &.month-11 {
+      --dlv-chart-color: #8b5e3c;
+    }
+    &.month-12 {
+      --dlv-chart-color: #8b5e3c;
+    }
+
     --highcharts-color-0: var(--dlv-chart-color);
 
     width: 100%;
@@ -29,12 +66,6 @@
 
     .highcharts-credits {
       fill: var(--bs-body-color);
-    }
-
-    .highcharts-legend-item {
-      text {
-        cursor: inherit;
-      }
     }
 
     .highcharts-background {

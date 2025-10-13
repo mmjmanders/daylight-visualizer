@@ -13,7 +13,7 @@ dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 
 const { t, locale } = useI18n();
-const props = defineProps<{ data: Datum[] }>();
+const props = defineProps<{ data: Datum[]; month: string }>();
 
 const chartOptions = computed<Options>(() => ({
   accessibility: {
@@ -31,11 +31,7 @@ const chartOptions = computed<Options>(() => ({
     text: 'Powered by SunriseSunset.io',
   },
   legend: {
-    events: {
-      itemClick: function () {
-        return false;
-      },
-    },
+    enabled: false,
   },
   plotOptions: {
     series: {
@@ -119,7 +115,7 @@ const chartOptions = computed<Options>(() => ({
 </script>
 
 <template>
-  <div class="chart-container">
+  <div class="chart-container" :class="'month-' + month">
     <highcharts :options="chartOptions" :lang="locale" />
   </div>
 </template>

@@ -9,7 +9,12 @@ const months = computed(() => Array.from(props.data.keys()));
 
 <template>
   <div class="month-container d-grid row-gap-2">
-    <ChartVisual v-for="month of months" :key="month" :data="data.get(month)!" />
+    <ChartVisual
+      v-for="month of months"
+      :key="month"
+      :data="data.get(month)!"
+      :month="month.replace(/.*-/g, '')"
+    />
   </div>
 </template>
 
