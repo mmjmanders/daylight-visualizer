@@ -1,6 +1,5 @@
 import pluginVue from 'eslint-plugin-vue';
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
-import pluginVitest from '@vitest/eslint-plugin';
 import pluginPlaywright from 'eslint-plugin-playwright';
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 import pluginQuery from '@tanstack/eslint-plugin-query';
@@ -30,11 +29,6 @@ export default defineConfigWithVueTs(
   pluginVue.configs['flat/essential'],
   pluginQuery.configs['flat/recommended'],
   vueTsConfigs.recommended,
-
-  {
-    ...pluginVitest.configs.recommended,
-    files: ['src/**/__tests__/*'],
-  },
 
   {
     ...pluginPlaywright.configs['flat/recommended'],
