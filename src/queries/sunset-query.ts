@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import type { ChartData, Datum } from './types';
+import { DATE_FORMAT_FULL, DATE_FORMAT_SHORT, type ChartData, type Datum } from './types';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -56,14 +56,12 @@ export const useSunsetQuery = (
             }) => {
               const date = dayjs.tz(d.date, d.timezone).startOf('day').valueOf();
               const sunrise =
-                dayjs.tz(`${d.date} ${d.sunrise}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
-                date;
+                dayjs.tz(`${d.date} ${d.sunrise}`, DATE_FORMAT_FULL, d.timezone).valueOf() - date;
               const sunset =
-                dayjs.tz(`${d.date} ${d.sunset}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
-                date;
+                dayjs.tz(`${d.date} ${d.sunset}`, DATE_FORMAT_FULL, d.timezone).valueOf() - date;
 
               return {
-                month: dayjs(d.date).format('YYYY-MM'),
+                month: dayjs(d.date).format(DATE_FORMAT_SHORT),
                 date,
                 sunrise,
                 sunset,
