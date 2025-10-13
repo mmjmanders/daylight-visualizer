@@ -1,64 +1,82 @@
-.chart-container {
-  --highcharts-color-0: var(--dlv-chart-color);
+@use 'sass:map';
 
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1 / 1;
+.month-container {
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
 
-  & > div {
+  @media (min-width: map.get($grid-breakpoints, 'lg')) {
+    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
+  }
+
+  @media (min-width: map.get($grid-breakpoints, 'xl')) {
+    grid-template-columns: repeat(auto-fit, minmax(calc(100% / 3), 1fr));
+  }
+
+  @media (min-width: map.get($grid-breakpoints, 'xxl')) {
+    grid-template-columns: repeat(auto-fit, minmax(25%, 1fr));
+  }
+
+  .chart-container {
+    --highcharts-color-0: var(--dlv-chart-color);
+
     width: 100%;
     height: 100%;
-  }
+    aspect-ratio: 1 / 1;
 
-  .highcharts-credits {
-    fill: var(--bs-body-color);
-  }
-
-  .highcharts-legend-item {
-    text {
-      cursor: inherit;
+    & > div {
+      width: 100%;
+      height: 100%;
     }
-  }
 
-  .highcharts-background {
-    fill: transparent;
-  }
+    .highcharts-credits {
+      fill: var(--bs-body-color);
+    }
 
-  .highcharts-axis-labels,
-  .highcharts-legend-item > text {
-    fill: var(--bs-body-color);
-  }
+    .highcharts-legend-item {
+      text {
+        cursor: inherit;
+      }
+    }
 
-  .highcharts-xaxis-grid,
-  .highcharts-grid-line {
-    stroke-width: 1;
-    stroke: var(--bs-body-color);
-  }
+    .highcharts-background {
+      fill: transparent;
+    }
 
-  .highcharts-xaxis {
-    .highcharts-axis-line,
-    .highcharts-tick {
+    .highcharts-axis-labels,
+    .highcharts-legend-item > text {
+      fill: var(--bs-body-color);
+    }
+
+    .highcharts-xaxis-grid,
+    .highcharts-grid-line {
+      stroke-width: 1;
       stroke: var(--bs-body-color);
     }
-  }
 
-  .highcharts-root,
-  .highcharts-tooltip {
-    font-family: var(--bs-font-sans-serif);
-  }
+    .highcharts-xaxis {
+      .highcharts-axis-line,
+      .highcharts-tick {
+        stroke: var(--bs-body-color);
+      }
+    }
 
-  .highcharts-tooltip-box {
-    fill: var(--bs-body-bg);
-  }
+    .highcharts-root,
+    .highcharts-tooltip {
+      font-family: var(--bs-font-sans-serif);
+    }
 
-  .highcharts-tooltip {
-    .table {
-      --bs-border-width: 1px;
-      margin-bottom: 0;
-      font-size: 0.75rem;
+    .highcharts-tooltip-box {
+      fill: var(--bs-body-bg);
+    }
 
-      & > tbody td {
-        text-align: right;
+    .highcharts-tooltip {
+      .table {
+        --bs-border-width: 1px;
+        margin-bottom: 0;
+        font-size: 0.75rem;
+
+        & > tbody td {
+          text-align: right;
+        }
       }
     }
   }

@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import type { Datum } from './types';
+import type { ChartData, Datum } from './types';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -34,32 +34,48 @@ export const useSunsetQuery = (
       }
       return response.json();
     },
-    select: (data: any): Datum[] | undefined => {
-      if (data?.status === 'OK' && data.results?.length !== 0) {
-        return data.results.map(
-          (d: {
-            date: string;
-            timezone: string;
-            sunrise: string;
-            sunset: string;
-            day_length: string;
-          }) => {
-            const date = dayjs.tz(d.date, d.timezone).startOf('day').valueOf();
-            const sunrise =
-              dayjs.tz(`${d.date} ${d.sunrise}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
-              date;
-            const sunset =
-              dayjs.tz(`${d.date} ${d.sunset}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() - date;
+    select: (data: {
+      status: string;
+      results?: {
+        date: string;
+        timezone: string;
+        sunrise: string;
+        sunset: string;
+        day_length: string;
+      }[];
+    }): ChartData | undefined => {
+      if (data?.status === 'OK' && data.results && data.results.length) {
+        return data.results
+          .map(
+            (d: {
+              date: string;
+              timezone: string;
+              sunrise: string;
+              sunset: string;
+              day_length: string;
+            }) => {
+              const date = dayjs.tz(d.date, d.timezone).startOf('day').valueOf();
+              const sunrise =
+                dayjs.tz(`${d.date} ${d.sunrise}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
+                date;
+              const sunset =
+                dayjs.tz(`${d.date} ${d.sunset}`, 'YYYY-MM-DD HH:mm:ss', d.timezone).valueOf() -
+                date;
 
-            return {
-              date,
-              sunrise,
-              sunset,
-              day_length: d.day_length,
-              timezone: d.timezone,
-            };
-          },
-        );
+              return {
+                month: dayjs(d.date).format('YYYY-MM'),
+                date,
+                sunrise,
+                sunset,
+                day_length: d.day_length,
+                timezone: d.timezone,
+              };
+            },
+          )
+          .reduce((previousValue, currentvalue) => {
+            const { month, ...datum } = currentvalue;
+            return previousValue.set(month, [...(previousValue.get(month) ?? []), datum]);
+          }, new Map<string, Datum[]>());
       }
       return undefined;
     },

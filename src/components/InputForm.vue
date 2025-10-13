@@ -10,7 +10,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { useI18n } from 'vue-i18n';
 import {
-  type Datum,
+  type ChartData,
   useGeolocationQuery,
   useReverseGeolocationQuery,
   useSunsetQuery,
@@ -24,7 +24,7 @@ dayjs.extend(isSameOrBefore);
 
 const { locale } = useI18n();
 
-const chartData = defineModel<Datum[]>('chartData');
+const chartData = defineModel<ChartData>();
 
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
@@ -137,11 +137,15 @@ watch(geocodingData, (data) => {
   }
 });
 
-watch(sunsetData, (data) => {
-  if (data?.length !== 0) {
-    chartData.value = data;
-  }
-});
+watch(
+  sunsetData,
+  (data) => {
+    if (data && data.size > 0) {
+      chartData.value = data;
+    }
+  },
+  { deep: true },
+);
 
 const onSubmit = handleSubmit(() => {
   addressRef.value = addressModel.value;

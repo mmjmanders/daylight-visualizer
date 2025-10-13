@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import InputForm from '@/components/InputForm.vue';
+import ChartContainer from '@/components/ChartContainer.vue';
 import { ref } from 'vue';
-import type { Datum } from '@/queries';
-import ChartVisual from '@/components/ChartVisual.vue';
+import type { ChartData } from '@/queries';
 
-const data = ref<Datum[] | undefined>(undefined);
+const data = ref<ChartData | undefined>(undefined);
 </script>
 
 <template>
-  <InputForm v-model:chartData="data" />
-  <ChartVisual v-if="data" :data="data" />
+  <InputForm v-model="data" />
+  <ChartContainer v-if="data" :data="data" />
 </template>
 
 <style scoped></style>
