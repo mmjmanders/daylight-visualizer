@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Datum } from '@/queries';
+import { DATE_FORMAT_SHORT, type Datum } from '@/queries';
 import type { Options } from 'highcharts';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
@@ -13,7 +13,7 @@ dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 
 const { t, locale } = useI18n();
-const props = defineProps<{ data: Datum[] }>();
+const props = defineProps<{ data: Datum[]; month: string }>();
 
 const chartOptions = computed<Options>(() => ({
   accessibility: {
@@ -27,15 +27,10 @@ const chartOptions = computed<Options>(() => ({
     styledMode: true,
   },
   credits: {
-    href: 'https://sunrisesunset.io/',
-    text: 'Powered by SunriseSunset.io',
+    enabled: false,
   },
   legend: {
-    events: {
-      itemClick: function () {
-        return false;
-      },
-    },
+    enabled: false,
   },
   plotOptions: {
     series: {
@@ -66,7 +61,7 @@ const chartOptions = computed<Options>(() => ({
     timezone: undefined,
   },
   title: {
-    text: undefined,
+    text: `${dayjs(props.month, DATE_FORMAT_SHORT).locale(locale.value).format('MMMM YYYY')}`,
   },
   tooltip: {
     useHTML: true,
@@ -105,21 +100,24 @@ const chartOptions = computed<Options>(() => ({
     },
   },
   xAxis: {
-    tickLength: 5,
     type: 'datetime',
+    labels: { format: '{value:%e}' },
   },
   yAxis: {
+    endOnTick: false,
     type: 'datetime',
     labels: { format: '{value:%k:%M}' },
     title: {
       text: undefined,
     },
+    min: 0,
+    max: 24 * 60 * 60 * 1000,
   },
 }));
 </script>
 
 <template>
-  <div class="chart-container">
+  <div class="chart-container" :class="'month-' + month.replace(/.*-/g, '')">
     <highcharts :options="chartOptions" :lang="locale" />
   </div>
 </template>

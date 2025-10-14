@@ -1,9 +1,97 @@
 @import 'styles';
 
-:root {
-  --dlv-chart-color: #fef63c;
+.month-01 {
+  --dlv-chart-color: #fffacd;
 
   @media (prefers-color-scheme: dark) {
-    --dlv-chart-color: #7c7500;
+    --dlv-chart-color: #b8a93a;
+  }
+}
+
+.month-02 {
+  --dlv-chart-color: #fff19a;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #c4ac38;
+  }
+}
+
+.month-03 {
+  --dlv-chart-color: #fdf879;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #d5b834;
+  }
+}
+
+.month-04 {
+  --dlv-chart-color: #faf55c;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #e1c531;
+  }
+}
+
+.month-05 {
+  --dlv-chart-color: #f7ee49;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #ead02e;
+  }
+}
+
+.month-06 {
+  --dlv-chart-color: #feeb2f;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #f0d92b;
+  }
+}
+
+.month-07 {
+  --dlv-chart-color: #fad02e;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #e8c026;
+  }
+}
+
+.month-08 {
+  --dlv-chart-color: #efcb34;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #d8a826;
+  }
+}
+
+.month-09 {
+  --dlv-chart-color: #e3bf3c;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #c89622;
+  }
+}
+
+.month-10 {
+  --dlv-chart-color: #d4a936;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #b7811f;
+  }
+}
+
+.month-11 {
+  --dlv-chart-color: #c49b32;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #a0711e;
+  }
+}
+
+.month-12 {
+  --dlv-chart-color: #ede7a1;
+
+  @media (prefers-color-scheme: dark) {
+    --dlv-chart-color: #b3a847;
   }
 }

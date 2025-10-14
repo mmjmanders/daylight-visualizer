@@ -12,7 +12,12 @@ const { VITE_BUILD_SHA: buildSha, VITE_APP_VERSION: version } = import.meta.env;
     <h1 class="position-relative">
       <FontAwesomeIcon :icon="faSun" />
       Daylight Visualizer
-      <span class="position-absolute font-monospace">v{{ version }} - {{ buildSha }}</span>
+      <span class="position-absolute font-monospace"
+        >v{{ version }}-{{ buildSha }} (Powered by
+        <a class="text-body" href="https://sunrisesunset.io/" rel="noopener" target="_blank"
+          >SunriseSunset.io</a
+        >)</span
+      >
     </h1>
   </header>
   <main class="d-flex flex-column gap-2">

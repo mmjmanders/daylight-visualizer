@@ -10,7 +10,9 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { useI18n } from 'vue-i18n';
 import {
-  type Datum,
+  type ChartData,
+  DATE_FORMAT_LONG,
+  DATE_FORMAT_SHORT,
   useGeolocationQuery,
   useReverseGeolocationQuery,
   useSunsetQuery,
@@ -23,8 +25,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrBefore);
 
 const { locale } = useI18n();
-
-const chartData = defineModel<Datum[]>('chartData');
+const chartData = defineModel<ChartData>();
 
 const { meta, defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(
@@ -36,14 +37,12 @@ const { meta, defineField, handleSubmit, errors } = useForm({
       endDate: string().required('is-required'),
     }).test('valid-dates', (values, ctx) => {
       const { startDate, endDate } = values as { startDate: string; endDate: string };
-      const start = dayjs(startDate, 'YYYY-MM-DD', true);
-      const end = dayjs(endDate, 'YYYY-MM-DD', true);
+      const start = dayjs(startDate, DATE_FORMAT_SHORT, true);
+      const end = dayjs(endDate, DATE_FORMAT_SHORT, true);
       if (!start.isValid() || !end.isValid()) {
         return true;
       } else if (start.isAfter(end)) {
         return ctx.createError({ path: 'startDate', message: 'start-before-end' });
-      } else if (end.diff(start, 'month', true) < 1) {
-        return ctx.createError({ path: 'endDate', message: 'min-range' });
       } else if (end.diff(start, 'year', true) >= 1) {
         return ctx.createError({ path: 'endDate', message: 'max-range' });
       } else {
@@ -76,14 +75,14 @@ const { floatingStyles: endDateTooltipStyles } = useFloating(endDateInputRef, en
   middleware: [offset(10)],
 });
 
-const defaultEndDate = dayjs();
-const defaultStartDate = defaultEndDate.subtract(1, 'month');
+const defaultStartDate = dayjs();
+const defaultEndDate = defaultStartDate;
 
 const [addressModel, addressModelAttrs] = defineField('address');
 const [startDateModel, startDateModelAttrs] = defineField('startDate');
 const [endDateModel, endDateModelAttrs] = defineField('endDate');
-startDateModel.value = defaultStartDate.format('YYYY-MM-DD');
-endDateModel.value = defaultEndDate.format('YYYY-MM-DD');
+startDateModel.value = defaultStartDate.format(DATE_FORMAT_SHORT);
+endDateModel.value = defaultEndDate.format(DATE_FORMAT_SHORT);
 
 const reverseGeocodingLatitudeRef = ref<number | null>(null);
 const reverseGeocodingLongitudeRef = ref<number | null>(null);
@@ -137,16 +136,24 @@ watch(geocodingData, (data) => {
   }
 });
 
-watch(sunsetData, (data) => {
-  if (data?.length !== 0) {
-    chartData.value = data;
-  }
-});
+watch(
+  sunsetData,
+  (data) => {
+    if (data && data.size > 0) {
+      chartData.value = data;
+    }
+  },
+  { deep: true },
+);
 
 const onSubmit = handleSubmit(() => {
   addressRef.value = addressModel.value;
-  startDateRef.value = startDateModel.value;
-  endDateRef.value = endDateModel.value;
+  startDateRef.value = dayjs(startDateModel.value, DATE_FORMAT_SHORT)
+    .startOf('month')
+    .format(DATE_FORMAT_LONG);
+  endDateRef.value = dayjs(endDateModel.value, DATE_FORMAT_SHORT)
+    .endOf('month')
+    .format(DATE_FORMAT_LONG);
 });
 
 const isLoadingData = computed(
@@ -207,7 +214,7 @@ const isLoadingData = computed(
             v-model="startDateModel"
             id="startDate"
             ref="startDateInputRef"
-            type="date"
+            type="month"
             class="form-control"
             :class="{ 'is-invalid': errors.startDate }"
           />
@@ -226,7 +233,7 @@ const isLoadingData = computed(
             v-model="endDateModel"
             id="endDate"
             ref="endDateInputRef"
-            type="date"
+            type="month"
             class="form-control"
             :class="{ 'is-invalid': errors.endDate }"
           />

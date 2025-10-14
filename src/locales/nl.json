@@ -20,7 +20,6 @@
       },
       "endDate": {
         "is-required": "Einddatum is verplicht",
-        "min-range": "Minimale periode is 1 maand",
         "max-range": "Maximale periode is 1 jaar"
       }
     }

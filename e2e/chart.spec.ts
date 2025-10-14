@@ -20,17 +20,19 @@ test.describe('Chart', () => {
   [
     {
       colorScheme: 'light',
-      chartColor: 'rgb(254, 246, 60)',
+      chartColor: 'rgb(212, 169, 54)',
       backgroundColor: 'rgb(255, 255, 255)',
     },
     {
       colorScheme: 'dark',
-      chartColor: 'rgb(124, 117, 0)',
+      chartColor: 'rgb(183, 129, 31)',
       backgroundColor: 'rgb(33, 37, 41)',
     },
   ].forEach(({ colorScheme, chartColor, backgroundColor }) => {
     test(`should have correct colors for colorScheme ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: colorScheme as 'light' | 'dark' });
+      await page.locator('#startDate').fill('2025-10');
+      await page.locator('#endDate').fill('2025-10');
       await page.locator('button[type=button]').click();
       await page.locator('button[type=submit]').click();
       await page.locator('.highcharts-series.highcharts-series-0').waitFor();

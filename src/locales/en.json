@@ -20,7 +20,6 @@
       },
       "endDate": {
         "is-required": "End date is required",
-        "min-range": "Minimum range must be one month",
         "max-range": "Maximum range is one year"
       }
     }
