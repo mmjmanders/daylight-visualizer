@@ -100,15 +100,18 @@ const chartOptions = computed<Options>(() => ({
     },
   },
   xAxis: {
-    tickLength: 5,
     type: 'datetime',
+    labels: { format: '{value:%e}' },
   },
   yAxis: {
+    endOnTick: false,
     type: 'datetime',
     labels: { format: '{value:%k:%M}' },
     title: {
       text: undefined,
     },
+    min: 0,
+    max: 24 * 60 * 60 * 1000,
   },
 }));
 </script>

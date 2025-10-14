@@ -34,16 +34,7 @@ export const useSunsetQuery = (
       }
       return response.json();
     },
-    select: (data: {
-      status: string;
-      results?: {
-        date: string;
-        timezone: string;
-        sunrise: string;
-        sunset: string;
-        day_length: string;
-      }[];
-    }): ChartData | undefined => {
+    select: (data: any): ChartData | undefined => {
       if (data?.status === 'OK' && data.results && data.results.length) {
         return data.results
           .map(
@@ -70,7 +61,7 @@ export const useSunsetQuery = (
               };
             },
           )
-          .reduce((previousValue, currentvalue) => {
+          .reduce((previousValue: Map<string, Datum[]>, currentvalue: any) => {
             const { month, ...datum } = currentvalue;
             return previousValue.set(month, [...(previousValue.get(month) ?? []), datum]);
           }, new Map<string, Datum[]>());

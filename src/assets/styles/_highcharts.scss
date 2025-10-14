@@ -47,7 +47,10 @@
     }
 
     .highcharts-xaxis {
-      .highcharts-axis-line,
+      .highcharts-axis-line {
+        stroke: none;
+      }
+
       .highcharts-tick {
         stroke: var(--bs-body-color);
       }
