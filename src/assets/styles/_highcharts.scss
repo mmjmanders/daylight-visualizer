@@ -17,40 +17,40 @@
 
   .chart-container {
     &.month-01 {
-      --dlv-chart-color: #a7c7e7;
+      --dlv-chart-color: #fffacd;
     }
     &.month-02 {
-      --dlv-chart-color: #bfa5d6;
+      --dlv-chart-color: #fff19a;
     }
     &.month-03 {
-      --dlv-chart-color: #8fcb81;
+      --dlv-chart-color: #fdf879;
     }
     &.month-04 {
-      --dlv-chart-color: #f4b6c2;
+      --dlv-chart-color: #faf55c;
     }
     &.month-05 {
-      --dlv-chart-color: #7bc67b;
+      --dlv-chart-color: #f7ee49;
     }
     &.month-06 {
-      --dlv-chart-color: #f9e076;
+      --dlv-chart-color: #feeb2f;
     }
     &.month-07 {
-      --dlv-chart-color: #ff6f61;
+      --dlv-chart-color: #fad02e;
     }
     &.month-08 {
-      --dlv-chart-color: #e89c4d;
+      --dlv-chart-color: #efcb34;
     }
     &.month-09 {
-      --dlv-chart-color: #cba052;
+      --dlv-chart-color: #e3bf3c;
     }
     &.month-10 {
-      --dlv-chart-color: #d96c32;
+      --dlv-chart-color: #d4a936;
     }
     &.month-11 {
-      --dlv-chart-color: #8b5e3c;
+      --dlv-chart-color: #c49b32;
     }
     &.month-12 {
-      --dlv-chart-color: #8b5e3c;
+      --dlv-chart-color: #ede7a1;
     }
 
     --highcharts-color-0: var(--dlv-chart-color);
