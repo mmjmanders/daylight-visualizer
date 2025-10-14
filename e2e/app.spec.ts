@@ -12,7 +12,7 @@ test.describe('App', () => {
   });
 
   test(`version should be "${buildSha}"`, async ({ page }) => {
-    await expect(page.locator('h1 > span')).toContainText(`-${buildSha}`);
+    await expect(page.locator('h6')).toContainText(`-${buildSha}`);
   });
 
   [
