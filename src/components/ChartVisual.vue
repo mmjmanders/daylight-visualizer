@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Datum } from '@/queries';
+import { DATE_FORMAT_SHORT, type Datum } from '@/queries';
 import type { Options } from 'highcharts';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
@@ -27,8 +27,7 @@ const chartOptions = computed<Options>(() => ({
     styledMode: true,
   },
   credits: {
-    href: 'https://sunrisesunset.io/',
-    text: 'Powered by SunriseSunset.io',
+    enabled: false,
   },
   legend: {
     enabled: false,
@@ -62,7 +61,7 @@ const chartOptions = computed<Options>(() => ({
     timezone: undefined,
   },
   title: {
-    text: undefined,
+    text: `${dayjs(props.month, DATE_FORMAT_SHORT).locale(locale.value).format('MMMM YYYY')}`,
   },
   tooltip: {
     useHTML: true,
@@ -115,7 +114,7 @@ const chartOptions = computed<Options>(() => ({
 </script>
 
 <template>
-  <div class="chart-container" :class="'month-' + month">
+  <div class="chart-container" :class="'month-' + month.replace(/.*-/g, '')">
     <highcharts :options="chartOptions" :lang="locale" />
   </div>
 </template>
