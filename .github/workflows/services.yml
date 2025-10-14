@@ -1,10 +1,5 @@
 on:
   pull_request:
-    paths:
-      - '.github/workflows/services.yml'
-      - 'src/**'
-      - 'e2e/**'
-      - 'pnpm-lock.yaml'
 
 jobs:
   lint:
