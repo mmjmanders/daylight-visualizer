@@ -29,12 +29,12 @@
     "vee-validate": "^4.15.1",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
-    "vue-router": "^4.6.0",
+    "vue-router": "^4.6.3",
     "yup": "^1.7.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
-    "@tanstack/eslint-plugin-query": "^5.91.0",
+    "@tanstack/eslint-plugin-query": "^5.91.1",
     "@tanstack/vue-query-devtools": "^5.90.2",
     "@tsconfig/node22": "^22.0.2",
     "@types/jsdom": "^27.0.0",
@@ -46,7 +46,7 @@
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.37.0",
     "eslint-plugin-playwright": "^2.2.2",
-    "eslint-plugin-vue": "^10.5.0",
+    "eslint-plugin-vue": "^10.5.1",
     "husky": "^9.1.7",
     "jiti": "^2.6.1",
     "jsdom": "^27.0.0",
