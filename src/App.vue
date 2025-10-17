@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faSun } from '@fortawesome/free-solid-svg-icons';
 import MainContent from '@/components/MainContent.vue';
 
-const { VITE_BUILD_SHA: buildSha, VITE_APP_VERSION: version } = import.meta.env;
+const { VITE_BUILD_SHA: buildSha } = import.meta.env;
 </script>
 
 <template>
   <header class="d-flex flex-column align-items-center mb-4">
     <h1><FontAwesomeIcon :icon="faSun" /> Daylight Visualizer</h1>
     <h6 class="font-monospace fw-normal">
-      v{{ version }}-{{ buildSha }} (Powered by
+      {{ buildSha }} (Powered by
       <a class="text-body" href="https://sunrisesunset.io/" rel="noopener" target="_blank"
         >SunriseSunset.io</a
       >)
