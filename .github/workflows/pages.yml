@@ -3,13 +3,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/pages.yml'
-      - 'src/**'
-      - 'public/**'
-      - '!**/*.spec.ts'
-      - '.env'
-      - 'pnpm-lock.yaml'
 
 jobs:
   build:
