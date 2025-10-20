@@ -39,8 +39,6 @@ jobs:
   test-e2e:
     needs: build
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.56.1-noble
     strategy:
       fail-fast: false
       matrix:
@@ -59,6 +57,5 @@ jobs:
         with:
           name: build-${{ github.run_attempt }}
           path: ./dist
+      - run: pnpm exec playwright install --with-deps
       - run: pnpm test:e2e --shard=${{ matrix.shardIndex }}/${{ matrix.shardCount }}
-        env:
-          HOME: /root
