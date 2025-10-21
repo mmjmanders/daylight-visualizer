@@ -6,11 +6,12 @@ permissions:
   pull-requests: write
 
 jobs:
-  dependabot:
+  auto-merge:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'mmjmanders/daylight-visualizer'
+    if: github.repository == 'mmjmanders/daylight-visualizer'
     steps:
-      - run: gh pr merge --auto --squash "$PR_URL"
+      - uses: actions/checkout@v5
+      - run: gh pr merge $PR_NUMBER --auto --squash --delete-branch
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
