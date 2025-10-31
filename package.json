@@ -38,7 +38,7 @@
     "@tanstack/vue-query-devtools": "^5.91.0",
     "@tsconfig/node22": "^22.0.2",
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^22.18.13",
+    "@types/node": "^24.9.2",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
@@ -61,7 +61,7 @@
     "wait-for-expect": "^4.0.0"
   },
   "engines": {
-    "node": "^22.11.0"
+    "node": "^24.11.0"
   },
   "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
 }
