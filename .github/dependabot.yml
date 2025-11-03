@@ -3,7 +3,13 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'daily'
+      interval: 'weekly'
+      day: 'tuesday'
+    groups:
+      default:
+        update-types:
+          - 'minor'
+          - 'patch'
     commit-message:
       prefix: '[dependabot] '
     ignore:
