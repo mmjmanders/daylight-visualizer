@@ -1,7 +1,7 @@
 {
   "name": "Daylight Visualizer",
   "short_name": "Daylight Visualizer",
-  "start_url": "https://mmjmanders.github.io/daylight-visualizer/",
+  "start_url": "/daylight-visualizer/",
   "icons": [
     {
       "src": "/daylight-visualizer/web-app-manifest-192x192.png",
