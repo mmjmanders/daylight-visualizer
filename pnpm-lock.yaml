@@ -70,8 +70,8 @@ importers:
         specifier: ^5.91.2
         version: 5.91.2(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       '@tanstack/vue-query-devtools':
-        specifier: ^5.91.0
-        version: 5.91.0(@tanstack/vue-query@5.91.2(vue@3.5.24(typescript@5.9.3)))(vue@3.5.24(typescript@5.9.3))
+        specifier: ^6.0.0
+        version: 6.0.0(@tanstack/vue-query@5.91.2(vue@3.5.24(typescript@5.9.3)))(vue@3.5.24(typescript@5.9.3))
       '@tsconfig/node22':
         specifier: ^22.0.5
         version: 22.0.5
@@ -856,10 +856,10 @@ packages:
   '@tanstack/query-devtools@5.90.1':
     resolution: {integrity: sha512-GtINOPjPUH0OegJExZ70UahT9ykmAhmtNVcmtdnOZbxLwT7R5OmRztR5Ahe3/Cu7LArEmR6/588tAycuaWb1xQ==}
 
-  '@tanstack/vue-query-devtools@5.91.0':
-    resolution: {integrity: sha512-Kn6p5ffEKUj+YGEP+BapoPI8kUiPtNnFDyzjTvUx6GHbyfzfefQPhYoRtFiWeyrGHjUB/Mvtnr7Rosbzs/ngVg==}
+  '@tanstack/vue-query-devtools@6.0.0':
+    resolution: {integrity: sha512-68ym4x7BMQNrzBJoXWPkc2dbRLautJsU+4gLgKxF0kCWsLH4FevzGjpJ9xqKfT1zFT8yBQob/GZ7smD+M6n4CA==}
     peerDependencies:
-      '@tanstack/vue-query': ^5.90.5
+      '@tanstack/vue-query': ^5.91.0
       vue: ^3.3.0
 
   '@tanstack/vue-query@5.91.2':
@@ -3120,7 +3120,7 @@ snapshots:
 
   '@tanstack/query-devtools@5.90.1': {}
 
-  '@tanstack/vue-query-devtools@5.91.0(@tanstack/vue-query@5.91.2(vue@3.5.24(typescript@5.9.3)))(vue@3.5.24(typescript@5.9.3))':
+  '@tanstack/vue-query-devtools@6.0.0(@tanstack/vue-query@5.91.2(vue@3.5.24(typescript@5.9.3)))(vue@3.5.24(typescript@5.9.3))':
     dependencies:
       '@tanstack/query-devtools': 5.90.1
       '@tanstack/vue-query': 5.91.2(vue@3.5.24(typescript@5.9.3))
