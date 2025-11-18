@@ -12,6 +12,7 @@ updates:
           - 'patch'
     commit-message:
       prefix: '[dependabot] '
+    versioning-strategy: 'increase'
     ignore:
       - dependency-name: '@types/node'
         update-types:
