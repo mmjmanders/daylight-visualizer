@@ -1,9 +1,6 @@
-import '@fontsource/roboto/latin-500.css';
-import '@fontsource/roboto/latin-700.css';
-import '@fontsource/source-sans-pro/latin-400.css';
-import '@fontsource/source-sans-pro/latin-600.css';
-import '@fontsource/roboto-mono/latin-400.css';
-import '@fontsource/roboto-mono/latin-500.css';
+import '@fontsource-variable/roboto';
+import '@fontsource-variable/roboto-mono';
+import '@fontsource-variable/source-sans-3';
 import 'highcharts/css/highcharts.css';
 
 import './assets/main.scss';
