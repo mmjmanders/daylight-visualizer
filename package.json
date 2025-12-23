@@ -27,8 +27,8 @@
     "highcharts": "^12.4.0",
     "highcharts-vue": "^2.0.1",
     "vee-validate": "^4.15.1",
-    "vue": "^3.5.25",
-    "vue-i18n": "^11.2.2",
+    "vue": "^3.5.26",
+    "vue-i18n": "^11.2.7",
     "vue-router": "^4.6.4",
     "yup": "^1.7.1"
   },
@@ -54,11 +54,11 @@
     "lint-staged": "^16.2.7",
     "npm-run-all2": "^8.0.4",
     "prettier": "^3.7.4",
-    "sass-embedded": "^1.97.0",
+    "sass-embedded": "^1.97.1",
     "typescript": "~5.9.3",
     "vite": "^7.3.0",
     "vite-plugin-vue-devtools": "^8.0.5",
-    "vue-tsc": "^3.1.8",
+    "vue-tsc": "^3.2.1",
     "wait-for-expect": "^4.0.0"
   },
   "engines": {
