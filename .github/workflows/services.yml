@@ -5,11 +5,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
+          node-version: lts/Krypton
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install
@@ -18,11 +18,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
+          node-version: lts/Krypton
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install
@@ -45,11 +45,11 @@ jobs:
         shardIndex: [ 1, 2, 3 ]
         shardCount: [ 3 ]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
+          node-version: lts/Krypton
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install

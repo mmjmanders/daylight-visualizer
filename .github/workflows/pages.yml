@@ -8,18 +8,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
+          node-version: lts/Krypton
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install
       - run: |
           echo "VITE_BUILD_SHA=$(git rev-parse --short HEAD)" | tee -a $GITHUB_WORKSPACE/.env.local
           echo "VITE_GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}" | tee -a $GITHUB_WORKSPACE/.env.local
-      - run: pnpm build --base /${{ github.event.repository.name }}/
+      - run: pnpm build
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
