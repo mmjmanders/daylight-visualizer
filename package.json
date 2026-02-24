@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@floating-ui/vue": "^1.1.10",
-    "@fontsource-variable/roboto": "^5.2.9",
+    "@fontsource-variable/roboto": "^5.2.10",
     "@fontsource-variable/roboto-mono": "^5.2.8",
     "@fontsource-variable/source-sans-3": "^5.2.9",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
@@ -27,9 +27,9 @@
     "highcharts": "^12.5.0",
     "highcharts-vue": "^2.0.1",
     "vee-validate": "^4.15.1",
-    "vue": "^3.5.28",
+    "vue": "^3.5.29",
     "vue-i18n": "^11.2.8",
-    "vue-router": "^5.0.2",
+    "vue-router": "^5.0.3",
     "yup": "^1.7.1"
   },
   "devDependencies": {
@@ -45,7 +45,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.3",
-    "eslint-plugin-playwright": "^2.5.1",
+    "eslint-plugin-playwright": "^2.7.1",
     "eslint-plugin-vue": "^10.8.0",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
@@ -59,7 +59,7 @@
     "vite": "^7.3.1",
     "vite-plugin-pwa": "^1.2.0",
     "vite-plugin-vue-devtools": "^8.0.6",
-    "vue-tsc": "^3.2.4",
+    "vue-tsc": "^3.2.5",
     "wait-for-expect": "^4.0.0"
   },
   "engines": {
