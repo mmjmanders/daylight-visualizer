@@ -37,7 +37,7 @@
     "@tanstack/eslint-plugin-query": "^5.91.4",
     "@tanstack/vue-query-devtools": "^6.1.5",
     "@tsconfig/node22": "^22.0.5",
-    "@types/jsdom": "^27.0.0",
+    "@types/jsdom": "^28.0.0",
     "@types/node": "^24.10.13",
     "@vitejs/plugin-vue": "^6.0.4",
     "@vue/eslint-config-prettier": "^10.2.0",
