@@ -27,7 +27,7 @@
     "highcharts": "^12.5.0",
     "highcharts-vue": "^2.0.1",
     "vee-validate": "^4.15.1",
-    "vue": "^3.5.30",
+    "vue": "^3.5.31",
     "vue-i18n": "^11.3.0",
     "vue-router": "^5.0.4",
     "yup": "^1.7.1"
@@ -37,7 +37,7 @@
     "@tanstack/eslint-plugin-query": "^5.95.2",
     "@tanstack/vue-query-devtools": "^6.1.10",
     "@tsconfig/node22": "^22.0.5",
-    "@types/jsdom": "^28.0.0",
+    "@types/jsdom": "^28.0.1",
     "@types/node": "^24.12.0",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vue/eslint-config-prettier": "^10.2.0",
